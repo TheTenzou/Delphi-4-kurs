@@ -12,3 +12,5 @@ The socket components (TClientSocket and TServerSocket) are listed in the Intern
 https://webdelphi.ru/2019/03/rabota-s-json-v-delphi-10-3-rio/
 
 https://www.youtube.com/c/Delphipracticalschool/videos
+
+http://docwiki.embarcadero.com/CodeExamples/Sydney/en/Chat_Room_Socket_(Delphi)
