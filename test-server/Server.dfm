@@ -33,7 +33,6 @@ object ServerForm: TServerForm
       Width = 281
       Height = 21
       TabOrder = 0
-      Text = 'Edit6'
     end
     object Button2: TButton
       Left = 16
@@ -111,7 +110,6 @@ object ServerForm: TServerForm
       Width = 121
       Height = 21
       TabOrder = 1
-      Text = 'Edit1'
     end
     object Button1: TButton
       Left = 152
@@ -129,7 +127,6 @@ object ServerForm: TServerForm
       Height = 21
       Enabled = False
       TabOrder = 3
-      Text = 'Edit2'
     end
     object Edit3: TEdit
       Left = 99
@@ -138,7 +135,6 @@ object ServerForm: TServerForm
       Height = 21
       Enabled = False
       TabOrder = 4
-      Text = 'Edit3'
     end
     object Edit4: TEdit
       Left = 99
@@ -147,7 +143,6 @@ object ServerForm: TServerForm
       Height = 21
       Enabled = False
       TabOrder = 5
-      Text = 'Edit4'
     end
     object Edit5: TEdit
       Left = 99
@@ -156,7 +151,6 @@ object ServerForm: TServerForm
       Height = 21
       Enabled = False
       TabOrder = 6
-      Text = 'Edit5'
     end
   end
   object ServerSocket1: TServerSocket
