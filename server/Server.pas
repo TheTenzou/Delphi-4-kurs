@@ -1,4 +1,4 @@
-unit Server;
+﻿unit Server;
 
 interface
 
@@ -11,7 +11,7 @@ uses
   FireDAC.DApt, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, FireDAC.Phys.MySQLDef, FireDAC.Phys.MySQL,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteDef, FireDAC.Phys.SQLite,
-  System.Win.ScktComp, System.JSON, Vcl.ComCtrls;
+  System.Win.ScktComp, System.JSON, Vcl.ComCtrls, system.NetEncoding;
 
 type
   TForm1 = class(TForm)
@@ -121,8 +121,12 @@ end;
 
 procedure TForm1.ServerSocket1ClientRead(Sender: TObject;
   Socket: TCustomWinSocket);
+var JsonObject: TJSONObject;
 begin
-//
+ShowMessage(TNetEncoding.Base64.Decode(Socket.ReceiveText()));
+JsonObject:=TJSONObject.Create;
+JsonObject.AddPair('answare','ответ');
+Socket.SendText(TNetEncoding.Base64.Encode(JsonObject.Format()));
 end;
 
 end.
