@@ -53,7 +53,7 @@ end;
 
 procedure TClient.Button2Click(Sender: TObject);
 begin
-
+ClientSocket1.Socket.SendText(Edit5.Text);
 Memo1.Lines.Add('Me : '+Edit5.Text);
 end;
 
