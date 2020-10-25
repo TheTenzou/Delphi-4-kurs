@@ -2,9 +2,9 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2020/10/11 12:30:21.000.975,=E:\My_Progs\delphi\Unit1.pas</Transaction>
-    <Transaction>2020/10/24 18:20:50.342,=E:\My_Progs\delphi\Unit1.pas</Transaction>
-    <Transaction>2020/10/24 18:22:05.255,E:\My_Progs\delphi\Delphi-4-kurs\test-client\ClientForm.dfm=E:\My_Progs\delphi\Unit1.dfm</Transaction>
-    <Transaction>2020/10/24 18:22:05.255,E:\My_Progs\delphi\Delphi-4-kurs\test-client\ClientForm.pas=E:\My_Progs\delphi\Unit1.pas</Transaction>
-    <Transaction>2020/10/24 18:22:31.162,E:\My_Progs\delphi\Delphi-4-kurs\test-client\ClientTest.dproj=E:\My_Progs\delphi\Project1.dproj</Transaction>
+    <Transaction>2020/10/24 18:20:50.000.342,=E:\My_Progs\delphi\Unit1.pas</Transaction>
+    <Transaction>2020/10/24 18:22:05.000.255,E:\My_Progs\delphi\Unit1.dfm=E:\My_Progs\delphi\Delphi-4-kurs\test-client\ClientForm.dfm</Transaction>
+    <Transaction>2020/10/24 18:22:05.000.255,E:\My_Progs\delphi\Unit1.pas=E:\My_Progs\delphi\Delphi-4-kurs\test-client\ClientForm.pas</Transaction>
+    <Transaction>2020/10/24 18:22:31.000.162,E:\My_Progs\delphi\Project1.dproj=E:\My_Progs\delphi\Delphi-4-kurs\test-client\ClientTest.dproj</Transaction>
   </Transactions>
 </BorlandProject>

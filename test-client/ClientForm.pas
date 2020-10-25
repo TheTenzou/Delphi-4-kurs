@@ -24,7 +24,6 @@ type
     Button2: TButton;
     Memo1: TMemo;
     ClientSocket1: TClientSocket;
-    IdTCPClient1: TIdTCPClient;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure ClientSocket1Connect(Sender: TObject; Socket: TCustomWinSocket);
@@ -46,18 +45,15 @@ implementation
 
 procedure TClient.Button1Click(Sender: TObject);
 begin
-//ClientSocket1.Active:=False;
-//ClientSocket1.Host:=Edit1.Text;
-//ClientSocket1.Port:=StrToInt(Edit2.Text);
-//ClientSocket1.Active:=True;
-IdTCPClient1.Host:=Edit1.Text;
-IdTCPClient1.Port:=StrToInt(Edit2.Text);
+ClientSocket1.Active:=False;
+ClientSocket1.Host:=Edit1.Text;
+ClientSocket1.Port:=StrToInt(Edit2.Text);
+ClientSocket1.Active:=True;
 end;
 
 procedure TClient.Button2Click(Sender: TObject);
 begin
-//ClientSocket1.Socket.SendText(Edit5.Text);
-//IdTCPClient1.Socket.
+
 Memo1.Lines.Add('Me : '+Edit5.Text);
 end;
 

@@ -130,12 +130,4 @@ object Client: TClient
     Left = 392
     Top = 88
   end
-  object IdTCPClient1: TIdTCPClient
-    ConnectTimeout = 0
-    IPVersion = Id_IPv4
-    Port = 0
-    ReadTimeout = -1
-    Left = 392
-    Top = 40
-  end
 end
