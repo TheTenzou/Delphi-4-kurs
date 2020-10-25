@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/10/11 12:30:21.000.975,=E:\My_Progs\delphi\Unit1.pas</Transaction>
+    <Transaction>2020/10/25 08:21:34.000.762,=E:\My_Progs\delphi\Unit1.pas</Transaction>
+    <Transaction>2020/10/25 14:37:01.000.131,=E:\My_Progs\delphi\Unit1.pas</Transaction>
+    <Transaction>2020/10/25 14:37:50.000.559,E:\My_Progs\delphi\Delphi-4-kurs\testing-client-for-server\UnitClient.pas=E:\My_Progs\delphi\Unit1.pas</Transaction>
+    <Transaction>2020/10/25 14:37:50.000.559,E:\My_Progs\delphi\Delphi-4-kurs\testing-client-for-server\UnitClient.dfm=E:\My_Progs\delphi\Unit1.dfm</Transaction>
+    <Transaction>2020/10/25 14:37:58.000.623,E:\My_Progs\delphi\Delphi-4-kurs\testing-client-for-server\TestingClient.dproj=E:\My_Progs\delphi\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
