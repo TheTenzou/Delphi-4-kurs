@@ -120,14 +120,21 @@ object Client: TClient
     Height = 217
     TabOrder = 6
   end
-  object ClientSocket1: TClientSocket
-    Active = False
-    ClientType = ctNonBlocking
+  object IdTCPClient1: TIdTCPClient
+    ConnectTimeout = 0
+    IPVersion = Id_IPv4
     Port = 0
-    OnConnect = ClientSocket1Connect
-    OnDisconnect = ClientSocket1Disconnect
-    OnRead = ClientSocket1Read
+    ReadTimeout = -1
     Left = 392
-    Top = 88
+    Top = 32
+  end
+  object IdThreadComponent1: TIdThreadComponent
+    Active = False
+    Loop = False
+    Priority = tpNormal
+    StopMode = smTerminate
+    OnRun = IdThreadComponent1Run
+    Left = 336
+    Top = 24
   end
 end

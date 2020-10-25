@@ -153,13 +153,11 @@ object ServerForm: TServerForm
       TabOrder = 6
     end
   end
-  object ServerSocket1: TServerSocket
-    Active = False
-    Port = 0
-    ServerType = stNonBlocking
-    OnAccept = ServerSocket1Accept
-    OnClientRead = ServerSocket1ClientRead
-    Left = 504
+  object IdTCPServer1: TIdTCPServer
+    Bindings = <>
+    DefaultPort = 0
+    OnExecute = IdTCPServer1Execute
+    Left = 400
     Top = 320
   end
 end
