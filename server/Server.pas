@@ -11,7 +11,9 @@ uses
   FireDAC.DApt, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, FireDAC.Phys.MySQLDef, FireDAC.Phys.MySQL,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteDef, FireDAC.Phys.SQLite,
-  System.Win.ScktComp, System.JSON, Vcl.ComCtrls, system.NetEncoding;
+  System.Win.ScktComp, System.JSON, Vcl.ComCtrls, system.NetEncoding,
+  IdBaseComponent, IdComponent, IdCustomTCPServer, IdCustomHTTPServer,
+  IdHTTPServer, IdContext;
 
 type
   TForm1 = class(TForm)
@@ -24,6 +26,7 @@ type
     Button2: TButton;
     Button3: TButton;
     RichEdit1: TRichEdit;
+    IdHTTPServer1: TIdHTTPServer;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Edit1Change(Sender: TObject);
@@ -31,6 +34,9 @@ type
     procedure ServerSocket1ClientRead(Sender: TObject;
       Socket: TCustomWinSocket);
     procedure Button3Click(Sender: TObject);
+    procedure IdHTTPServer1CommandGet(AContext: TIdContext;
+      ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
+    procedure FormCreate(Sender: TObject);
 
   private
     { Private declarations }
@@ -117,6 +123,46 @@ end;
 procedure TForm1.FormActivate(Sender: TObject);
 begin
 Button2.Enabled:=False;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+IdHTTPServer1.Active:=True;
+end;
+
+procedure TForm1.IdHTTPServer1CommandGet(AContext: TIdContext;
+  ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
+var
+stream: TStream;
+str1: TStringList;
+
+answareStream: TStringStream;
+answareString: TStringList;
+
+begin
+//ShowMessage('context' + AContext.ToString);
+ShowMessage(ARequestInfo.URI);
+stream := ARequestInfo.PostStream;
+
+str1 := TStringList.Create;
+str1.LoadFromStream(stream, TEncoding.UTF8);
+
+//SetString(str, PChar(stream), stream.Size div SizeOf(Char));
+ShowMessage(str1.Text);
+
+AResponseInfo.ResponseNo := 200;
+AResponseInfo.ContentType := 'text/plain';
+AResponseInfo.CharSet := 'utf-8';
+AResponseInfo.ContentText:='dsfответa';
+AResponseInfo.ContentLength := -1;
+
+
+//answareString := TStringList.Create;
+//answareString.Add('asdf фыа');
+//answareStream := TStringStream.Create(UTF8Encode(answareString.Text));
+//AResponseInfo.ContentType := 'application/json';
+//AResponseInfo.CharSet := 'utf-8';
+//AResponseInfo.ContentStream:= answareStream;
 end;
 
 procedure TForm1.ServerSocket1ClientRead(Sender: TObject;

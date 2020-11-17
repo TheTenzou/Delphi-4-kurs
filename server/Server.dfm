@@ -12,6 +12,7 @@ object Form1: TForm1
   Font.Style = []
   OldCreateOrder = False
   OnActivate = FormActivate
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -91,5 +92,11 @@ object Form1: TForm1
     OnClientRead = ServerSocket1ClientRead
     Left = 568
     Top = 16
+  end
+  object IdHTTPServer1: TIdHTTPServer
+    Bindings = <>
+    OnCommandGet = IdHTTPServer1CommandGet
+    Left = 536
+    Top = 96
   end
 end

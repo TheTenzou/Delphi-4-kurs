@@ -58,7 +58,7 @@ object Form1: TForm1
   object Button1: TButton
     Left = 18
     Top = 280
-    Width = 601
+    Width = 295
     Height = 25
     Caption = 'Send'
     TabOrder = 2
@@ -87,6 +87,15 @@ object Form1: TForm1
     TabOrder = 5
     OnClick = Button2Click
   end
+  object Button3: TButton
+    Left = 398
+    Top = 280
+    Width = 75
+    Height = 25
+    Caption = 'http'
+    TabOrder = 6
+    OnClick = Button3Click
+  end
   object ClientSocket1: TClientSocket
     Active = False
     ClientType = ctNonBlocking
@@ -94,5 +103,22 @@ object Form1: TForm1
     OnRead = ClientSocket1Read
     Left = 10
     Top = 8
+  end
+  object IdHTTP1: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 64
+    Top = 136
   end
 end

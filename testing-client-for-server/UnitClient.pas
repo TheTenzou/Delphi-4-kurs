@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls,
-  System.Win.ScktComp, system.JSON, system.NetEncoding;
+  System.Win.ScktComp, system.JSON, system.NetEncoding, IdBaseComponent,
+  IdComponent, IdTCPConnection, IdTCPClient, IdHTTP;
 
 type
   TForm1 = class(TForm)
@@ -18,9 +19,12 @@ type
     Label2: TLabel;
     Edit2: TEdit;
     Button2: TButton;
+    Button3: TButton;
+    IdHTTP1: TIdHTTP;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure ClientSocket1Read(Sender: TObject; Socket: TCustomWinSocket);
+    procedure Button3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +58,35 @@ ClientSocket1.Active:=False;
 ClientSocket1.Host:=Edit1.Text;
 ClientSocket1.Port:=StrToInt(Edit2.Text);
 ClientSocket1.Active:=True;
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+var message:string;
+    msg:TstringStream;
+    result:string;
+
+    answareStream: TStringStream;
+    answareString: TStringList;
+
+begin
+message:='test';
+IdHTTP1.Request.ContentType := 'application/json';
+IdHTTP1.Request.CharSet := 'utf-8';
+IdHTTP1.Request.Method := 'POST';
+msg := TStringStream.Create(UTF8Encode(RichEdit1.Lines.Text));
+
+answareStream := TStringStream.Create(UTF8Encode('test'));
+
+//IdHTTP1.Post('http://localhost:80/test/hah/', msg, answareStream);
+result := IdHTTP1.Post('http://localhost:80/test/hah/', msg);
+
+//answareStream := IdHTTP1.Response.ContentStream;
+
+//answareString := TStringList.Create;
+//answareString.LoadFromStream(answareStream, TEncoding.UTF8);
+//ShowMessage(answareString.Text);
+
+ShowMessage(result);
 end;
 
 procedure TForm1.ClientSocket1Read(Sender: TObject; Socket: TCustomWinSocket);
