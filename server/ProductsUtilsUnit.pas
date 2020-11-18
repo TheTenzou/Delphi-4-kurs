@@ -58,6 +58,8 @@ begin
     query.Next;
   end;
 
+  connection.Commit;
+
   result := jsonArray.Format();
 
 end;
@@ -105,6 +107,7 @@ begin
     jsonResponse.AddPair(fieldName, query.FieldByName(fieldName).AsString);
   end;
 
+  connection.Commit;
 
   result := jsonResponse.Format();
 
@@ -145,20 +148,22 @@ begin
   connection.StartTransaction;
 
   try
-  query.Active:=False;
-  query.SQL.Clear;
-  query.SQL.Text:='INSERT INTO Products(name,price) VALUES(''' + name +''', '
-                                                               + price + ');';
-  query.Active:=True;
-  query.ExecSQL;
-  //query.CommitUpdates;
-  //connection.Commit;
+    query.Active:=False;
+    query.SQL.Clear;
+    query.SQL.Text:='INSERT INTO Products(name,price) VALUES(''' + name +''', '
+                                                                 + price + ');';
+
+    query.Execute;
+    connection.Commit;
+    //connection.CleanupInstance;
+//    connection.d
   except
     on E : Exception do
-      begin
-        ShowMessage('Соошени ошибки: '+E.Message);
-        exit;
-      end;
+    begin
+      ShowMessage('Соошени ошибки: '+E.Message);
+      connection.Rollback;
+      exit;
+    end;
 
   end;
 

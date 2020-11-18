@@ -46,12 +46,25 @@ implementation
 
 
 procedure TServerForm.FormCreate(Sender: TObject);
+var
+    params : TStrings;
 begin
-PortEdit.Text := '80';
-StopButton.Enabled := False;
-datePadding := 60;
-ipPadding := 40;
-connectionName := 'sqlitePooled';
+  PortEdit.Text := '80';
+  StopButton.Enabled := False;
+  datePadding := 60;
+  ipPadding := 40;
+  connectionName := 'sqlitePooled';
+
+  params := TStringList.Create;
+  params.Add('DriverID=SQLite');
+  params.Add('Pooled=True');
+  params.Add('SharedCache=False');
+  params.Add('LockingMode=Normal');
+  params.Add('Database='
+              + ExtractFilePath(Application.ExeName)
+              + '\DataBase.db');
+
+  FDManager.AddConnectionDef(connectionName,'SQLite', params);
 end;
 
 procedure TServerForm.HTTPServerCommandGet(AContext: TIdContext;
@@ -123,7 +136,6 @@ end;
 
 procedure TServerForm.StartButtonClick(Sender: TObject);
 var
-  params : TStrings;
   i : integer;
   str : string;
 begin
@@ -140,18 +152,9 @@ begin
     StartButton.Enabled := False;
     PortEdit.Enabled := False;
 
-    params := TStringList.Create;
-    params.Add('DriverID=SQLite');
-    params.Add('Pooled=True');
-    params.Add('SharedCache=False');
-    params.Add('LockingMode=Normal');
-    params.Add('Database='
-                + ExtractFilePath(Application.ExeName)
-                + '\DataBase.db');
-
     try
       DBConnection.Close;
-      FDManager.AddConnectionDef(connectionName,'SQLite', params);
+
       DBConnection.ConnectionDefName := connectionName;
       
       DBConnection.Open;
