@@ -17,9 +17,11 @@ function productsList(connectionName : string): String;
 function product(connectionName : string; request : string): String;
 function addProduct(connectionName : string; request : string): String;
 function updateProduct(connectionName : string; request : string): String;
+function deleteProduct(connectionName : string; request : string): String;
 
 implementation
 
+//==============================================================================
 function productsList(connectionName : string): String;
 var
   connection : TFDConnection;
@@ -34,7 +36,7 @@ begin
 
   query := TFDQuery.Create(nil);
   query.Connection := connection;
-  //============================================================================
+  //================================
 
   connection.Open;
   connection.StartTransaction;
@@ -65,6 +67,7 @@ begin
 
 end;
 
+//==============================================================================
 function product(connectionName : string; request : string): String;
 var
   connection : TFDConnection;
@@ -80,7 +83,7 @@ begin
 
   query := TFDQuery.Create(nil);
   query.Connection := connection;
-  //============================================================================
+  //================================
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
     id := jsonRequest.Values['id'].Value;
@@ -90,15 +93,13 @@ begin
     result := jsonResponse.Format();
     exit;
   end;
-  //============================================================================
+  //================================
   connection.Open;
   connection.StartTransaction;
 
   query.Active:=False;
   query.SQL.Text:='SELECT * FROM Products where id=' + id +';';
   query.Active:=True;
-
-  //query.Next;
 
   jsonResponse := TJSONObject.Create;
 
@@ -114,16 +115,13 @@ begin
 
 end;
 
+//==============================================================================
 function addProduct(connectionName : string; request : string): String;
 var
   connection : TFDConnection;
   query : TFDQuery;
-  i : integer;
   jsonRequest : TJSONObject;
   jsonResponse : TJSONObject;
-  fieldName : string;
-
-  id : string;
   name : string;
   price : string;
 begin
@@ -132,10 +130,9 @@ begin
 
   query := TFDQuery.Create(nil);
   query.Connection := connection;
-  //============================================================================
+  //================================
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
-    //id := jsonRequest.Values['id'].Value;
     name := jsonRequest.Values['name'].Value;
     price := jsonRequest.Values['price'].Value;
   except
@@ -144,7 +141,7 @@ begin
     result := jsonResponse.Format();
     exit;
   end;
-  //============================================================================
+  //================================
   connection.Open;
   connection.StartTransaction;
 
@@ -156,8 +153,6 @@ begin
 
     query.Execute;
     connection.Commit;
-    //connection.CleanupInstance;
-//    connection.d
   except
     on E : Exception do
     begin
@@ -174,16 +169,13 @@ begin
 
 end;
 
-
+//==============================================================================
 function updateProduct(connectionName : string; request : string): String;
 var
   connection : TFDConnection;
   query : TFDQuery;
-  i : integer;
   jsonRequest : TJSONObject;
   jsonResponse : TJSONObject;
-  fieldName : string;
-
   id : string;
   name : string;
   price : string;
@@ -193,7 +185,7 @@ begin
 
   query := TFDQuery.Create(nil);
   query.Connection := connection;
-  //============================================================================
+  //================================
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
     id := jsonRequest.Values['id'].Value;
@@ -205,7 +197,7 @@ begin
     result := jsonResponse.Format();
     exit;
   end;
-  //============================================================================
+  //================================
   connection.Open;
   connection.StartTransaction;
 
@@ -218,8 +210,57 @@ begin
 
     query.Execute;
     connection.Commit;
-    //connection.CleanupInstance;
-//    connection.d
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Соошени ошибки: '+E.Message);
+      connection.Rollback;
+      exit;
+    end;
+
+  end;
+
+  jsonResponse := TJSONObject.Create;
+  jsonResponse.AddPair('status', 'ok');
+  result := jsonResponse.Format();
+
+end;
+
+//==============================================================================
+function deleteProduct(connectionName : string; request : string): String;
+var
+  connection : TFDConnection;
+  query : TFDQuery;
+  jsonRequest : TJSONObject;
+  jsonResponse : TJSONObject;
+  id : string;
+begin
+  connection := TFDConnection.Create(nil);
+  connection.ConnectionDefName := connectionName;
+
+  query := TFDQuery.Create(nil);
+  query.Connection := connection;
+  //================================
+  try
+    jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
+    id := jsonRequest.Values['id'].Value;
+  except
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error','bad json');
+    result := jsonResponse.Format();
+    exit;
+  end;
+  //================================
+  connection.Open;
+  connection.StartTransaction;
+
+  try
+    query.Active:=False;
+    query.SQL.Clear;
+    query.SQL.Text:='delete from products where id=' + id + ';';
+
+    query.Execute;
+    connection.Commit;
   except
     on E : Exception do
     begin

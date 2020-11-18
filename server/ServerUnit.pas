@@ -110,6 +110,10 @@ begin
     AResponseInfo.ContentText := updateProduct(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на обновление продукта',ip));
   end
+  else if (url = '/products/delete/') then begin
+    AResponseInfo.ContentText := deleteProduct(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на удаление продукта',ip));
+  end
   else begin
     responseJson := TJSONObject.Create;
     responseJson.AddPair('error','bad url');
