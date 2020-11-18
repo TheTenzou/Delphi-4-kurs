@@ -48,6 +48,7 @@ request := TStringStream.Create(UTF8Encode(RequestMemo.Lines.Text));
 
 response := HTTP.Post(url, request);
 
+ResponseMemo.Lines.Text := '';
 ResponseMemo.Lines.Add(response);
 end;
 

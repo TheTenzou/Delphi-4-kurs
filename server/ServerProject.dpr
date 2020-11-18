@@ -2,7 +2,8 @@ program ServerProject;
 
 uses
   Vcl.Forms,
-  ServerUnit in 'ServerUnit.pas' {ServerForm};
+  ServerUnit in 'ServerUnit.pas' {ServerForm},
+  ProductsUtilsUnit in 'ProductsUtilsUnit.pas';
 
 {$R *.res}
 

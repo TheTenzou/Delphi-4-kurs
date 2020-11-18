@@ -11,7 +11,7 @@ uses
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
-  FireDAC.Stan.ExprFuncs, IdContext;
+  FireDAC.Stan.ExprFuncs, IdContext, System.JSON, ProductsUtilsUnit;
 
 type
   TServerForm = class(TForm)
@@ -32,21 +32,25 @@ type
     { Private declarations }
   public
     { Public declarations }
+    connectionName : String;
   end;
 
 var
-  ServerForm: TServerForm;
-  datePadding: integer;
+  ServerForm : TServerForm;
+  datePadding : integer;
+//  connectionName : String;
 
 implementation
 
 {$R *.dfm}
+
 
 procedure TServerForm.FormCreate(Sender: TObject);
 begin
 PortEdit.Text := '80';
 StopButton.Enabled := False;
 datePadding := 60;
+connectionName := 'sqlitePooled';
 end;
 
 procedure TServerForm.HTTPServerCommandGet(AContext: TIdContext;
@@ -76,7 +80,7 @@ begin
   if (url = '/products/list/') then begin
     AResponseInfo.ContentType := 'text/plain';
     AResponseInfo.CharSet := 'utf-8';
-    AResponseInfo.ContentText := 'list of products';
+    AResponseInfo.ContentText := productsList(connectionName);
   end
   else if (url = '/products/id/') then begin
     AResponseInfo.ContentType := 'text/plain';
@@ -119,8 +123,8 @@ begin
 
     try
       DBConnection.Close;
-      FDManager.AddConnectionDef('sqlitePooled','SQLite', params);
-      DBConnection.ConnectionDefName := 'sqlitePooled';
+      FDManager.AddConnectionDef(connectionName,'SQLite', params);
+      DBConnection.ConnectionDefName := connectionName;
       
       DBConnection.Open;
       StatusMemo.Lines.Add('Успешное подлючение к базеданных.'.PadRight(datePadding)
@@ -162,5 +166,8 @@ begin
                             + DateTimeToStr(Now));
   end;
 end;
+
+
+
 
 end.
