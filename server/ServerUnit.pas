@@ -24,6 +24,7 @@ type
     DBConnection: TFDConnection;
     Query: TFDQuery;
     procedure StartButtonClick(Sender: TObject);
+//    function addMessageToMemo(message_ : string; ip : string):string;
     procedure FormCreate(Sender: TObject);
     procedure StopButtonClick(Sender: TObject);
     procedure HTTPServerCommandGet(AContext: TIdContext;
@@ -67,16 +68,24 @@ begin
   FDManager.AddConnectionDef(connectionName,'SQLite', params);
 end;
 
+function memoMessage(message_ : string; ip : string): string;
+begin
+    result := (message_.PadRight(ipPadding)
+              + 'IP ' + ip).PadRight(datePadding)
+              + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now);
+end;
+
 procedure TServerForm.HTTPServerCommandGet(AContext: TIdContext;
   ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
 var
   url : string;
+  ip : string;
   requestStream : TStream;
   requestString : TStringList;
-
   responseJson : TJSONObject;
 begin
   url := ARequestInfo.URI;
+  ip := ARequestInfo.RemoteIP;
 
   requestStream := ARequestInfo.PostStream;
   requestString := TStringList.Create;
@@ -86,46 +95,26 @@ begin
   AResponseInfo.CharSet := 'utf-8';
 
   if (url = '/products/list/') then begin
-
     AResponseInfo.ContentText := productsList(connectionName);
-
-    StatusMemo.Lines.Add(('Запрос всех продуктов '.PadRight(ipPadding)
-                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
-                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
-
+    StatusMemo.Lines.Add(memoMessage('Запрос всех продуктов',ip));
   end
   else if (url = '/products/id/') then begin
-
     AResponseInfo.ContentText := product(connectionName, requestString.Text);
-
-    StatusMemo.Lines.Add(('Запрос продукта '.PadRight(ipPadding)
-                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
-                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+    StatusMemo.Lines.Add(memoMessage('Запрос продукта',ip));
   end
   else if (url = '/products/add/') then begin
-
     AResponseInfo.ContentText := addProduct(connectionName, requestString.Text);
-
-    StatusMemo.Lines.Add(('Запрос на добавление продукта '.PadRight(ipPadding)
-                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
-                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+    StatusMemo.Lines.Add(memoMessage('Запрос на добавление продукта',ip));
   end
   else if (url = '/products/update/') then begin
-
     AResponseInfo.ContentText := updateProduct(connectionName, requestString.Text);
-
-    StatusMemo.Lines.Add(('Запрос на обновление продукта '.PadRight(ipPadding)
-                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
-                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+    StatusMemo.Lines.Add(memoMessage('Запрос на обновление продукта',ip));
   end
   else begin
     responseJson := TJSONObject.Create;
     responseJson.AddPair('error','bad url');
     AResponseInfo.ContentText := responseJson.Format();
-
-    StatusMemo.Lines.Add(('Не удалось обработать запрос '.PadRight(ipPadding)
-                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
-                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+    StatusMemo.Lines.Add(memoMessage('Не удалось обработать запрос ',ip));
   end;
 
 end;
