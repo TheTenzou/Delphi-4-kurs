@@ -16,6 +16,7 @@ uses
 function productsList(connectionName : string): String;
 function product(connectionName : string; request : string): String;
 function addProduct(connectionName : string; request : string): String;
+function updateProduct(connectionName : string; request : string): String;
 
 implementation
 
@@ -167,7 +168,71 @@ begin
 
   end;
 
-  result := 'is it worked';
+  jsonResponse := TJSONObject.Create;
+  jsonResponse.AddPair('status', 'ok');
+  result := jsonResponse.Format();
+
+end;
+
+
+function updateProduct(connectionName : string; request : string): String;
+var
+  connection : TFDConnection;
+  query : TFDQuery;
+  i : integer;
+  jsonRequest : TJSONObject;
+  jsonResponse : TJSONObject;
+  fieldName : string;
+
+  id : string;
+  name : string;
+  price : string;
+begin
+  connection := TFDConnection.Create(nil);
+  connection.ConnectionDefName := connectionName;
+
+  query := TFDQuery.Create(nil);
+  query.Connection := connection;
+  //============================================================================
+  try
+    jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
+    id := jsonRequest.Values['id'].Value;
+    name := jsonRequest.Values['name'].Value;
+    price := jsonRequest.Values['price'].Value;
+  except
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error','bad json');
+    result := jsonResponse.Format();
+    exit;
+  end;
+  //============================================================================
+  connection.Open;
+  connection.StartTransaction;
+
+  try
+    query.Active:=False;
+    query.SQL.Clear;
+    query.SQL.Text:='update products set name=''' + name + ''', '
+                                        + 'price=' + price + ' '
+                                        + 'where id=' + id + ';';
+
+    query.Execute;
+    connection.Commit;
+    //connection.CleanupInstance;
+//    connection.d
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Соошени ошибки: '+E.Message);
+      connection.Rollback;
+      exit;
+    end;
+
+  end;
+
+  jsonResponse := TJSONObject.Create;
+  jsonResponse.AddPair('status', 'ok');
+  result := jsonResponse.Format();
 
 end;
 

@@ -76,18 +76,6 @@ var
 
   responseJson : TJSONObject;
 begin
-//  url := ARequestInfo.URI;
-//
-//  requestStream := ARequestInfo.PostStream;
-//
-//  requestString := TStringList.Create;
-//  requestString.LoadFromStream(requestStream, TEncoding.UTF8);
-//
-//  AResponseInfo.ContentType := 'text/plain';
-//  AResponseInfo.CharSet := 'utf-8';
-//  AResponseInfo.ContentText := url + AnsiString(#13#10) + requestString.Text;
-//
-
   url := ARequestInfo.URI;
 
   requestStream := ARequestInfo.PostStream;
@@ -119,6 +107,14 @@ begin
     AResponseInfo.ContentText := addProduct(connectionName, requestString.Text);
 
     StatusMemo.Lines.Add(('Запрос на добавление продукта '.PadRight(ipPadding)
+                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
+                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+  end
+  else if (url = '/products/update/') then begin
+
+    AResponseInfo.ContentText := updateProduct(connectionName, requestString.Text);
+
+    StatusMemo.Lines.Add(('Запрос на обновление продукта '.PadRight(ipPadding)
                           + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
                           + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
   end
