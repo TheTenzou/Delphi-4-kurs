@@ -75,8 +75,6 @@ object TestClientForm: TTestClientForm
     Height = 259
     Align = alBottom
     TabOrder = 4
-    ExplicitTop = 76
-    ExplicitWidth = 620
   end
   object ResponseMemo: TMemo
     Left = 0
@@ -85,9 +83,6 @@ object TestClientForm: TTestClientForm
     Height = 258
     Align = alBottom
     TabOrder = 5
-    ExplicitLeft = 1
-    ExplicitTop = 335
-    ExplicitWidth = 616
   end
   object HTTP: TIdHTTP
     AllowCookies = True

@@ -1,4 +1,4 @@
-unit TestClientUnit;
+﻿unit TestClientUnit;
 
 interface
 
@@ -39,17 +39,22 @@ var
   response : string;
   url : string;
 begin
-HTTP.Request.ContentType := 'application/json';
-HTTP.Request.CharSet := 'utf-8';
+  HTTP.Request.ContentType := 'application/json';
+  HTTP.Request.CharSet := 'utf-8';
 
-url := 'http://' + IPAddressEdit.Text + ':' + PortEdit.Text + URLEdit.Text;
+  url := 'http://' + IPAddressEdit.Text + ':' + PortEdit.Text + URLEdit.Text;
 
-request := TStringStream.Create(UTF8Encode(RequestMemo.Lines.Text));
+  request := TStringStream.Create(UTF8Encode(RequestMemo.Lines.Text));
 
-response := HTTP.Post(url, request);
+  try
+    response := HTTP.Post(url, request);
+  except
+    ResponseMemo.Lines.Add('Не удалось подключится к серверу');
+    exit;
+  end;
 
-ResponseMemo.Lines.Text := '';
-ResponseMemo.Lines.Add(response);
+  ResponseMemo.Lines.Text := '';
+  ResponseMemo.Lines.Add(response);
 end;
 
 end.
