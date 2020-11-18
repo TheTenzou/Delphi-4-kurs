@@ -56,21 +56,38 @@ var
   requestStream : TStream;
   requestString : TStringList;
 begin
-  url := ARequestInfo.URI;
-
-  requestStream := ARequestInfo.PostStream;
-
-  requestString := TStringList.Create;
-  requestString.LoadFromStream(requestStream, TEncoding.UTF8);
-
-  AResponseInfo.ContentType := 'text/plain';
-  AResponseInfo.CharSet := 'utf-8';
-  AResponseInfo.ContentText := url + AnsiString(#13#10) + requestString.Text;
-
+//  url := ARequestInfo.URI;
+//
+//  requestStream := ARequestInfo.PostStream;
+//
+//  requestString := TStringList.Create;
+//  requestString.LoadFromStream(requestStream, TEncoding.UTF8);
+//
+//  AResponseInfo.ContentType := 'text/plain';
+//  AResponseInfo.CharSet := 'utf-8';
+//  AResponseInfo.ContentText := url + AnsiString(#13#10) + requestString.Text;
+//
   StatusMemo.Lines.Add(('Сообшение получено от '
                        + ARequestInfo.RemoteIP).PadRight(datePadding)
                        + 'Време ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
 
+  url := ARequestInfo.URI;
+
+  if (url = '/products/list/') then begin
+    AResponseInfo.ContentType := 'text/plain';
+    AResponseInfo.CharSet := 'utf-8';
+    AResponseInfo.ContentText := 'list of products';
+  end
+  else if (url = '/products/id/') then begin
+    AResponseInfo.ContentType := 'text/plain';
+    AResponseInfo.CharSet := 'utf-8';
+    AResponseInfo.ContentText := 'product';
+  end
+  else begin
+    AResponseInfo.ContentType := 'text/plain';
+    AResponseInfo.CharSet := 'utf-8';
+    AResponseInfo.ContentText := 'error';
+  end;
 
 end;
 
