@@ -81,6 +81,8 @@ begin
       DBConnection.Open;
       StatusMemo.Lines.Add('Успешное подлючение к базеданных.'.PadRight(datePadding)
                            + 'Время ' +  DateTimeToStr(Now));
+
+      DBConnection.Close;
     except
       on E : Exception do
       begin
