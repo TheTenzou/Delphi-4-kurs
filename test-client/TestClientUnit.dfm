@@ -1,9 +1,11 @@
 object TestClientForm: TTestClientForm
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = #1050#1083#1080#1077#1085#1090' '#1076#1083#1103' '#1090#1077#1089#1090#1086#1074
-  ClientHeight = 588
-  ClientWidth = 615
+  ClientHeight = 598
+  ClientWidth = 625
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -67,8 +69,8 @@ object TestClientForm: TTestClientForm
   end
   object RequestMemo: TMemo
     Left = 0
-    Top = 71
-    Width = 615
+    Top = 81
+    Width = 625
     Height = 259
     Align = alBottom
     TabOrder = 4
@@ -77,8 +79,8 @@ object TestClientForm: TTestClientForm
   end
   object ResponseMemo: TMemo
     Left = 0
-    Top = 330
-    Width = 615
+    Top = 340
+    Width = 625
     Height = 258
     Align = alBottom
     TabOrder = 5
