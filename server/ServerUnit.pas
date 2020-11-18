@@ -56,16 +56,21 @@ var
   requestStream : TStream;
   requestString : TStringList;
 begin
-url := ARequestInfo.URI;
+  url := ARequestInfo.URI;
 
-requestStream := ARequestInfo.PostStream;
+  requestStream := ARequestInfo.PostStream;
 
-requestString := TStringList.Create;
-requestString.LoadFromStream(requestStream, TEncoding.UTF8);
+  requestString := TStringList.Create;
+  requestString.LoadFromStream(requestStream, TEncoding.UTF8);
 
-AResponseInfo.ContentType := 'text/plain';
-AResponseInfo.CharSet := 'utf-8';
-AResponseInfo.ContentText := url + AnsiString(#13#10) + requestString.Text;
+  AResponseInfo.ContentType := 'text/plain';
+  AResponseInfo.CharSet := 'utf-8';
+  AResponseInfo.ContentText := url + AnsiString(#13#10) + requestString.Text;
+
+  StatusMemo.Lines.Add(('Сообшение получено от '
+                       + ARequestInfo.RemoteIP).PadRight(datePadding)
+                       + 'Време ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+
 
 end;
 
@@ -81,7 +86,7 @@ begin
 
     StatusMemo.Lines.Add(('Сервер запушен на порте: '
                           + PortEdit.Text + '.').PadRight(datePadding)
-                          + 'Време ' + DateTimeToStr(Now));
+                          + 'Време ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
 
     StopButton.Enabled := True;
 
@@ -102,7 +107,7 @@ begin
       
       DBConnection.Open;
       StatusMemo.Lines.Add('Успешное подлючение к базеданных.'.PadRight(datePadding)
-                           + 'Время ' +  DateTimeToStr(Now));
+                           + 'Время ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
 
       DBConnection.Close;
     except
@@ -111,7 +116,7 @@ begin
         ShowMessage('Соошени ошибки: '+E.Message);
 
         StatusMemo.Lines.Add('Ошибка подлючения к базеданных.'.PadRight(datePadding)
-                           + 'Время ' +  DateTimeToStr(Now));
+                           + 'Время ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
         exit;
       end;
     end;
@@ -129,7 +134,7 @@ begin
     HTTPServer.Active := False;
 
     StatusMemo.Lines.Add('Сервер остановлен.'.PadRight(datePadding)
-                          + 'Време ' + DateTimeToStr(Now));
+                          + 'Време ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
 
     StartButton.Enabled := True;
     PortEdit.Enabled := True;

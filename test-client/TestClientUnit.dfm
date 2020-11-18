@@ -60,9 +60,9 @@ object TestClientForm: TTestClientForm
     TabOrder = 2
   end
   object SendButton: TButton
-    Left = -8
+    Left = 8
     Top = 40
-    Width = 625
+    Width = 609
     Height = 25
     Caption = #1054#1090#1087#1088#1072#1074#1080#1090#1100
     TabOrder = 3
