@@ -1,4 +1,4 @@
-unit ProductsUtilsUnit;
+﻿unit ProductsUtilsUnit;
 
 interface
 
@@ -15,6 +15,7 @@ uses
 
 function productsList(connectionName : string): String;
 function product(connectionName : string; request : string): String;
+function addProduct(connectionName : string; request : string): String;
 
 implementation
 
@@ -82,7 +83,7 @@ begin
     id := jsonRequest.Values['id'].Value;
   except
     jsonResponse := TJSONObject.Create;
-    jsonResponse.AddPair('error','bad request');
+    jsonResponse.AddPair('error','bad json');
     result := jsonResponse.Format();
     exit;
   end;
@@ -106,6 +107,62 @@ begin
 
 
   result := jsonResponse.Format();
+
+end;
+
+function addProduct(connectionName : string; request : string): String;
+var
+  connection : TFDConnection;
+  query : TFDQuery;
+  i : integer;
+  jsonRequest : TJSONObject;
+  jsonResponse : TJSONObject;
+  fieldName : string;
+
+  id : string;
+  name : string;
+  price : string;
+begin
+  connection := TFDConnection.Create(nil);
+  connection.ConnectionDefName := connectionName;
+
+  query := TFDQuery.Create(nil);
+  query.Connection := connection;
+  //============================================================================
+  try
+    jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
+    //id := jsonRequest.Values['id'].Value;
+    name := jsonRequest.Values['name'].Value;
+    price := jsonRequest.Values['price'].Value;
+  except
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error','bad json');
+    result := jsonResponse.Format();
+    exit;
+  end;
+  //============================================================================
+  connection.Open;
+  connection.StartTransaction;
+
+  try
+  query.Active:=False;
+  query.SQL.Clear;
+  query.SQL.Text:='INSERT INTO Products(name,price) VALUES(''' + name +''', '
+                                                               + price + ');';
+  query.Active:=True;
+  query.ExecSQL;
+  //query.CommitUpdates;
+  //connection.Commit;
+  except
+    on E : Exception do
+      begin
+        ShowMessage('Соошени ошибки: '+E.Message);
+        exit;
+      end;
+
+  end;
+
+  result := 'is it worked';
 
 end;
 

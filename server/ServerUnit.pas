@@ -101,9 +101,17 @@ begin
                           + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
                           + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
   end
+  else if (url = '/products/add/') then begin
+
+    AResponseInfo.ContentText := addProduct(connectionName, requestString.Text);
+
+    StatusMemo.Lines.Add(('Запрос на добавление продукта '.PadRight(ipPadding)
+                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
+                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+  end
   else begin
     responseJson := TJSONObject.Create;
-    responseJson.AddPair('error','bad request');
+    responseJson.AddPair('error','bad url');
     AResponseInfo.ContentText := responseJson.Format();
 
     StatusMemo.Lines.Add(('Не удалось обработать запрос '.PadRight(ipPadding)
@@ -135,6 +143,8 @@ begin
     params := TStringList.Create;
     params.Add('DriverID=SQLite');
     params.Add('Pooled=True');
+    params.Add('SharedCache=False');
+    params.Add('LockingMode=Normal');
     params.Add('Database='
                 + ExtractFilePath(Application.ExeName)
                 + '\DataBase.db');
