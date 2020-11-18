@@ -32,13 +32,13 @@ type
     { Private declarations }
   public
     { Public declarations }
-    connectionName : String;
   end;
 
 var
   ServerForm : TServerForm;
   datePadding : integer;
-//  connectionName : String;
+  ipPadding : integer;
+  connectionName : String;
 
 implementation
 
@@ -50,6 +50,7 @@ begin
 PortEdit.Text := '80';
 StopButton.Enabled := False;
 datePadding := 60;
+ipPadding := 40;
 connectionName := 'sqlitePooled';
 end;
 
@@ -59,6 +60,8 @@ var
   url : string;
   requestStream : TStream;
   requestString : TStringList;
+
+  responseJson : TJSONObject;
 begin
 //  url := ARequestInfo.URI;
 //
@@ -71,26 +74,41 @@ begin
 //  AResponseInfo.CharSet := 'utf-8';
 //  AResponseInfo.ContentText := url + AnsiString(#13#10) + requestString.Text;
 //
-  StatusMemo.Lines.Add(('Сообшение получено от '
-                       + ARequestInfo.RemoteIP).PadRight(datePadding)
-                       + 'Време ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
 
   url := ARequestInfo.URI;
 
+  requestStream := ARequestInfo.PostStream;
+  requestString := TStringList.Create;
+  requestString.LoadFromStream(requestStream, TEncoding.UTF8);
+
+  AResponseInfo.ContentType := 'text/plain';
+  AResponseInfo.CharSet := 'utf-8';
+
   if (url = '/products/list/') then begin
-    AResponseInfo.ContentType := 'text/plain';
-    AResponseInfo.CharSet := 'utf-8';
+
     AResponseInfo.ContentText := productsList(connectionName);
+
+    StatusMemo.Lines.Add(('Запрос всех продуктов '.PadRight(ipPadding)
+                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
+                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+
   end
   else if (url = '/products/id/') then begin
-    AResponseInfo.ContentType := 'text/plain';
-    AResponseInfo.CharSet := 'utf-8';
-    AResponseInfo.ContentText := 'product';
+
+    AResponseInfo.ContentText := product(connectionName, requestString.Text);
+
+    StatusMemo.Lines.Add(('Запрос продукта '.PadRight(ipPadding)
+                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
+                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
   end
   else begin
-    AResponseInfo.ContentType := 'text/plain';
-    AResponseInfo.CharSet := 'utf-8';
-    AResponseInfo.ContentText := 'error';
+    responseJson := TJSONObject.Create;
+    responseJson.AddPair('error','bad request');
+    AResponseInfo.ContentText := responseJson.Format();
+
+    StatusMemo.Lines.Add(('Не удалось обработать запрос '.PadRight(ipPadding)
+                          + 'IP ' + ARequestInfo.RemoteIP).PadRight(datePadding)
+                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
   end;
 
 end;
@@ -107,7 +125,7 @@ begin
 
     StatusMemo.Lines.Add(('Сервер запушен на порте: '
                           + PortEdit.Text + '.').PadRight(datePadding)
-                          + 'Време ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
+                          + 'Время ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
 
     StopButton.Enabled := True;
 
