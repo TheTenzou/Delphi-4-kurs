@@ -19,6 +19,7 @@ type
     RequestMemo: TMemo;
     ResponseMemo: TMemo;
     HTTP: TIdHTTP;
+    procedure SendButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,5 +32,23 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TTestClientForm.SendButtonClick(Sender: TObject);
+var
+  request : TStringStream;
+  response : string;
+  url : string;
+begin
+HTTP.Request.ContentType := 'application/json';
+HTTP.Request.CharSet := 'utf-8';
+
+url := 'http://' + IPAddressEdit.Text + ':' + PortEdit.Text + URLEdit.Text;
+
+request := TStringStream.Create(UTF8Encode(RequestMemo.Lines.Text));
+
+response := HTTP.Post(url, request);
+
+ResponseMemo.Lines.Add(response);
+end;
 
 end.

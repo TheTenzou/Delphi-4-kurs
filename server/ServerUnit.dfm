@@ -67,6 +67,7 @@ object ServerForm: TServerForm
   end
   object HTTPServer: TIdHTTPServer
     Bindings = <>
+    OnCommandGet = HTTPServerCommandGet
     Left = 24
     Top = 64
   end

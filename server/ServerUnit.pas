@@ -11,7 +11,7 @@ uses
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
-  FireDAC.Stan.ExprFuncs;
+  FireDAC.Stan.ExprFuncs, IdContext;
 
 type
   TServerForm = class(TForm)
@@ -26,6 +26,8 @@ type
     procedure StartButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure StopButtonClick(Sender: TObject);
+    procedure HTTPServerCommandGet(AContext: TIdContext;
+      ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
   private
     { Private declarations }
   public
@@ -45,6 +47,26 @@ begin
 PortEdit.Text := '80';
 StopButton.Enabled := False;
 datePadding := 60;
+end;
+
+procedure TServerForm.HTTPServerCommandGet(AContext: TIdContext;
+  ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
+var
+  url : string;
+  requestStream : TStream;
+  requestString : TStringList;
+begin
+url := ARequestInfo.URI;
+
+requestStream := ARequestInfo.PostStream;
+
+requestString := TStringList.Create;
+requestString.LoadFromStream(requestStream, TEncoding.UTF8);
+
+AResponseInfo.ContentType := 'text/plain';
+AResponseInfo.CharSet := 'utf-8';
+AResponseInfo.ContentText := url + AnsiString(#13#10) + requestString.Text;
+
 end;
 
 procedure TServerForm.StartButtonClick(Sender: TObject);
