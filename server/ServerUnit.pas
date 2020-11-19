@@ -124,9 +124,6 @@ begin
 end;
 
 procedure TServerForm.StartButtonClick(Sender: TObject);
-var
-  i : integer;
-  str : string;
 begin
   try
     HTTPServer.DefaultPort := StrToInt(PortEdit.Text);
