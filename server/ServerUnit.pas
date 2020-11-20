@@ -30,8 +30,6 @@ type
     StartButton: TButton;
     StopButton: TButton;
     StatusMemo: TMemo;
-    DBConnection: TFDConnection;
-    Query: TFDQuery;
     procedure StartButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure StopButtonClick(Sender: TObject);
@@ -103,27 +101,7 @@ begin
   AResponseInfo.ContentType := 'text/plain';
   AResponseInfo.CharSet := 'utf-8';
 
-  if (url = '/products/list/') then begin
-    AResponseInfo.ContentText := productsList(connectionName);
-    StatusMemo.Lines.Add(memoMessage('Запрос всех продуктов',ip));
-  end
-  else if (url = '/products/id/') then begin
-    AResponseInfo.ContentText := product(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос продукта',ip));
-  end
-  else if (url = '/products/add/') then begin
-    AResponseInfo.ContentText := addProduct(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на добавление продукта',ip));
-  end
-  else if (url = '/products/update/') then begin
-    AResponseInfo.ContentText := updateProduct(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на обновление продукта',ip));
-  end
-  else if (url = '/products/delete/') then begin
-    AResponseInfo.ContentText := deleteProduct(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на удаление продукта',ip));
-  end
-  else if (url = '/couriers/list/') then begin
+  if (url = '/couriers/list/') then begin
     AResponseInfo.ContentText := couriersList(connectionName);
     StatusMemo.Lines.Add(memoMessage('Запрос всех курьеров',ip));
   end
@@ -203,6 +181,26 @@ begin
     AResponseInfo.ContentText := deleteOrderINfo(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на удаление товара из заказа',ip));
   end
+  else if (url = '/products/list/') then begin
+    AResponseInfo.ContentText := productsList(connectionName);
+    StatusMemo.Lines.Add(memoMessage('Запрос всех продуктов',ip));
+  end
+  else if (url = '/products/id/') then begin
+    AResponseInfo.ContentText := product(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос продукта',ip));
+  end
+  else if (url = '/products/add/') then begin
+    AResponseInfo.ContentText := addProduct(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на добавление продукта',ip));
+  end
+  else if (url = '/products/update/') then begin
+    AResponseInfo.ContentText := updateProduct(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на обновление продукта',ip));
+  end
+  else if (url = '/products/delete/') then begin
+    AResponseInfo.ContentText := deleteProduct(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на удаление продукта',ip));
+  end
   else begin
     responseJson := TJSONObject.Create;
     responseJson.AddPair('error','bad url');
@@ -216,6 +214,8 @@ begin
 end;
 
 procedure TServerForm.StartButtonClick(Sender: TObject);
+var
+  DBConnection : TFDConnection;
 begin
   try
     HTTPServer.DefaultPort := StrToInt(PortEdit.Text);
@@ -231,6 +231,7 @@ begin
     PortEdit.Enabled := False;
 
     try
+      DBConnection := TFDConnection.Create(nil);
       DBConnection.Close;
 
       DBConnection.ConnectionDefName := connectionName;

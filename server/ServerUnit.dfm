@@ -63,22 +63,12 @@ object ServerForm: TServerForm
     HideSelection = False
     ParentFont = False
     TabOrder = 3
+    ExplicitLeft = 8
   end
   object HTTPServer: TIdHTTPServer
     Bindings = <>
     OnCommandGet = HTTPServerCommandGet
     Left = 24
-    Top = 64
-  end
-  object DBConnection: TFDConnection
-    Params.Strings = (
-      'DriverID=SQLite')
-    Left = 96
-    Top = 64
-  end
-  object Query: TFDQuery
-    Connection = DBConnection
-    Left = 168
     Top = 64
   end
 end
