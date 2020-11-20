@@ -150,6 +150,7 @@ url `/orders/update/`
     "created_time": "data",
     "start_delivery_time": "date",
     "end_delivery_time": "date",
+    "total_summ": summ,
     "delivery_address": "adress"
 }
 ```
@@ -168,7 +169,7 @@ url `/orders/delete/`
 url `/orders-info/list/`
 ```json
 {
-    "orderId": id
+    "order-id": id
 }
 ```
 
@@ -184,7 +185,7 @@ url `/oreders-info/id/`
 url `/oreders-info/add/`
 ```json
 {
-    "orderid": id,
+    "order-id": id,
     "name": "name",
     "price": "price",
     "count_": "count",
@@ -196,7 +197,7 @@ url `/orders-info/update/`
 ```json
 {
     "id": id,
-    "orderid": id,
+    "order-id": id,
     "name": "name",
     "price": "price",
     "count_": "count",
