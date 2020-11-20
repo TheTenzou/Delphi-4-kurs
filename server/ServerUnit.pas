@@ -19,7 +19,8 @@ uses
   ProductsUtilsUnit,
   CouriersUtilsUnit,
   OperatorsUtilsUnit,
-  ordersUtilsUnit;
+  OrdersUtilsUnit,
+  OrdersInfoUtilsUnit;
 
 type
   TServerForm = class(TForm)
@@ -182,6 +183,26 @@ begin
     AResponseInfo.ContentText := deleteOrder(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на удаление заказа',ip));
   end
+  else if (url = '/order-info/list/') then begin
+    AResponseInfo.ContentText := orderInfoList(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос всех товаров заказа',ip));
+  end
+  else if (url = '/order-info/id/') then begin
+    AResponseInfo.ContentText := orderInfo(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос таваров из заказа',ip));
+  end
+  else if (url = '/order-info/add/') then begin
+    AResponseInfo.ContentText := addorderInfo(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на добавление товара в заказ',ip));
+  end
+  else if (url = '/order-info/update/') then begin
+    AResponseInfo.ContentText := updateOrderInfo(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на обновление товара в заказе',ip));
+  end
+  else if (url = '/order-info/delete/') then begin
+    AResponseInfo.ContentText := deleteOrderINfo(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на удаление товара из заказа',ip));
+  end
   else begin
     responseJson := TJSONObject.Create;
     responseJson.AddPair('error','bad url');
@@ -191,7 +212,6 @@ begin
 
   requestStream.Free;
   requestString.Free;
-  responseJson.Free;
 
 end;
 

@@ -169,7 +169,7 @@ url `/orders/delete/`
 url `/orders-info/list/`
 ```json
 {
-    "order-id": id
+    "order_id": id
 }
 ```
 
@@ -185,7 +185,7 @@ url `/oreders-info/id/`
 url `/oreders-info/add/`
 ```json
 {
-    "order-id": id,
+    "order_id": id,
     "name": "name",
     "price": "price",
     "count_": "count",
@@ -197,7 +197,7 @@ url `/orders-info/update/`
 ```json
 {
     "id": id,
-    "order-id": id,
+    "order_id": id,
     "name": "name",
     "price": "price",
     "count_": "count",
