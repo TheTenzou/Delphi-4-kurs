@@ -5,7 +5,8 @@ uses
   ServerUnit in 'ServerUnit.pas' {ServerForm},
   ProductsUtilsUnit in 'ProductsUtilsUnit.pas',
   CouriersUtilsUnit in 'CouriersUtilsUnit.pas',
-  OperatorsUtilsUnit in 'OperatorsUtilsUnit.pas';
+  OperatorsUtilsUnit in 'OperatorsUtilsUnit.pas',
+  OrdersUtilsUnit in 'OrdersUtilsUnit.pas';
 
 {$R *.res}
 
