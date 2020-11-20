@@ -205,3 +205,43 @@ url `/orders-info/delete/`
     "id": id
 }
 ```
+
+## Товары
+
+Все записи товаров
+url `/products/list/`
+
+Получит запись по id
+url `/products/id/`
+```json
+{
+    "id": id
+}
+```
+
+Добавть новый товар 
+url `/products/add/`
+```json
+{
+    "name": "name",
+    "price": "price",
+}
+```
+
+Обновть данных товары 
+url `/products/update/`
+```json
+{
+    "id": id,
+    "name": "name",
+    "price": "price",
+}
+```
+
+Удалить товар 
+url `/products/delete/`
+```json
+{
+    "id": id
+}
+```
