@@ -103,6 +103,8 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="ProductsUtilsUnit.pas"/>
+        <DCCReference Include="CouriersUtilsUnit.pas"/>
+        <DCCReference Include="OperatorsUtilsUnit.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
