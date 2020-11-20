@@ -17,7 +17,8 @@ uses
   FireDAC.Stan.ExprFuncs, IdContext, System.JSON,
 
   ProductsUtilsUnit,
-  CouriersUtilsUnit;
+  CouriersUtilsUnit,
+  OperatorsUtilsUnit;
 
 type
   TServerForm = class(TForm)
@@ -139,6 +140,26 @@ begin
   else if (url = '/couriers/delete/') then begin
     AResponseInfo.ContentText := deleteCourier(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на удаление курьера',ip));
+  end
+  else if (url = '/operators/list/') then begin
+    AResponseInfo.ContentText := opearatorsList(connectionName);
+    StatusMemo.Lines.Add(memoMessage('Запрос всех операторов',ip));
+  end
+  else if (url = '/operators/id/') then begin
+    AResponseInfo.ContentText := operator_(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос операторa',ip));
+  end
+  else if (url = '/operators/add/') then begin
+    AResponseInfo.ContentText := addOperator(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на добавление операторa',ip));
+  end
+  else if (url = '/operators/update/') then begin
+    AResponseInfo.ContentText := updateOperator(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на обновление операторa',ip));
+  end
+  else if (url = '/operators/delete/') then begin
+    AResponseInfo.ContentText := deleteCourier(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на удаление операторa',ip));
   end
   else begin
     responseJson := TJSONObject.Create;
