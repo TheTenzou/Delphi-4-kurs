@@ -165,13 +165,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'field insert');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;
@@ -229,13 +227,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'field update');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;
@@ -287,13 +283,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'field delete');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;

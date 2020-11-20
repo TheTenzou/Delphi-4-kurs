@@ -150,17 +150,10 @@ begin
     login := jsonRequest.Values['login'].Value;
     password := jsonRequest.Values['password'].Value;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error','bad json');
     result := jsonResponse.Format();
     exit;
-    end;
   end;
   //================================
   connection.Open;
@@ -182,8 +175,10 @@ begin
   except
     on E : Exception do
     begin
-      ShowMessage('Ñîîøåíè îøèáêè: '+E.Message);
       connection.Rollback;
+      jsonResponse := TJSONObject.Create;
+      jsonResponse.AddPair('error', 'field insert');
+      result := jsonResponse.Format();
       exit;
     end;
 
@@ -246,13 +241,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'field update');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;
@@ -303,13 +296,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'field delete');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;

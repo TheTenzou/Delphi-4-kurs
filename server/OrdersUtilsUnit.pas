@@ -158,13 +158,10 @@ begin
     endDeliveryTime := jsonRequest.Values['end_delivery_time'].Value;
     deliveryAddress := jsonRequest.Values['delivery_address'].Value;
   except
-    on E : Exception do
-    begin
-      jsonResponse := TJSONObject.Create;
-      jsonResponse.AddPair('error','bad json');
-      result := jsonResponse.Format();
-      exit;
-    end;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error','bad json');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   //================================
@@ -193,13 +190,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'bad foreing key');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;
@@ -268,13 +263,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'bad foreing key');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;
@@ -324,13 +317,11 @@ begin
     query.Execute;
     connection.Commit;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Соошени ошибки: '+E.Message);
-      connection.Rollback;
-      exit;
-    end;
-
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'field delete');
+    result := jsonResponse.Format();
+    exit;
   end;
 
   jsonResponse := TJSONObject.Create;

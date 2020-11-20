@@ -251,14 +251,9 @@ begin
 
       DBConnection.Close;
     except
-      on E : Exception do
-      begin
-        ShowMessage('Соошени ошибки: '+E.Message);
-
-        StatusMemo.Lines.Add('Ошибка подлючения к базеданных.'.PadRight(datePadding)
+      StatusMemo.Lines.Add('Ошибка подлючения к базеданных.'.PadRight(datePadding)
                            + 'Время ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now));
-        exit;
-      end;
+      exit;
     end;
 
   except
