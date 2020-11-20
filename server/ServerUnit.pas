@@ -31,7 +31,6 @@ type
     DBConnection: TFDConnection;
     Query: TFDQuery;
     procedure StartButtonClick(Sender: TObject);
-//    function addMessageToMemo(message_ : string; ip : string):string;
     procedure FormCreate(Sender: TObject);
     procedure StopButtonClick(Sender: TObject);
     procedure HTTPServerCommandGet(AContext: TIdContext;
@@ -73,6 +72,7 @@ begin
               + '\DataBase.db');
 
   FDManager.AddConnectionDef(connectionName,'SQLite', params);
+
 end;
 
 function memoMessage(message_ : string; ip : string): string;
@@ -158,7 +158,7 @@ begin
     StatusMemo.Lines.Add(memoMessage('Запрос на обновление операторa',ip));
   end
   else if (url = '/operators/delete/') then begin
-    AResponseInfo.ContentText := deleteCourier(connectionName, requestString.Text);
+    AResponseInfo.ContentText := deleteOperator(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на удаление операторa',ip));
   end
   else begin
@@ -167,6 +167,10 @@ begin
     AResponseInfo.ContentText := responseJson.Format();
     StatusMemo.Lines.Add(memoMessage('Не удалось обработать запрос ',ip));
   end;
+
+  requestStream.Free;
+  requestString.Free;
+  responseJson.Free;
 
 end;
 

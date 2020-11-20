@@ -30,6 +30,7 @@ var
   jsonArray : TJSONArray;
   json : TJSONObject;
   fieldName : string;
+  res : string;
 begin
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;
@@ -64,6 +65,12 @@ begin
   connection.Commit;
 
   result := jsonArray.Format();
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+  json.Free;
 
 end;
 
@@ -112,6 +119,12 @@ begin
   connection.Commit;
 
   result := jsonResponse.Format();
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+  jsonRequest.Free;
 
 end;
 
@@ -165,7 +178,14 @@ begin
 
   jsonResponse := TJSONObject.Create;
   jsonResponse.AddPair('status', 'ok');
+
   result := jsonResponse.Format();
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+  jsonRequest.Free;
 
 end;
 
@@ -222,7 +242,14 @@ begin
 
   jsonResponse := TJSONObject.Create;
   jsonResponse.AddPair('status', 'ok');
+
   result := jsonResponse.Format();
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+  jsonRequest.Free;
 
 end;
 
@@ -274,6 +301,12 @@ begin
   jsonResponse := TJSONObject.Create;
   jsonResponse.AddPair('status', 'ok');
   result := jsonResponse.Format();
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+  jsonRequest.Free;
 
 end;
 
