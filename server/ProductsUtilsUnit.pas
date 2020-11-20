@@ -53,7 +53,7 @@ begin
 
     for i := 0 to query.FieldDefs.Count-1 do
     begin
-      fieldName:=query.FieldDefs[i].Name;
+      fieldName:=query.FieldDefs[i].Name.ToLower;
       json.AddPair(fieldName, query.FieldByName(fieldName).AsString);
     end;
 
@@ -105,7 +105,7 @@ begin
 
   for i := 0 to query.FieldDefs.Count-1 do
   begin
-    fieldName:=query.FieldDefs[i].Name;
+    fieldName:=query.FieldDefs[i].Name.ToLower;
     jsonResponse.AddPair(fieldName, query.FieldByName(fieldName).AsString);
   end;
 
