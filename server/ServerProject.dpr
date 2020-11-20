@@ -7,7 +7,8 @@ uses
   CouriersUtilsUnit in 'CouriersUtilsUnit.pas',
   OperatorsUtilsUnit in 'OperatorsUtilsUnit.pas',
   OrdersUtilsUnit in 'OrdersUtilsUnit.pas',
-  OrdersInfoUtilsUnit in 'OrdersInfoUtilsUnit.pas';
+  OrdersInfoUtilsUnit in 'OrdersInfoUtilsUnit.pas',
+  LoginUtilsUnit in 'LoginUtilsUnit.pas';
 
 {$R *.res}
 

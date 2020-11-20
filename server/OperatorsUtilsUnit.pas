@@ -238,7 +238,7 @@ begin
   try
     query.Active:=False;
     query.SQL.Clear;
-    query.SQL.Text:='update couriers set name=''' + name + ''', '
+    query.SQL.Text:='update operators set name=''' + name + ''', '
                                         + 'login=''' + login + ''', '
                                         + 'password=''' + password + ''' '
                                         + 'where id=' + id + ';';

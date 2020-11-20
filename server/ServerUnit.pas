@@ -20,7 +20,8 @@ uses
   CouriersUtilsUnit,
   OperatorsUtilsUnit,
   OrdersUtilsUnit,
-  OrdersInfoUtilsUnit;
+  OrdersInfoUtilsUnit,
+  LoginUtilsUnit;
 
 type
   TServerForm = class(TForm)
@@ -101,7 +102,15 @@ begin
   AResponseInfo.ContentType := 'text/plain';
   AResponseInfo.CharSet := 'utf-8';
 
-  if (url = '/couriers/list/') then begin
+  if (url = '/operators/login/') then begin
+    AResponseInfo.ContentText := operatorLogin(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('запрос на вход оператора',ip));
+  end
+  else if (url = '/couriers/login/') then begin
+    AResponseInfo.ContentText := courierLogin(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('запрос на вход курьера',ip));
+  end
+  else if (url = '/couriers/list/') then begin
     AResponseInfo.ContentText := couriersList(connectionName);
     StatusMemo.Lines.Add(memoMessage('Запрос всех курьеров',ip));
   end
