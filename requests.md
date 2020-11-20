@@ -3,18 +3,18 @@
 ## Логин
 
 Для операторы
+url `/login/operator/`
 ```json
 {
-    "type": "login-operator",
     "login": "your-login", // text
     "pass": "your-pass" //text
 }
 ```
 
 Для курера
+url `/login/courier/`
 ```json
 {
-    "type": "login-courier",
     "login": "your-login", // text
     "pass": "your-pass" //text
 }
@@ -23,16 +23,21 @@
 ## Курьеры
 
 Все записи
+url `/couriers/list/`
+json не имеет значения
+
+Получит запись по id
+url `/couriers/id/`
 ```json
 {
-    "type": "couriers-list"
+    "id": id
 }
 ```
 
 Добавть нового курьера
+url `/couriers/add/`
 ```json
 {
-    "type": "add-courier",
     "name": "full-name", // полное имя
     "login": "login", 
     "password": "password",
@@ -41,9 +46,9 @@
 ```
 
 Обновть данные курьера
+url `/couriers/update/`
 ```json
 {
-    "type": "update-courier",
     "id": id,
     "name": "full-name",
     "login": "login",
@@ -53,9 +58,150 @@
 ```
 
 Удалить курьера
+url `/couriers/delete/`
 ```json
 {
-    "type": "delete-courier",
+    "id": id
+}
+```
+
+## Орераторы
+
+Все записи
+url `/operators/list/`
+json не имеет значения
+
+Получит запись по id
+url `/operators/id/`
+```json
+{
+    "id": id
+}
+```
+
+Добавть нового oрераторa
+url `/operators/add/`
+```json
+{
+    "name": "full-name", // полное имя
+    "login": "login", 
+    "password": "password",
+}
+```
+
+Обновть данные oрераторa
+url `/operators/update/`
+```json
+{
+    "id": id,
+    "name": "full-name",
+    "login": "login",
+    "password": "password",
+}
+```
+
+Удалить oрераторa
+url `/operators/delete/`
+```json
+{
+    "id": id
+}
+```
+
+## Заказы
+
+Все записи
+url `/oreders/list/`
+json не имеет значения
+
+Получит запись по id
+url `/oreders/id/`
+```json
+{
+    "id": id
+}
+```
+
+Добавть новый заказ
+url `/oreders/add/`
+```json
+{
+    "courierid": id,
+    "operatorid": id,
+    "created_time": "data",
+    "start_delivery_time": "date",
+    "end_delivery_time": "date",
+    "delivery_address": "adress"
+}
+```
+
+Обновть данных заказа
+url `/orders/update/`
+```json
+{
+    "id": id,
+    "courierid": id,
+    "operatorid": id,
+    "created_time": "data",
+    "start_delivery_time": "date",
+    "end_delivery_time": "date",
+    "delivery_address": "adress"
+}
+```
+
+Удалить заказ
+url `/orders/delete/`
+```json
+{
+    "id": id
+}
+```
+
+## Информация о заказах
+
+Все записи заказа
+url `/orders-info/list/`
+```json
+{
+    "orderId": id
+}
+```
+
+Получит запись по id
+url `/oreders-info/id/`
+```json
+{
+    "id": id
+}
+```
+
+Добавть новый товар в заказ
+url `/oreders-info/add/`
+```json
+{
+    "orderid": id,
+    "name": "name",
+    "price": "price",
+    "count_": "count",
+}
+```
+
+Обновть данных товары в заказе 
+url `/orders-info/update/`
+```json
+{
+    "id": id,
+    "orderid": id,
+    "name": "name",
+    "price": "price",
+    "count_": "count",
+}
+```
+
+Удалить товар в заказе
+url `/orders-info/delete/`
+```json
+{
     "id": id
 }
 ```
