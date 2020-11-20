@@ -135,6 +135,7 @@ url `/oreders/add/`
     "created_time": "data",
     "start_delivery_time": "date",
     "end_delivery_time": "date",
+    "total_summ": summ,
     "delivery_address": "adress"
 }
 ```
