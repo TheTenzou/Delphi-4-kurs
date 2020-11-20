@@ -5,13 +5,19 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls,
+
   IdBaseComponent, IdComponent, IdCustomTCPServer, IdCustomHTTPServer,
-  IdHTTPServer, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  IdHTTPServer,
+
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
-  FireDAC.Stan.ExprFuncs, IdContext, System.JSON, ProductsUtilsUnit;
+  FireDAC.Stan.ExprFuncs, IdContext, System.JSON,
+
+  ProductsUtilsUnit,
+  CouriersUtilsUnit;
 
 type
   TServerForm = class(TForm)
@@ -114,6 +120,26 @@ begin
     AResponseInfo.ContentText := deleteProduct(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на удаление продукта',ip));
   end
+  else if (url = '/couriers/list/') then begin
+    AResponseInfo.ContentText := couriersList(connectionName);
+    StatusMemo.Lines.Add(memoMessage('Запрос всех курьеров',ip));
+  end
+  else if (url = '/couriers/id/') then begin
+    AResponseInfo.ContentText := courier(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос курьера',ip));
+  end
+  else if (url = '/couriers/add/') then begin
+    AResponseInfo.ContentText := addCourier(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на добавление курьера',ip));
+  end
+  else if (url = '/couriers/update/') then begin
+    AResponseInfo.ContentText := updateCourier(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на обновление курьера',ip));
+  end
+  else if (url = '/couriers/delete/') then begin
+    AResponseInfo.ContentText := deleteCourier(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на удаление курьера',ip));
+  end
   else begin
     responseJson := TJSONObject.Create;
     responseJson.AddPair('error','bad url');
@@ -183,8 +209,5 @@ begin
                             + DateTimeToStr(Now));
   end;
 end;
-
-
-
 
 end.
