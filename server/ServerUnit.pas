@@ -18,7 +18,8 @@ uses
 
   ProductsUtilsUnit,
   CouriersUtilsUnit,
-  OperatorsUtilsUnit;
+  OperatorsUtilsUnit,
+  ordersUtilsUnit;
 
 type
   TServerForm = class(TForm)
@@ -160,6 +161,26 @@ begin
   else if (url = '/operators/delete/') then begin
     AResponseInfo.ContentText := deleteOperator(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на удаление операторa',ip));
+  end
+  else if (url = '/orders/list/') then begin
+    AResponseInfo.ContentText := ordersList(connectionName);
+    StatusMemo.Lines.Add(memoMessage('Запрос всех заказов',ip));
+  end
+  else if (url = '/orders/id/') then begin
+    AResponseInfo.ContentText := order(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос заказа',ip));
+  end
+  else if (url = '/orders/add/') then begin
+    AResponseInfo.ContentText := addorder(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на добавление заказа',ip));
+  end
+  else if (url = '/orders/update/') then begin
+    AResponseInfo.ContentText := updateOrder(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на обновление заказа',ip));
+  end
+  else if (url = '/orders/delete/') then begin
+    AResponseInfo.ContentText := deleteOrder(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на удаление заказа',ip));
   end
   else begin
     responseJson := TJSONObject.Create;

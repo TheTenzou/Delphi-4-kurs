@@ -70,7 +70,6 @@ begin
   connection.Close;
   connection.Free;
   query.Free;
-  json.Free;
 
 end;
 

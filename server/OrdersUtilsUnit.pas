@@ -1,4 +1,4 @@
-﻿unit ProductsUtilsUnit;
+﻿unit OrdersUtilsUnit;
 
 interface
 
@@ -13,16 +13,17 @@ uses
   FireDAC.Comp.Client, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
   FireDAC.Stan.ExprFuncs, IdContext, System.JSON;
 
-function productsList(connectionName : string): String;
-function product(connectionName : string; request : string): String;
-function addProduct(connectionName : string; request : string): String;
-function updateProduct(connectionName : string; request : string): String;
-function deleteProduct(connectionName : string; request : string): String;
+function ordersList(connectionName : string): String;
+function order(connectionName : string; request : string): String;
+function addOrder(connectionName : string; request : string): String;
+function updateOrder(connectionName : string; request : string): String;
+function deleteOrder(connectionName : string; request : string): String;
 
 implementation
 
+
 //==============================================================================
-function productsList(connectionName : string): String;
+function ordersList(connectionName : string): String;
 var
   connection : TFDConnection;
   query : TFDQuery;
@@ -42,7 +43,7 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM Products;';
+  query.SQL.Text:='SELECT * FROM orders;';
   query.Active:=True;
 
   jsonArray := TJSONArray.Create;
@@ -73,7 +74,7 @@ begin
 end;
 
 //==============================================================================
-function product(connectionName : string; request : string): String;
+function order(connectionName : string; request : string): String;
 var
   connection : TFDConnection;
   query : TFDQuery;
@@ -103,7 +104,7 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM Products where id=' + id +';';
+  query.SQL.Text:='SELECT * FROM orders where id=' + id +';';
   query.Active:=True;
 
   jsonResponse := TJSONObject.Create;
@@ -127,40 +128,67 @@ begin
 end;
 
 //==============================================================================
-function addProduct(connectionName : string; request : string): String;
+function addOrder(connectionName : string; request : string): String;
 var
   connection : TFDConnection;
   query : TFDQuery;
   jsonRequest : TJSONObject;
   jsonResponse : TJSONObject;
-  name : string;
-  price : string;
+
+  courierId : string;
+  operatorId : string;
+  createdTime : string;
+  startDileryTime : string;
+  endDeliveryTime : string;
+  deliveryAddress : string;
 begin
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;
+
 
   query := TFDQuery.Create(nil);
   query.Connection := connection;
   //================================
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
-    name := jsonRequest.Values['name'].Value;
-    price := jsonRequest.Values['price'].Value;
+    courierId := jsonRequest.Values['courierid'].Value;
+    operatorId := jsonRequest.Values['operatorid'].Value;
+    createdTime := jsonRequest.Values['created_time'].Value;
+    startDileryTime := jsonRequest.Values['start_delivery_time'].Value;
+    endDeliveryTime := jsonRequest.Values['end_delivery_time'].Value;
+    deliveryAddress := jsonRequest.Values['delivery_address'].Value;
   except
-    jsonResponse := TJSONObject.Create;
-    jsonResponse.AddPair('error','bad json');
-    result := jsonResponse.Format();
-    exit;
+    on E : Exception do
+    begin
+      jsonResponse := TJSONObject.Create;
+      jsonResponse.AddPair('error','bad json');
+      result := jsonResponse.Format();
+      exit;
+    end;
   end;
+
   //================================
   connection.Open;
   connection.StartTransaction;
 
+
   try
     query.Active:=False;
     query.SQL.Clear;
-    query.SQL.Text:='INSERT INTO Products(name,price) VALUES(''' + name +''', '
-                                                                 + price + ');';
+    query.SQL.Text:='INSERT INTO orders(CourierID, '
+                                        + 'OperatorID, '
+                                        + 'Created_time, '
+                                        + 'Start_delivery_time, '
+                                        + 'End_delivery_time, '
+                                        + 'Total_summ, Delivery_address) '
+                                        + 'VALUES( '
+                                          + '' + courierId + ', '
+                                          + '' + operatorId + ', '
+                                          + '''' + startDileryTime + ''', '
+                                          + '''' + endDeliveryTime + ''', '
+                                          + '''' + endDeliveryTime + ''', '
+                                          + '0 , '
+                                          + '''' + deliveryAddress + ''');';
 
     query.Execute;
     connection.Commit;
@@ -176,27 +204,30 @@ begin
 
   jsonResponse := TJSONObject.Create;
   jsonResponse.AddPair('status', 'ok');
-
   result := jsonResponse.Format();
 
   query.Close;
   connection.Close;
   connection.Free;
   query.Free;
-  jsonRequest.Free;
 
 end;
 
 //==============================================================================
-function updateProduct(connectionName : string; request : string): String;
+function updateOrder(connectionName : string; request : string): String;
 var
   connection : TFDConnection;
   query : TFDQuery;
   jsonRequest : TJSONObject;
   jsonResponse : TJSONObject;
+
   id : string;
-  name : string;
-  price : string;
+  courierId : string;
+  operatorId : string;
+  createdTime : string;
+  startDileryTime : string;
+  endDeliveryTime : string;
+  deliveryAddress : string;
 begin
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;
@@ -207,8 +238,12 @@ begin
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
     id := jsonRequest.Values['id'].Value;
-    name := jsonRequest.Values['name'].Value;
-    price := jsonRequest.Values['price'].Value;
+    courierId := jsonRequest.Values['courierid'].Value;
+    operatorId := jsonRequest.Values['operatorid'].Value;
+    createdTime := jsonRequest.Values['created_time'].Value;
+    startDileryTime := jsonRequest.Values['start_delivery_time'].Value;
+    endDeliveryTime := jsonRequest.Values['end_delivery_time'].Value;
+    deliveryAddress := jsonRequest.Values['delivery_address'].Value;
   except
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error','bad json');
@@ -222,9 +257,13 @@ begin
   try
     query.Active:=False;
     query.SQL.Clear;
-    query.SQL.Text:='update products set name=''' + name + ''', '
-                                        + 'price=' + price + ' '
-                                        + 'where id=' + id + ';';
+    query.SQL.Text:='update orders set courierId=''' + courierId + ''', '
+                                    + 'operatorId=''' + operatorId + ''', '
+                                    + 'created_time=''' + createdTime + ''', '
+                                    + 'start_delivery_time=''' + startDileryTime + ''', '
+                                    + 'end_delivery_time=''' + endDeliveryTime + ''', '
+                                    + 'delivery_address=''' + deliveryAddress + ''' '
+                                    + 'where id=' + id + ';';
 
     query.Execute;
     connection.Commit;
@@ -240,19 +279,17 @@ begin
 
   jsonResponse := TJSONObject.Create;
   jsonResponse.AddPair('status', 'ok');
-
   result := jsonResponse.Format();
 
   query.Close;
   connection.Close;
   connection.Free;
   query.Free;
-  jsonRequest.Free;
 
 end;
 
 //==============================================================================
-function deleteProduct(connectionName : string; request : string): String;
+function deleteOrder(connectionName : string; request : string): String;
 var
   connection : TFDConnection;
   query : TFDQuery;
@@ -282,7 +319,7 @@ begin
   try
     query.Active:=False;
     query.SQL.Clear;
-    query.SQL.Text:='delete from products where id=' + id + ';';
+    query.SQL.Text:='delete from orders where id=' + id + ';';
 
     query.Execute;
     connection.Commit;
@@ -304,8 +341,8 @@ begin
   connection.Close;
   connection.Free;
   query.Free;
-  jsonRequest.Free;
 
 end;
 
 end.
+

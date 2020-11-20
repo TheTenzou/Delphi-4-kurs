@@ -1,4 +1,4 @@
-unit OperatorsUtilsUnit;
+п»їunit OperatorsUtilsUnit;
 
 interface
 
@@ -70,7 +70,6 @@ begin
   connection.Close;
   connection.Free;
   query.Free;
-  json.Free;
 
 end;
 
@@ -153,7 +152,7 @@ begin
   except
     on E : Exception do
     begin
-      ShowMessage('Соошени ошибки: '+E.Message);
+      ShowMessage('РЎРѕРѕС€РµРЅРё РѕС€РёР±РєРё: '+E.Message);
       connection.Rollback;
       exit;
 
@@ -183,7 +182,7 @@ begin
   except
     on E : Exception do
     begin
-      ShowMessage('Соошени ошибки: '+E.Message);
+      ShowMessage('Г‘Г®Г®ГёГҐГ­ГЁ Г®ГёГЁГЎГЄГЁ: '+E.Message);
       connection.Rollback;
       exit;
     end;
@@ -249,7 +248,7 @@ begin
   except
     on E : Exception do
     begin
-      ShowMessage('Соошени ошибки: '+E.Message);
+      ShowMessage('РЎРѕРѕС€РµРЅРё РѕС€РёР±РєРё: '+E.Message);
       connection.Rollback;
       exit;
     end;
@@ -306,7 +305,7 @@ begin
   except
     on E : Exception do
     begin
-      ShowMessage('Соошени ошибки: '+E.Message);
+      ShowMessage('РЎРѕРѕС€РµРЅРё РѕС€РёР±РєРё: '+E.Message);
       connection.Rollback;
       exit;
     end;
