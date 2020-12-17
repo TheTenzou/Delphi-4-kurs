@@ -1,9 +1,11 @@
-package com.example.androidclient;
+package com.example.androidclient.ui;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.androidclient.R;
 
 public class OrdersActivity extends AppCompatActivity {
 
