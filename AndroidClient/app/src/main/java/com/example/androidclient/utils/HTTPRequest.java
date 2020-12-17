@@ -1,7 +1,5 @@
 package com.example.androidclient.utils;
 
-import android.util.Log;
-
 import org.json.JSONObject;
 
 import java.net.URL;
