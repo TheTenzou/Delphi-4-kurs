@@ -1,11 +1,18 @@
 package com.example.androidclient.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,8 +24,11 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 public class OrdersActivity extends AppCompatActivity {
@@ -26,6 +36,7 @@ public class OrdersActivity extends AppCompatActivity {
     private String ip;
     private String login;
     private String orderId;
+    private String orderAddres;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +54,31 @@ public class OrdersActivity extends AppCompatActivity {
         } catch (MalformedURLException | JSONException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+
+
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask(){
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Log.i("test", LocalDateTime.now().toString());
+                }
+                try {
+                    requestNewOrder();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateUi();
+                        }
+                    });
+                } catch (MalformedURLException | JSONException | ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        timer.schedule(task, 0, 60_000);
     }
 
     @Override
@@ -62,14 +98,16 @@ public class OrdersActivity extends AppCompatActivity {
         Optional<JSONObject> respose = HTTPRequest.request(url, json);
 
         if (respose.isPresent()) {
-            TextView textView = findViewById(R.id.textOrder);
             JSONObject jsonResponse = respose.get();
-            orderId = (String) jsonResponse.get("id");
-            textView.setText(
-                    String.format("Номер заказа: %s\nАдрес: %s",
-                            jsonResponse.get("id"),
-                            jsonResponse.get("delivery_address")));
+            orderId = jsonResponse.getString("id");
+            orderAddres = jsonResponse.getString("delivery_address");
         }
+    }
+
+    public void updateUi() {
+        TextView textView = findViewById(R.id.textOrder);
+        textView.setText(
+                String.format("Номер заказа: %s\nАдрес: %s", orderId, orderAddres));
     }
 
     public void onCompleteBtnClick(View view) throws JSONException, MalformedURLException, ExecutionException, InterruptedException {
