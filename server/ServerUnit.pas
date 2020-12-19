@@ -91,6 +91,8 @@ var
   requestStream : TStream;
   requestString : TStringList;
   responseJson : TJSONObject;
+  loginCourier : String;
+  loginOperator : String;
 begin
   url := ARequestInfo.URI;
   ip := ARequestInfo.RemoteIP;
@@ -102,131 +104,138 @@ begin
   AResponseInfo.ContentType := 'text/plain';
   AResponseInfo.CharSet := 'utf-8';
 
-  if (url = '/operators/login/') then begin
-    AResponseInfo.ContentText := operatorLogin(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('запрос на вход оператора',ip));
-  end
-  else if (url = '/couriers/login/') then begin
-    AResponseInfo.ContentText := courierLogin(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('запрос на вход курьера',ip));
-  end
-  else if (url = '/couriers/logout/') then begin
-    AResponseInfo.ContentText := courierLogout(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('запрос на вхыд курьера',ip));
-  end
-  else if (url = '/couriers/list/') then begin
-    AResponseInfo.ContentText := couriersList(connectionName);
-    StatusMemo.Lines.Add(memoMessage('Запрос всех курьеров',ip));
-  end
-  else if (url = '/couriers/id/') then begin
-    AResponseInfo.ContentText := courier(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос курьера',ip));
-  end
-  else if (url = '/couriers/add/') then begin
-    AResponseInfo.ContentText := addCourier(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на добавление курьера',ip));
-  end
-  else if (url = '/couriers/update/') then begin
-    AResponseInfo.ContentText := updateCourier(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на обновление курьера',ip));
-  end
-  else if (url = '/couriers/delete/') then begin
-    AResponseInfo.ContentText := deleteCourier(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на удаление курьера',ip));
-  end
-  else if (url = '/operators/list/') then begin
-    AResponseInfo.ContentText := opearatorsList(connectionName);
-    StatusMemo.Lines.Add(memoMessage('Запрос всех операторов',ip));
-  end
-  else if (url = '/operators/id/') then begin
-    AResponseInfo.ContentText := operator_(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос операторa',ip));
-  end
-  else if (url = '/operators/add/') then begin
-    AResponseInfo.ContentText := addOperator(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на добавление операторa',ip));
-  end
-  else if (url = '/operators/update/') then begin
-    AResponseInfo.ContentText := updateOperator(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на обновление операторa',ip));
-  end
-  else if (url = '/operators/delete/') then begin
-    AResponseInfo.ContentText := deleteOperator(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на удаление операторa',ip));
-  end
-  else if (url = '/orders/list/') then begin
-    AResponseInfo.ContentText := ordersList(connectionName);
-    StatusMemo.Lines.Add(memoMessage('Запрос всех заказов',ip));
-  end
-  else if (url = '/orders/id/') then begin
-    AResponseInfo.ContentText := order(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос заказа',ip));
-  end
-  else if (url = '/orders/next/') then begin
-    AResponseInfo.ContentText := orderNext(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос следушего заказа',ip));
-  end
-  else if (url = '/orders/add/') then begin
-    AResponseInfo.ContentText := addorder(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на добавление заказа',ip));
-  end
-  else if (url = '/orders/update/') then begin
-    AResponseInfo.ContentText := updateOrder(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на обновление заказа',ip));
-  end
-  else if (url = '/orders/delete/') then begin
-    AResponseInfo.ContentText := deleteOrder(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на удаление заказа',ip));
-  end
-  else if (url = '/orders/complete/') then begin
-    AResponseInfo.ContentText := completeOrder(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на завершение заказа',ip));
-  end
-  else if (url = '/order-info/list/') then begin
-    AResponseInfo.ContentText := orderInfoList(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос всех товаров заказа',ip));
-  end
-  else if (url = '/order-info/id/') then begin
-    AResponseInfo.ContentText := orderInfo(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос таваров из заказа',ip));
-  end
-  else if (url = '/order-info/add/') then begin
-    AResponseInfo.ContentText := addorderInfo(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на добавление товара в заказ',ip));
-  end
-  else if (url = '/order-info/update/') then begin
-    AResponseInfo.ContentText := updateOrderInfo(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на обновление товара в заказе',ip));
-  end
-  else if (url = '/order-info/delete/') then begin
-    AResponseInfo.ContentText := deleteOrderINfo(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на удаление товара из заказа',ip));
-  end
-  else if (url = '/products/list/') then begin
-    AResponseInfo.ContentText := productsList(connectionName);
-    StatusMemo.Lines.Add(memoMessage('Запрос всех продуктов',ip));
-  end
-  else if (url = '/products/id/') then begin
-    AResponseInfo.ContentText := product(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос продукта',ip));
-  end
-  else if (url = '/products/add/') then begin
-    AResponseInfo.ContentText := addProduct(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на добавление продукта',ip));
-  end
-  else if (url = '/products/update/') then begin
-    AResponseInfo.ContentText := updateProduct(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на обновление продукта',ip));
-  end
-  else if (url = '/products/delete/') then begin
-    AResponseInfo.ContentText := deleteProduct(connectionName, requestString.Text);
-    StatusMemo.Lines.Add(memoMessage('Запрос на удаление продукта',ip));
-  end
-  else begin
-    responseJson := TJSONObject.Create;
-    responseJson.AddPair('error','bad url');
-    AResponseInfo.ContentText := responseJson.Format();
-    StatusMemo.Lines.Add(memoMessage('Не удалось обработать запрос ',ip));
+  loginCourier := courierLogin(connectionName, requestString.Text);
+  loginOperator := operatorLogin(connectionName, requestString.Text);
+
+  if (loginCourier.Contains('login successfully') or loginOperator.Contains('login successfully')) then
+  begin
+
+    if (url = '/operators/login/') then begin
+      AResponseInfo.ContentText := operatorLogin(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('запрос на вход оператора',ip));
+    end
+    else if (url = '/couriers/login/') then begin
+      AResponseInfo.ContentText := courierLogin(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('запрос на вход курьера',ip));
+    end
+    else if (url = '/couriers/logout/') then begin
+      AResponseInfo.ContentText := courierLogout(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('запрос на вхыд курьера',ip));
+    end
+    else if (url = '/couriers/list/') then begin
+      AResponseInfo.ContentText := couriersList(connectionName);
+      StatusMemo.Lines.Add(memoMessage('Запрос всех курьеров',ip));
+    end
+    else if (url = '/couriers/id/') then begin
+      AResponseInfo.ContentText := courier(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос курьера',ip));
+    end
+    else if (url = '/couriers/add/') then begin
+      AResponseInfo.ContentText := addCourier(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на добавление курьера',ip));
+    end
+    else if (url = '/couriers/update/') then begin
+      AResponseInfo.ContentText := updateCourier(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на обновление курьера',ip));
+    end
+    else if (url = '/couriers/delete/') then begin
+      AResponseInfo.ContentText := deleteCourier(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на удаление курьера',ip));
+    end
+    else if (url = '/operators/list/') then begin
+      AResponseInfo.ContentText := opearatorsList(connectionName);
+      StatusMemo.Lines.Add(memoMessage('Запрос всех операторов',ip));
+    end
+    else if (url = '/operators/id/') then begin
+      AResponseInfo.ContentText := operator_(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос операторa',ip));
+    end
+    else if (url = '/operators/add/') then begin
+      AResponseInfo.ContentText := addOperator(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на добавление операторa',ip));
+    end
+    else if (url = '/operators/update/') then begin
+      AResponseInfo.ContentText := updateOperator(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на обновление операторa',ip));
+    end
+    else if (url = '/operators/delete/') then begin
+      AResponseInfo.ContentText := deleteOperator(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на удаление операторa',ip));
+    end
+    else if (url = '/orders/list/') then begin
+      AResponseInfo.ContentText := ordersList(connectionName);
+      StatusMemo.Lines.Add(memoMessage('Запрос всех заказов',ip));
+    end
+    else if (url = '/orders/id/') then begin
+      AResponseInfo.ContentText := order(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос заказа',ip));
+    end
+    else if (url = '/orders/next/') then begin
+      AResponseInfo.ContentText := orderNext(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос следушего заказа',ip));
+    end
+    else if (url = '/orders/add/') then begin
+      AResponseInfo.ContentText := addorder(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на добавление заказа',ip));
+    end
+    else if (url = '/orders/update/') then begin
+      AResponseInfo.ContentText := updateOrder(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на обновление заказа',ip));
+    end
+    else if (url = '/orders/delete/') then begin
+      AResponseInfo.ContentText := deleteOrder(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на удаление заказа',ip));
+    end
+    else if (url = '/orders/complete/') then begin
+      AResponseInfo.ContentText := completeOrder(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на завершение заказа',ip));
+    end
+    else if (url = '/order-info/list/') then begin
+      AResponseInfo.ContentText := orderInfoList(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос всех товаров заказа',ip));
+    end
+    else if (url = '/order-info/id/') then begin
+      AResponseInfo.ContentText := orderInfo(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос таваров из заказа',ip));
+    end
+    else if (url = '/order-info/add/') then begin
+      AResponseInfo.ContentText := addorderInfo(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на добавление товара в заказ',ip));
+    end
+    else if (url = '/order-info/update/') then begin
+      AResponseInfo.ContentText := updateOrderInfo(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на обновление товара в заказе',ip));
+    end
+    else if (url = '/order-info/delete/') then begin
+      AResponseInfo.ContentText := deleteOrderINfo(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на удаление товара из заказа',ip));
+    end
+    else if (url = '/products/list/') then begin
+      AResponseInfo.ContentText := productsList(connectionName);
+      StatusMemo.Lines.Add(memoMessage('Запрос всех продуктов',ip));
+    end
+    else if (url = '/products/id/') then begin
+      AResponseInfo.ContentText := product(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос продукта',ip));
+    end
+    else if (url = '/products/add/') then begin
+      AResponseInfo.ContentText := addProduct(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на добавление продукта',ip));
+    end
+    else if (url = '/products/update/') then begin
+      AResponseInfo.ContentText := updateProduct(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на обновление продукта',ip));
+    end
+    else if (url = '/products/delete/') then begin
+      AResponseInfo.ContentText := deleteProduct(connectionName, requestString.Text);
+      StatusMemo.Lines.Add(memoMessage('Запрос на удаление продукта',ip));
+    end
+    else begin
+      responseJson := TJSONObject.Create;
+      responseJson.AddPair('error','bad url');
+      AResponseInfo.ContentText := responseJson.Format();
+      StatusMemo.Lines.Add(memoMessage('Не удалось обработать запрос ',ip));
+    end;
   end;
 
   requestStream.Free;
