@@ -44,13 +44,15 @@ public class MainActivity extends AppCompatActivity {
         if (respose.isPresent()) {
             JSONObject jsonResponse = respose.get();
             if (jsonResponse.get("status").equals("login successfully")) {
-                startActivity(new Intent(this, OrdersActivity.class));
+                Intent intent = new Intent(this, OrdersActivity.class);
+                intent.putExtra("ip", editTextIp.getText().toString());
+                intent.putExtra("login", editTextLogin.getText().toString());
+                startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(),
                         "Ошибка в логине или пароле", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             Toast.makeText(getApplicationContext(), "Ошибка в ip", Toast.LENGTH_SHORT).show();
         }
     }
