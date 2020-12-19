@@ -33,6 +33,7 @@ public class OrdersActivity extends AppCompatActivity {
 
     private String ip;
     private String login;
+    private String password;
     private String orderId = null;
     private String orderAddress = null;
 
@@ -44,6 +45,7 @@ public class OrdersActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         ip = bundle.getString("ip");
         login = bundle.getString("login");
+        password = bundle.getString("password");
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
@@ -143,5 +145,28 @@ public class OrdersActivity extends AppCompatActivity {
     public void onRefreshBtnClick(View view) throws InterruptedException, MalformedURLException, ExecutionException, JSONException {
         requestNewOrder();
         updateUi();
+    }
+
+    public void onLogoutBtnClick(View view) throws MalformedURLException, JSONException, ExecutionException, InterruptedException {
+
+        URL url = new URL("http://" + ip + "/couriers/logout/");
+
+        JSONObject json = new JSONObject();
+        json.put("login", login);
+        json.put("password", password);
+
+        Optional<JSONObject> respose = HTTPRequest.request(url, json);
+
+        if (respose.isPresent()) {
+            JSONObject jsonResponse = respose.get();
+            if (((String) jsonResponse.get("status")).equals("logout successfully")) {
+                Toast.makeText(getApplicationContext(), "Выход", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            } else {
+                Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Ошибка соединения", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, OrdersActivity.class);
                 intent.putExtra("ip", editTextIp.getText().toString());
                 intent.putExtra("login", editTextLogin.getText().toString());
+                intent.putExtra("password", editTextPassword.getText().toString());
                 startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(),
