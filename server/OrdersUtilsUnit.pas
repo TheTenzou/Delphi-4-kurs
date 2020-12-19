@@ -44,7 +44,21 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM orders;';
+  query.SQL.Text:='SELECT ord.id, '
+                        + 'ord.courierid, '
+                        + 'co.name as courier_name, '
+                        + 'ord.operatorid, '
+                        + 'op.name as operator_name, '
+                        + 'ord.created_time, '
+                        + 'ord.start_delivery_time, '
+                        + 'ord.end_delivery_time, '
+                        + 'ord.total_summ, '
+                        + 'ord.delivery_address '
+                        + 'FROM orders as ord, '
+                              + 'couriers as co, '
+                              + 'operators as op '
+                        + 'where ord.courierid = co.id and '
+                              + 'ord.operatorid = op.id;';
   query.Active:=True;
 
   jsonArray := TJSONArray.Create;
@@ -105,7 +119,22 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM orders where id=' + id +';';
+  query.SQL.Text:='SELECT ord.id, '
+                        + 'ord.courierid, '
+                        + 'co.name as courier_name, '
+                        + 'ord.operatorid, '
+                        + 'op.name as operator_name, '
+                        + 'ord.created_time, '
+                        + 'ord.start_delivery_time, '
+                        + 'ord.end_delivery_time, '
+                        + 'ord.total_summ, '
+                        + 'ord.delivery_address '
+                        + 'FROM orders as ord, '
+                              + 'couriers as co, '
+                              + 'operators as op '
+                        + 'where ord.courierid = co.id and '
+                              + 'ord.operatorid = op.id and '
+                              + 'ord.id=' + id +';';
   query.Active:=True;
 
   jsonResponse := TJSONObject.Create;
@@ -158,7 +187,24 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM orders where CourierID=' + courierId +' order by Created_time ASC limit 1;';
+  query.SQL.Text:='SELECT ord.id, '
+                        + 'ord.courierid, '
+                        + 'co.name as courier_name, '
+                        + 'ord.operatorid, '
+                        + 'op.name as operator_name, '
+                        + 'ord.created_time, '
+                        + 'ord.start_delivery_time, '
+                        + 'ord.end_delivery_time, '
+                        + 'ord.total_summ, '
+                        + 'ord.delivery_address '
+                        + 'FROM orders as ord, '
+                              + 'couriers as co, '
+                              + 'operators as op '
+                        + 'where ord.courierid = co.id and '
+                              + 'ord.operatorid = op.id and '
+                              + 'ord.CourierID=' + courierId + ' '
+                        + 'order by Created_time ASC '
+                        + 'limit 1;';
   query.Active:=True;
 
   jsonResponse := TJSONObject.Create;
