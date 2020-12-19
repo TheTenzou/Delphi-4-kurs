@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         final EditText editTextPassword = findViewById(R.id.editTextTextPassword);
 
         URL url = new URL("http://" + editTextIp.getText().toString() + "/couriers/login/");
-        Log.i("test", "1");
 
         JSONObject json = new JSONObject();
         json.put("login", editTextLogin.getText().toString());
