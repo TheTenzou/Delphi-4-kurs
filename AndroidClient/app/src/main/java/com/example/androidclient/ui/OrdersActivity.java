@@ -64,9 +64,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.i("test", LocalDateTime.now().toString());
                 }
                 try {
-                    if (orderId != null) {
-                        requestNewOrder();
-                    }
+                    requestNewOrder();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -99,8 +97,10 @@ public class OrdersActivity extends AppCompatActivity {
 
         if (respose.isPresent()) {
             JSONObject jsonResponse = respose.get();
-            orderId = jsonResponse.getString("id");
-            orderAddress = jsonResponse.getString("delivery_address");
+            if (!jsonResponse.has("status")) {
+                orderId = jsonResponse.getString("id");
+                orderAddress = jsonResponse.getString("delivery_address");
+            }
         }
     }
 
