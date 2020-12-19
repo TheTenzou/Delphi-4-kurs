@@ -158,6 +158,10 @@ begin
     AResponseInfo.ContentText := order(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос заказа',ip));
   end
+  else if (url = '/orders/next/') then begin
+    AResponseInfo.ContentText := orderNext(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос следушего заказа',ip));
+  end
   else if (url = '/orders/add/') then begin
     AResponseInfo.ContentText := addorder(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на добавление заказа',ip));

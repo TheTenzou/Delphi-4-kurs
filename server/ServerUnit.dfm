@@ -63,7 +63,6 @@ object ServerForm: TServerForm
     HideSelection = False
     ParentFont = False
     TabOrder = 3
-    ExplicitLeft = 8
   end
   object HTTPServer: TIdHTTPServer
     Bindings = <>

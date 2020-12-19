@@ -15,6 +15,7 @@ uses
 
 function ordersList(connectionName : string): String;
 function order(connectionName : string; request : string): String;
+function orderNext(connectionName : string; request : string): String;
 function addOrder(connectionName : string; request : string): String;
 function updateOrder(connectionName : string; request : string): String;
 function deleteOrder(connectionName : string; request : string): String;
@@ -127,6 +128,59 @@ begin
 
 end;
 
+function orderNext(connectionName : string; request : string): String;
+var
+  connection : TFDConnection;
+  query : TFDQuery;
+  i : integer;
+  jsonRequest : TJSONObject;
+  jsonResponse : TJSONObject;
+  fieldName : string;
+  courierId : string;
+begin
+  connection := TFDConnection.Create(nil);
+  connection.ConnectionDefName := connectionName;
+
+  query := TFDQuery.Create(nil);
+  query.Connection := connection;
+  //================================
+  try
+    jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
+    courierId := jsonRequest.Values['courierid'].Value;
+  except
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error','bad json');
+    result := jsonResponse.Format();
+    exit;
+  end;
+  //================================
+  connection.Open;
+  connection.StartTransaction;
+
+  query.Active:=False;
+  query.SQL.Text:='SELECT * FROM orders where CourierID=' + courierId +' order by Created_time ASC limit 1;';
+  query.Active:=True;
+
+  jsonResponse := TJSONObject.Create;
+
+  for i := 0 to query.FieldDefs.Count-1 do
+  begin
+    fieldName:=query.FieldDefs[i].Name.ToLower;
+    jsonResponse.AddPair(fieldName, query.FieldByName(fieldName).AsString);
+  end;
+
+  connection.Commit;
+
+  result := jsonResponse.Format();
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+  jsonRequest.Free;
+
+end;
+
 //==============================================================================
 function addOrder(connectionName : string; request : string): String;
 var
@@ -151,23 +205,19 @@ begin
   //================================
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
-    courierId := jsonRequest.Values['courierid'].Value;
     operatorId := jsonRequest.Values['operatorid'].Value;
-    createdTime := '''' + jsonRequest.Values['created_time'].Value + '''';
     try
-      startDileryTime := '''' + jsonRequest.Values['start_delivery_time'].Value + '''';
-      if startDileryTime = '' then
-        startDileryTime := 'NULL';
+      courierId := jsonRequest.Values['courierid'].Value;
+      if courierId = '' then
+        courierId := 'NULL';
     except
+       courierId := 'NULL';
+    end;
+    createdTime := '''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + '''';
+    if courierId <> 'NULL' then
+      startDileryTime := '''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ''''
+    else
       startDileryTime := 'NULL';
-    end;
-    try
-      endDeliveryTime := '''' + jsonRequest.Values['end_delivery_time'].Value + '''';
-      if endDeliveryTime = '' then
-        endDeliveryTime := 'NULL';
-    except
-      endDeliveryTime := 'NULL';
-    end;
     deliveryAddress := jsonRequest.Values['delivery_address'].Value;
   except
     jsonResponse := TJSONObject.Create;
@@ -190,14 +240,12 @@ begin
                                         + 'OperatorID, '
                                         + 'Created_time, '
                                         + 'Start_delivery_time, '
-                                        + 'End_delivery_time, '
                                         + 'Total_summ, Delivery_address) '
                                         + 'VALUES( '
-                                          + '' + courierId + ', '
-                                          + '' + operatorId + ', '
+                                          + courierId + ', '
+                                          + operatorId + ', '
                                           + createdTime + ', '
                                           + startDileryTime + ', '
-                                          + endDeliveryTime + ', '
                                           + '0 , '
                                           + '''' + deliveryAddress + ''');';
 
@@ -247,23 +295,20 @@ begin
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
     id := jsonRequest.Values['id'].Value;
-    courierId := jsonRequest.Values['courierid'].Value;
+    try
+      courierId := jsonRequest.Values['courierid'].Value;
+      if courierId = '' then
+        courierId := 'NULL';
+    except
+       courierId := 'NULL';
+    end;
     operatorId := jsonRequest.Values['operatorid'].Value;
-    createdTime := '''' + jsonRequest.Values['created_time'].Value + '''';
-    try
-      startDileryTime := '''' + jsonRequest.Values['start_delivery_time'].Value + '''';
-      if startDileryTime = '' then
-        startDileryTime := 'NULL';
-    except
+
+    if courierId <> 'NULL' then
+      startDileryTime := '''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ''''
+    else
       startDileryTime := 'NULL';
-    end;
-    try
-      endDeliveryTime := '''' + jsonRequest.Values['end_delivery_time'].Value + '''';
-      if endDeliveryTime = '' then
-        endDeliveryTime := 'NULL';
-    except
-      endDeliveryTime := 'NULL';
-    end;
+
     deliveryAddress := jsonRequest.Values['delivery_address'].Value;
   except
     jsonResponse := TJSONObject.Create;
@@ -278,11 +323,9 @@ begin
   try
     query.Active:=False;
     query.SQL.Clear;
-    query.SQL.Text:='update orders set courierId=''' + courierId + ''', '
-                                    + 'operatorId=''' + operatorId + ''', '
-                                    + 'created_time=' + createdTime + ', '
+    query.SQL.Text:='update orders set courierId=' + courierId + ', '
+                                    + 'operatorId=' + operatorId + ', '
                                     + 'start_delivery_time=' + startDileryTime + ', '
-                                    + 'end_delivery_time=' + endDeliveryTime + ', '
                                     + 'delivery_address=''' + deliveryAddress + ''' '
                                     + 'where id=' + id + ';';
 
