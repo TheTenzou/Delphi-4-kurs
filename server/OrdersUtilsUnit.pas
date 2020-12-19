@@ -165,7 +165,7 @@ var
   jsonRequest : TJSONObject;
   jsonResponse : TJSONObject;
   fieldName : string;
-  courierId : string;
+  login : string;
 begin
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;
@@ -175,7 +175,7 @@ begin
   //================================
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
-    courierId := jsonRequest.Values['courierid'].Value;
+    login := jsonRequest.Values['login'].Value;
   except
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error','bad json');
@@ -202,7 +202,7 @@ begin
                               + 'operators as op '
                         + 'where ord.courierid = co.id and '
                               + 'ord.operatorid = op.id and '
-                              + 'ord.CourierID=' + courierId + ' '
+                              + 'co.login = ''' + login + ''' '
                         + 'order by Created_time ASC '
                         + 'limit 1;';
   query.Active:=True;
