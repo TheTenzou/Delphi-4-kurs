@@ -248,7 +248,6 @@ var
   operatorId : string;
   createdTime : string;
   startDileryTime : string;
-  endDeliveryTime : string;
   deliveryAddress : string;
 begin
   connection := TFDConnection.Create(nil);
@@ -336,9 +335,7 @@ var
   id : string;
   courierId : string;
   operatorId : string;
-  createdTime : string;
   startDileryTime : string;
-  endDeliveryTime : string;
   deliveryAddress : string;
 begin
   connection := TFDConnection.Create(nil);
@@ -467,12 +464,6 @@ var
   jsonResponse : TJSONObject;
 
   id : string;
-  courierId : string;
-  operatorId : string;
-  createdTime : string;
-  startDileryTime : string;
-  endDeliveryTime : string;
-  deliveryAddress : string;
 begin
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;

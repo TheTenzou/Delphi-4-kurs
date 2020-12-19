@@ -43,7 +43,7 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM operators;';
+  query.SQL.Text:='SELECT id, name, login FROM operators;';
   query.Active:=True;
 
   jsonArray := TJSONArray.Create;
@@ -104,7 +104,7 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM operators where id=' + id +';';
+  query.SQL.Text:='SELECT id, name, login FROM operators where id=' + id +';';
   query.Active:=True;
 
   jsonResponse := TJSONObject.Create;

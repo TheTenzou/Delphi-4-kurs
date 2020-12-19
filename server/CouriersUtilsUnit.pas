@@ -43,7 +43,7 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM Couriers;';
+  query.SQL.Text:='SELECT id, name, availability, login FROM Couriers;';
   query.Active:=True;
 
   jsonArray := TJSONArray.Create;
@@ -104,7 +104,7 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT * FROM couriers where id=' + id +';';
+  query.SQL.Text:='SELECT id, name, availability, login FROM couriers where id=' + id +';';
   query.Active:=True;
 
   jsonResponse := TJSONObject.Create;
