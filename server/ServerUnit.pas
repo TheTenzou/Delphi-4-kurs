@@ -174,6 +174,10 @@ begin
     AResponseInfo.ContentText := deleteOrder(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос на удаление заказа',ip));
   end
+  else if (url = '/orders/complete/') then begin
+    AResponseInfo.ContentText := completeOrder(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('Запрос на завершение заказа',ip));
+  end
   else if (url = '/order-info/list/') then begin
     AResponseInfo.ContentText := orderInfoList(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('Запрос всех товаров заказа',ip));

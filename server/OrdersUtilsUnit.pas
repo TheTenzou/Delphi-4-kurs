@@ -19,6 +19,7 @@ function orderNext(connectionName : string; request : string): String;
 function addOrder(connectionName : string; request : string): String;
 function updateOrder(connectionName : string; request : string): String;
 function deleteOrder(connectionName : string; request : string): String;
+function completeOrder(connectionName : string; request : string): String;
 
 implementation
 
@@ -202,6 +203,7 @@ begin
                               + 'operators as op '
                         + 'where ord.courierid = co.id and '
                               + 'ord.operatorid = op.id and '
+                              + 'ord.end_delivery_time is NULL and '
                               + 'co.login = ''' + login + ''' '
                         + 'order by Created_time ASC '
                         + 'limit 1;';
@@ -209,11 +211,18 @@ begin
 
   jsonResponse := TJSONObject.Create;
 
-  for i := 0 to query.FieldDefs.Count-1 do
-  begin
-    fieldName:=query.FieldDefs[i].Name.ToLower;
-    jsonResponse.AddPair(fieldName, query.FieldByName(fieldName).AsString);
-  end;
+  if query.RowsAffected = 1 then
+    begin
+      for i := 0 to query.FieldDefs.Count-1 do
+      begin
+        fieldName:=query.FieldDefs[i].Name.ToLower;
+        jsonResponse.AddPair(fieldName, query.FieldByName(fieldName).AsString);
+      end;
+    end
+  else
+    begin
+      jsonResponse.AddPair('status','no orders to deliver');
+    end;
 
   connection.Commit;
 
@@ -435,6 +444,68 @@ begin
     connection.Rollback;
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error', 'field delete');
+    result := jsonResponse.Format();
+    exit;
+  end;
+
+  jsonResponse := TJSONObject.Create;
+  jsonResponse.AddPair('status', 'ok');
+  result := jsonResponse.Format();
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+
+end;
+
+function completeOrder(connectionName : string; request : string): String;
+var
+  connection : TFDConnection;
+  query : TFDQuery;
+  jsonRequest : TJSONObject;
+  jsonResponse : TJSONObject;
+
+  id : string;
+  courierId : string;
+  operatorId : string;
+  createdTime : string;
+  startDileryTime : string;
+  endDeliveryTime : string;
+  deliveryAddress : string;
+begin
+  connection := TFDConnection.Create(nil);
+  connection.ConnectionDefName := connectionName;
+
+  query := TFDQuery.Create(nil);
+  query.Connection := connection;
+  //================================
+  try
+    jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
+    id := jsonRequest.Values['id'].Value;
+  except
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error','bad json');
+    result := jsonResponse.Format();
+    exit;
+  end;
+  //================================
+  connection.Open;
+  connection.StartTransaction;
+
+  try
+    query.Active:=False;
+    query.SQL.Clear;
+    query.SQL.Text:='update orders set '
+      + 'end_delivery_time=''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ''' '
+                                    + 'where id=' + id + ';';
+
+    query.Execute;
+    connection.Commit;
+  except
+    connection.Rollback;
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error', 'faild complete');
     result := jsonResponse.Format();
     exit;
   end;
