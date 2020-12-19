@@ -110,6 +110,10 @@ begin
     AResponseInfo.ContentText := courierLogin(connectionName, requestString.Text);
     StatusMemo.Lines.Add(memoMessage('запрос на вход курьера',ip));
   end
+  else if (url = '/couriers/logout/') then begin
+    AResponseInfo.ContentText := courierLogout(connectionName, requestString.Text);
+    StatusMemo.Lines.Add(memoMessage('запрос на вхыд курьера',ip));
+  end
   else if (url = '/couriers/list/') then begin
     AResponseInfo.ContentText := couriersList(connectionName);
     StatusMemo.Lines.Add(memoMessage('Запрос всех курьеров',ip));

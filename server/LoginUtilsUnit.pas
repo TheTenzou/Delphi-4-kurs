@@ -13,6 +13,7 @@ uses
 
   function operatorLogin(connectionName : string; request : string): String;
   function courierLogin(connectionName : string; request : string): String;
+  function courierLogout(connectionName : string; request : string): String;
 
 implementation
 
@@ -142,6 +143,23 @@ connection := TFDConnection.Create(nil);
 
   end;
 
+  try
+  connection.StartTransaction;
+  query.Active := False;
+  query.SQL.Clear;
+  query.SQL.Text:='update couriers set availability= 1 where login=''' + login + ''';';
+  query.Execute;
+  connection.Commit;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Ñîîøåíè îøèáêè: '+E.Message);
+      connection.Rollback;
+      exit;
+    end;
+
+  end;
+
   query.Close;
   connection.Close;
   connection.Free;
@@ -150,5 +168,88 @@ connection := TFDConnection.Create(nil);
 
 end;
 
+function courierLogout(connectionName : string; request : string): String;
+var
+  connection : TFDConnection;
+  query : TFDQuery;
+  jsonRequest : TJSONObject;
+  jsonResponse : TJSONObject;
+  login : string;
+  password : string;
+begin
+connection := TFDConnection.Create(nil);
+  connection.ConnectionDefName := connectionName;
+
+  query := TFDQuery.Create(nil);
+  query.Connection := connection;
+  //================================
+  try
+    jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
+    login := jsonRequest.Values['login'].Value;
+    password := jsonRequest.Values['password'].Value;
+  except
+    jsonResponse := TJSONObject.Create;
+    jsonResponse.AddPair('error','bad json');
+    result := jsonResponse.Format();
+    exit;
+  end;
+  //================================
+  connection.Open;
+  connection.StartTransaction;
+
+  try
+    query.Active:=False;
+    query.SQL.Clear;
+    query.SQL.Text:='SELECT * FROM couriers where login=''' + login +''' and '
+                                                + 'password=''' + password + ''';';
+
+    query.Active:=True;
+
+    jsonResponse := TJSONObject.Create;
+    if (query.RowsAffected = 1) then
+    begin
+      jsonResponse.AddPair('status', 'logout successfully');
+    end
+    else
+    begin
+      jsonResponse.AddPair('status', 'logout faild');
+    end;
+    result := jsonResponse.Format();
+
+    connection.Commit;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Ñîîøåíè îøèáêè: '+E.Message);
+      connection.Rollback;
+      exit;
+    end;
+
+  end;
+
+  try
+  connection.StartTransaction;
+  query.Active := False;
+  query.SQL.Clear;
+  query.SQL.Text:='update couriers set availability= 0 where login=''' + login + ''';';
+  query.Execute;
+  connection.Commit;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Ñîîøåíè îøèáêè: '+E.Message);
+      connection.Rollback;
+      exit;
+    end;
+
+  end;
+
+  query.Close;
+  connection.Close;
+  connection.Free;
+  query.Free;
+  jsonRequest.Free;
+
+end;
 
 end.
