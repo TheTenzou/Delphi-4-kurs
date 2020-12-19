@@ -1,10 +1,18 @@
 package com.example.androidclient.ui;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -95,10 +103,10 @@ public class OrdersActivity extends AppCompatActivity {
         JSONObject json = new JSONObject();
         json.put("login", login);
 
-        Optional<JSONObject> respose = HTTPRequest.request(url, json);
+        Optional<JSONObject> response = HTTPRequest.request(url, json);
 
-        if (respose.isPresent()) {
-            JSONObject jsonResponse = respose.get();
+        if (response.isPresent()) {
+            JSONObject jsonResponse = response.get();
             if (!jsonResponse.has("status")) {
                 orderId = jsonResponse.getString("id");
                 orderAddress = jsonResponse.getString("delivery_address");
@@ -125,10 +133,10 @@ public class OrdersActivity extends AppCompatActivity {
         JSONObject json = new JSONObject();
         json.put("id", orderId);
 
-        Optional<JSONObject> respose = HTTPRequest.request(url, json);
+        Optional<JSONObject> response = HTTPRequest.request(url, json);
 
-        if (respose.isPresent()) {
-            JSONObject jsonResponse = respose.get();
+        if (response.isPresent()) {
+            JSONObject jsonResponse = response.get();
             if (((String) jsonResponse.get("status")).equals("ok")) {
                 Toast.makeText(getApplicationContext(), "Заказ завершен", Toast.LENGTH_SHORT).show();
                 requestNewOrder();
@@ -155,10 +163,10 @@ public class OrdersActivity extends AppCompatActivity {
         json.put("login", login);
         json.put("password", password);
 
-        Optional<JSONObject> respose = HTTPRequest.request(url, json);
+        Optional<JSONObject> response = HTTPRequest.request(url, json);
 
-        if (respose.isPresent()) {
-            JSONObject jsonResponse = respose.get();
+        if (response.isPresent()) {
+            JSONObject jsonResponse = response.get();
             if (((String) jsonResponse.get("status")).equals("logout successfully")) {
                 Toast.makeText(getApplicationContext(), "Выход", Toast.LENGTH_SHORT).show();
                 onBackPressed();
