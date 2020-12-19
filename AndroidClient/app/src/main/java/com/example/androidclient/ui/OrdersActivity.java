@@ -1,18 +1,16 @@
 package com.example.androidclient.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,8 +33,8 @@ public class OrdersActivity extends AppCompatActivity {
 
     private String ip;
     private String login;
-    private String orderId;
-    private String orderAddres;
+    private String orderId = null;
+    private String orderAddress = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class OrdersActivity extends AppCompatActivity {
         }
 
         final Handler handler = new Handler(Looper.getMainLooper());
-
+        updateUi();
 
         Timer timer = new Timer();
         TimerTask task = new TimerTask(){
@@ -66,7 +64,9 @@ public class OrdersActivity extends AppCompatActivity {
                     Log.i("test", LocalDateTime.now().toString());
                 }
                 try {
-                    requestNewOrder();
+                    if (orderId != null) {
+                        requestNewOrder();
+                    }
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -100,14 +100,20 @@ public class OrdersActivity extends AppCompatActivity {
         if (respose.isPresent()) {
             JSONObject jsonResponse = respose.get();
             orderId = jsonResponse.getString("id");
-            orderAddres = jsonResponse.getString("delivery_address");
+            orderAddress = jsonResponse.getString("delivery_address");
         }
     }
 
     public void updateUi() {
         TextView textView = findViewById(R.id.textOrder);
-        textView.setText(
-                String.format("Номер заказа: %s\nАдрес: %s", orderId, orderAddres));
+        if (orderId != null) {
+            textView.setText(
+                    String.format("Номер заказа: %s\nАдрес: %s", orderId, orderAddress));
+        } else {
+            textView.setText("Нет актиыных заказов");
+        }
+        Button completeButton = findViewById(R.id.buttonOrderDelvired);
+        completeButton.setClickable(orderId != null);
     }
 
     public void onCompleteBtnClick(View view) throws JSONException, MalformedURLException, ExecutionException, InterruptedException {
@@ -124,11 +130,18 @@ public class OrdersActivity extends AppCompatActivity {
             if (((String) jsonResponse.get("status")).equals("ok")) {
                 Toast.makeText(getApplicationContext(), "Заказ завершен", Toast.LENGTH_SHORT).show();
                 requestNewOrder();
+                orderId = null;
+                orderAddress = null;
             } else {
                 Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Ошибка соединения", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onRefreshBtnClick(View view) throws InterruptedException, MalformedURLException, ExecutionException, JSONException {
+        requestNewOrder();
+        updateUi();
     }
 }
