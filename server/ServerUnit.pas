@@ -104,12 +104,6 @@ begin
   AResponseInfo.ContentType := 'text/plain';
   AResponseInfo.CharSet := 'utf-8';
 
-  loginCourier := courierLogin(connectionName, requestString.Text);
-  loginOperator := operatorLogin(connectionName, requestString.Text);
-
-  if (loginCourier.Contains('login successfully') or loginOperator.Contains('login successfully')) then
-  begin
-
     if (url = '/operators/login/') then begin
       AResponseInfo.ContentText := operatorLogin(connectionName, requestString.Text);
       StatusMemo.Lines.Add(memoMessage('запрос на вход оператора',ip));
@@ -236,7 +230,6 @@ begin
       AResponseInfo.ContentText := responseJson.Format();
       StatusMemo.Lines.Add(memoMessage('Не удалось обработать запрос ',ip));
     end;
-  end;
 
   requestStream.Free;
   requestString.Free;
