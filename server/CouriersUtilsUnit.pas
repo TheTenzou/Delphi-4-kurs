@@ -152,7 +152,6 @@ begin
     availability := jsonRequest.Values['availability'].Value;
     login := jsonRequest.Values['login'].Value;
     password := jsonRequest.Values['password'].Value;
-    token := jsonRequest.Values['token'].Value;
   except
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error','bad json');
@@ -169,15 +168,13 @@ begin
     query.SQL.Text:='INSERT INTO couriers(name,'
                                         + 'availability, '
                                         + 'login, '
-                                        + 'password, '
-                                        + 'token) '
+                                        + 'password) '
 
                                         + 'VALUES( '
                                           + '''' + name + ''', '
                                           + availability + ', '
                                           + '''' + login + ''', '
-                                          + '''' + password + ''', '
-                                          + '''' + token + ''');';
+                                          + '''' + password + ''');';
 
     query.Execute;
     connection.Commit;
@@ -228,7 +225,6 @@ begin
     availability := jsonRequest.Values['availability'].Value;
     login := jsonRequest.Values['login'].Value;
     password := jsonRequest.Values['password'].Value;
-    token := jsonRequest.Values['token'].Value;
   except
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error','bad json');
@@ -245,8 +241,7 @@ begin
     query.SQL.Text:='update couriers set name=''' + name + ''', '
                                         + 'availability=' + availability + ', '
                                         + 'login=''' + login + ''', '
-                                        + 'password=''' + password + ''','
-                                        + 'token=''' + token + ''' '
+                                        + 'password=''' + password + ''' '
                                         + 'where id=' + id + ';';
 
     query.Execute;
