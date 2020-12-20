@@ -78,7 +78,7 @@ public class OrdersActivity extends AppCompatActivity {
                 }
             }
         };
-        timer.schedule(task, 0, 60_000);
+        timer.schedule(task, 0, 15*60_000);
     }
 
     @Override
