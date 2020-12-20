@@ -94,6 +94,7 @@ public class OrdersActivity extends AppCompatActivity {
 
         JSONObject json = new JSONObject();
         json.put("login", login);
+        json.put("password", password);
 
         Optional<JSONObject> response = HTTPRequest.request(url, json);
 
@@ -124,6 +125,8 @@ public class OrdersActivity extends AppCompatActivity {
 
         JSONObject json = new JSONObject();
         json.put("id", orderId);
+        json.put("login", login);
+        json.put("password", password);
 
         Optional<JSONObject> response = HTTPRequest.request(url, json);
 
@@ -134,6 +137,7 @@ public class OrdersActivity extends AppCompatActivity {
                 requestNewOrder();
                 orderId = null;
                 orderAddress = null;
+                updateUi();
             } else {
                 Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
             }
