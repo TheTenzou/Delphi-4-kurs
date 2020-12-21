@@ -58,6 +58,7 @@ connection := TFDConnection.Create(nil);
     if (query.RowsAffected = 1) then
     begin
       jsonResponse.AddPair('status', 'login successfully');
+      jsonResponse.AddPair('id', query.FieldByName('id').Value);
     end
     else
     begin
