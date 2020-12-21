@@ -1,11 +1,9 @@
 package com.example.androidclient.ui;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,7 +20,6 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Timer;
@@ -62,9 +59,6 @@ public class OrdersActivity extends AppCompatActivity {
         TimerTask task = new TimerTask(){
             @Override
             public void run() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Log.i("test", LocalDateTime.now().toString());
-                }
                 try {
                     requestNewOrder();
                     handler.post(new Runnable() {
@@ -78,7 +72,7 @@ public class OrdersActivity extends AppCompatActivity {
                 }
             }
         };
-        timer.schedule(task, 0, 15*60_000);
+        timer.schedule(task, 0, 10*60_000);
     }
 
     @Override
