@@ -21,6 +21,10 @@ type
     procedure UpdateData();
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure N6Click(Sender: TObject);
+    procedure N1Click(Sender: TObject);
+    procedure StringGridCouriersClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -43,16 +47,56 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin;
+uses UnitLogin, UnitMain;
 
 procedure TFormCouriers.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FormLogin.Close;
 end;
 
+procedure TFormCouriers.FormCreate(Sender: TObject);
+begin
+  StringGridCouriers.Cells[0,0] := '№';
+  StringGridCouriers.Cells[1,0] := 'ФИО';
+  StringGridCouriers.Cells[2,0] := 'Состояние';
+  StringGridCouriers.Cells[3,0] := 'Логин';
+  StringGridCouriers.ColWidths[0] := 20;
+  StringGridCouriers.ColWidths[1] := 150;
+  StringGridCouriers.ColWidths[2] := 150;
+  StringGridCouriers.ColWidths[3] := 150;
+  StringGridCouriers.ColCount := 4;
+  n4.Enabled := False;
+  n5.Enabled := False;
+end;
+
 procedure TFormCouriers.FormShow(Sender: TObject);
 begin
   UpdateData;
+end;
+
+procedure TFormCouriers.N1Click(Sender: TObject);
+begin
+  UpdateData;
+end;
+
+procedure TFormCouriers.N6Click(Sender: TObject);
+begin
+  FormMain.show;
+  hide;
+end;
+
+procedure TFormCouriers.StringGridCouriersClick(Sender: TObject);
+begin
+ if StringGridCouriers.Row > 0 then
+    begin
+      n4.Enabled := True;
+      n5.Enabled := True;
+    end
+  else
+    begin
+      n4.Enabled := False;
+      n5.Enabled := False;
+    end;
 end;
 
 procedure TFormCouriers.UpdateData();
@@ -95,8 +139,11 @@ begin
 
         StringGridCouriers.Cells[0,i+1] := IntToStr(i+1);
         StringGridCouriers.Cells[1,i+1] := records[i].name;
-        StringGridCouriers.Cells[2,i+1] := records[i].availability;
-        StringGridCouriers.Cells[2,i+1] := records[i].login;
+        if records[i].availability = '1' then
+          StringGridCouriers.Cells[2,i+1] := 'Доступен'
+        else
+          StringGridCouriers.Cells[2,i+1] := 'Не доступен';
+        StringGridCouriers.Cells[3,i+1] := records[i].login;
       end;
   except
     ShowMessage('Проблемы с соединенем');

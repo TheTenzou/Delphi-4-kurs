@@ -14,6 +14,7 @@ object FormCouriers: TFormCouriers
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -24,6 +25,7 @@ object FormCouriers: TFormCouriers
     Height = 319
     Align = alClient
     TabOrder = 0
+    OnClick = StringGridCouriersClick
     ExplicitLeft = 256
     ExplicitTop = 104
     ExplicitWidth = 320
@@ -34,6 +36,7 @@ object FormCouriers: TFormCouriers
     Top = 32
     object N1: TMenuItem
       Caption = #1054#1073#1085#1086#1074#1080#1090#1100
+      OnClick = N1Click
     end
     object N2: TMenuItem
       Caption = '-'
@@ -49,6 +52,7 @@ object FormCouriers: TFormCouriers
     end
     object N6: TMenuItem
       Caption = #1053#1072#1079#1072#1076
+      OnClick = N6Click
     end
   end
   object HTTPCouriers: TIdHTTP
