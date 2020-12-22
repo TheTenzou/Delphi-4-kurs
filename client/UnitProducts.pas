@@ -1,0 +1,32 @@
+unit UnitProducts;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TFormProducts = class(TForm)
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormProducts: TFormProducts;
+
+implementation
+
+{$R *.dfm}
+
+uses UnitLogin;
+
+procedure TFormProducts.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FormLogin.close;
+end;
+
+end.
