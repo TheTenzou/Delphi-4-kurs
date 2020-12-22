@@ -25,6 +25,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure N2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure N5Click(Sender: TObject);
+    procedure N1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,7 +40,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain;
+uses UnitLogin, UnitMain, UnitProductsAddUpdate;
 
 procedure TFormProducts.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -60,6 +62,12 @@ begin
   UpdateData;
 end;
 
+procedure TFormProducts.N1Click(Sender: TObject);
+begin
+
+FormProductsAddUpdate.ShowModal;
+end;
+
 procedure TFormProducts.N2Click(Sender: TObject);
 begin
 ShowMessage(IntToStr(StringGridProducts.Row));
@@ -69,6 +77,11 @@ procedure TFormProducts.N4Click(Sender: TObject);
 begin
   FormMain.show;
   hide;
+end;
+
+procedure TFormProducts.N5Click(Sender: TObject);
+begin
+  UpdateData;
 end;
 
 procedure TFormProducts.UpdateData();
@@ -113,6 +126,8 @@ begin
         StringGridProducts.Cells[0,i+1] := IntToStr(i+1);
         StringGridProducts.Cells[1,i+1] := records[i].name;
         StringGridProducts.Cells[2,i+1] := records[i].price;
+
+        StringGridProducts.RowCount := StringGridProducts.RowCount + 1;
       end;
   except
     ShowMessage('Проблемы с соединенем');

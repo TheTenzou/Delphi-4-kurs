@@ -35,9 +35,11 @@ object FormProducts: TFormProducts
     Top = 16
     object N5: TMenuItem
       Caption = #1054#1073#1085#1086#1074#1080#1090#1100
+      OnClick = N5Click
     end
     object N1: TMenuItem
       Caption = #1044#1086#1073#1072#1074#1090#1100
+      OnClick = N1Click
     end
     object N2: TMenuItem
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
