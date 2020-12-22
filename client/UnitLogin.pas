@@ -8,7 +8,7 @@ uses
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, System.JSON;
 
 type
-  TForm1 = class(TForm)
+  TFormLogin = class(TForm)
     LabelLogin: TLabel;
     LabelPass: TLabel;
     EditLogin: TEdit;
@@ -29,7 +29,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FormLogin: TFormLogin;
 
 implementation
 
@@ -37,7 +37,7 @@ implementation
 
 uses UnitMain;
 
-procedure TForm1.ButtonLoginClick(Sender: TObject);
+procedure TFormLogin.ButtonLoginClick(Sender: TObject);
 var
   url : string;
   request : TStringStream;

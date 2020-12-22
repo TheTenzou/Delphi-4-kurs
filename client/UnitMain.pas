@@ -22,6 +22,8 @@ implementation
 
 {$R *.dfm}
 
+uses UnitLogin;
+
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FormLogin.close;

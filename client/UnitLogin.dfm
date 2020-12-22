@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormLogin: TFormLogin
   Left = 0
   Top = 0
   Caption = #1050#1083#1080#1077#1085#1090
