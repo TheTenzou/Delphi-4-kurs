@@ -71,7 +71,6 @@ begin
 
   except
     ShowMessage('Проблемы с соединенем');
-    exit;
   end;
 end;
 
