@@ -35,6 +35,8 @@ implementation
 
 {$R *.dfm}
 
+uses UnitMain;
+
 procedure TForm1.ButtonLoginClick(Sender: TObject);
 var
   url : string;
@@ -61,8 +63,11 @@ begin
         login := EditLogin.Text;
         password := EditPassword.Text;
         operatorId := jsonResponse.Values['id'].Value;
-        ShowMessage(operatorId);
-      end;
+        FormMain.show;
+        Hide;
+      end
+    else
+      ShowMessage('Неправельный логин или пароль');
 
   except
     ShowMessage('Проблемы с соединенем');
