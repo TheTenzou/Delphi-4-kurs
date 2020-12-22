@@ -12,8 +12,23 @@ object FormCouriers: TFormCouriers
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  Position = poScreenCenter
+  OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object StringGridCouriers: TStringGrid
+    Left = 0
+    Top = 0
+    Width = 635
+    Height = 319
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = 256
+    ExplicitTop = 104
+    ExplicitWidth = 320
+    ExplicitHeight = 120
+  end
   object MainMenu1: TMainMenu
     Left = 40
     Top = 32
@@ -35,5 +50,22 @@ object FormCouriers: TFormCouriers
     object N6: TMenuItem
       Caption = #1053#1072#1079#1072#1076
     end
+  end
+  object HTTPCouriers: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 560
+    Top = 24
   end
 end

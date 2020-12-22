@@ -34,6 +34,7 @@ object FormMain: TFormMain
     end
     object N3: TMenuItem
       Caption = #1050#1091#1088#1100#1077#1088#1099
+      OnClick = N3Click
     end
     object N4: TMenuItem
       Caption = #1054#1087#1077#1088#1072#1090#1086#1088#1099

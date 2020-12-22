@@ -17,6 +17,7 @@ type
     N6: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N5Click(Sender: TObject);
+    procedure N3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -30,11 +31,17 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitProducts;
+uses UnitLogin, UnitProducts, UnitCouriers;
 
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FormLogin.close;
+end;
+
+procedure TFormMain.N3Click(Sender: TObject);
+begin
+  FormCouriers.show;
+  Hide;
 end;
 
 procedure TFormMain.N5Click(Sender: TObject);
