@@ -20,10 +20,13 @@ type
     procedure ButtonCancelClick(Sender: TObject);
     procedure ButtonInsertClick(Sender: TObject);
     procedure close_();
+    procedure EditPriceKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
     { Public declarations }
+    id : string;
+    mode : string;
   end;
 
 var
@@ -33,18 +36,19 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin;
+uses UnitLogin, UnitProducts;
 
 procedure TFormProductsAddUpdate.close_();
 begin
   EditName.Text := '';
   EditPrice.Text := '';
-  close_;
+  FormProducts.updatedata;
+  close;
 end;
 
 procedure TFormProductsAddUpdate.ButtonCancelClick(Sender: TObject);
 begin
-  close;
+  close_;
 end;
 
 procedure TFormProductsAddUpdate.ButtonInsertClick(Sender: TObject);
@@ -58,9 +62,10 @@ begin
   HTTPProductsAddUpdate.Request.ContentType := 'application/json';
   HTTPProductsAddUpdate.Request.CharSet := 'utf-8';
 
-  url := 'http://' + FormLogin.EditIP.Text + '/products/add/';
 
-  request := TStringStream.Create(UTF8Encode('{"name":"' + EditName.Text+ '","price":"' + EditPrice.Text + '"}'));
+  url := 'http://' + FormLogin.EditIP.Text + '/products/'+mode+'/';
+
+  request := TStringStream.Create(UTF8Encode('{"id":"' + id + '", "name":"' + EditName.Text+ '","price":"' + EditPrice.Text + '"}'));
 
   try
     response := HTTPProductsAddUpdate.Post(url, request);
@@ -79,6 +84,16 @@ if ((EditName.Text <> '') and (EditPrice.Text <> '')) then
   ButtonInsert.Enabled := True
 else
   ButtonInsert.Enabled := False;
+end;
+
+procedure TFormProductsAddUpdate.EditPriceKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if ((Key<'0') or (key>'9')) and (key<>#8) then
+    begin
+      if (key<>FormatSettings.DecimalSeparator) or (pos(FormatSettings.DecimalSeparator,EditPrice.Text)>0) then
+      key:=#0;
+    end;
 end;
 
 end.

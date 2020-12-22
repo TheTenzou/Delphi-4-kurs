@@ -64,8 +64,9 @@ end;
 
 procedure TFormProducts.N1Click(Sender: TObject);
 begin
-
-FormProductsAddUpdate.ShowModal;
+  FormProductsAddUpdate.mode := 'add';
+  FormProductsAddUpdate.id := '0';
+  FormProductsAddUpdate.ShowModal;
 end;
 
 procedure TFormProducts.N2Click(Sender: TObject);

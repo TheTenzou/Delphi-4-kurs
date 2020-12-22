@@ -44,6 +44,7 @@ object FormProductsAddUpdate: TFormProductsAddUpdate
     Height = 21
     TabOrder = 1
     OnChange = EditNameChange
+    OnKeyPress = EditPriceKeyPress
   end
   object ButtonInsert: TButton
     Left = 32
