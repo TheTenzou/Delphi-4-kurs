@@ -27,6 +27,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure N5Click(Sender: TObject);
     procedure N1Click(Sender: TObject);
+    procedure N3Click(Sender: TObject);
+    procedure StringGridProductsClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -64,6 +66,9 @@ begin
   StringGridProducts.ColWidths[0] := 20;
   StringGridProducts.ColWidths[1] := 150;
   StringGridProducts.ColWidths[2] := 150;
+  StringGridProducts.ColCount := 3;
+  n2.Enabled := False;
+  n3.Enabled := False;
 end;
 
 procedure TFormProducts.FormShow(Sender: TObject);
@@ -85,7 +90,35 @@ begin
   FormProductsAddUpdate.EditName.Text := records[StringGridProducts.Row-1].name;
   FormProductsAddUpdate.EditPrice.Text := records[StringGridProducts.Row-1].price;
   FormProductsAddUpdate.ShowModal;
-//ShowMessage(IntToStr(StringGridProducts.Row));
+end;
+
+procedure TFormProducts.N3Click(Sender: TObject);
+var
+  url : string;
+  request : TStringStream;
+  response : string;
+
+  jsonObj : TJSONObject;
+  jsonResponse : TJSONArray;
+
+  i : integer;
+begin
+if (MessageDlg('Удалить товар ' + records[StringGridProducts.Row-1].name + ' ?', mtConfirmation, [mbYes, mbNo],0)=mrYes) then
+  begin
+    HTTPProducts.Request.ContentType := 'application/json';
+    HTTPProducts.Request.CharSet := 'utf-8';
+
+    url := 'http://' + FormLogin.IP + '/products/delete/';
+
+    request := TStringStream.Create(UTF8Encode('{"id":"'+records[StringGridProducts.Row-1].id+'"}'));
+
+    try
+      response := HTTPProducts.Post(url, request);
+    except
+      ShowMessage('Проблемы с соединенем');
+    end;
+    UpdateData;
+  end;
 end;
 
 procedure TFormProducts.N4Click(Sender: TObject);
@@ -97,6 +130,20 @@ end;
 procedure TFormProducts.N5Click(Sender: TObject);
 begin
   UpdateData;
+end;
+
+procedure TFormProducts.StringGridProductsClick(Sender: TObject);
+begin
+  if StringGridProducts.Row > 0 then
+    begin
+      n2.Enabled := True;
+      n3.Enabled := True;
+    end
+  else
+    begin
+      n2.Enabled := False;
+      n3.Enabled := False;
+    end;
 end;
 
 procedure TFormProducts.UpdateData();
@@ -122,21 +169,23 @@ begin
     response := HTTPProducts.Post(url, request);
     jsonResponse := TJSONObject.ParseJSONValue(response, False, True) as TJSONArray;
 
-    SetLength(records, jsonResponse.Size);
+    SetLength(records, jsonResponse.Count);
 
-    for i := 0 to jsonResponse.Size-1 do
+    StringGridProducts.RowCount := 1;
+
+    for i := 0 to jsonResponse.Count-1 do
       begin
-        jsonObj := jsonResponse.Get(i) as TJSONObject;
+        jsonObj := jsonResponse.items[i] as TJSONObject;
 
         records[i].id := jsonObj.Values['id'].Value;
         records[i].name := jsonObj.Values['name'].Value;
         records[i].price := jsonObj.Values['price'].Value;
 
+        StringGridProducts.RowCount := StringGridProducts.RowCount + 1;
+
         StringGridProducts.Cells[0,i+1] := IntToStr(i+1);
         StringGridProducts.Cells[1,i+1] := records[i].name;
         StringGridProducts.Cells[2,i+1] := records[i].price;
-
-        StringGridProducts.RowCount := StringGridProducts.RowCount + 1;
       end;
   except
     ShowMessage('Проблемы с соединенем');
