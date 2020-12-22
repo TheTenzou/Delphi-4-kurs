@@ -45,15 +45,20 @@ begin
   connection.StartTransaction;
 
   query.Active:=False;
-  query.SQL.Text:='SELECT id, '
-                        + 'courierid, '
-                        + 'operatorid, '
-                        + 'created_time, '
-                        + 'start_delivery_time, '
-                        + 'end_delivery_time, '
-                        + 'total_summ, '
-                        + 'delivery_address '
-                        + 'FROM orders ';
+  query.SQL.Text:='SELECT ord.id, '
+                        + 'ord.courierid, '
+                        + 'ord.operatorid, '
+                        + 'co.name as courier_name, '
+                        + 'ord.created_time, '
+                        + 'op.name as operator_name, '
+                        + 'ord.start_delivery_time, '
+                        + 'ord.end_delivery_time, '
+                        + 'ord.total_summ, '
+                        + 'ord.delivery_address '
+                        + 'FROM Orders ord '
+                        + 'left join Couriers co on ord.courierid = co.id '
+                        + 'left join Operators op on ord.operatorid = op.id ';
+
   query.Active:=True;
 
   jsonArray := TJSONArray.Create;
