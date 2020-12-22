@@ -25,6 +25,7 @@ type
     procedure N6Click(Sender: TObject);
     procedure N1Click(Sender: TObject);
     procedure StringGridCouriersClick(Sender: TObject);
+    procedure N5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -77,6 +78,35 @@ end;
 procedure TFormCouriers.N1Click(Sender: TObject);
 begin
   UpdateData;
+end;
+
+procedure TFormCouriers.N5Click(Sender: TObject);
+var
+  url : string;
+  request : TStringStream;
+  response : string;
+
+  jsonObj : TJSONObject;
+  jsonResponse : TJSONArray;
+
+  i : integer;
+begin
+if (MessageDlg('Удалить товар ' + records[StringGridCouriers.Row-1].name + ' ?', mtConfirmation, [mbYes, mbNo],0)=mrYes) then
+  begin
+    HTTPCouriers.Request.ContentType := 'application/json';
+    HTTPCouriers.Request.CharSet := 'utf-8';
+
+    url := 'http://' + FormLogin.IP + '/couriers/delete/';
+
+    request := TStringStream.Create(UTF8Encode('{"id":"'+records[StringGridCouriers.Row-1].id+'"}'));
+
+    try
+      response := HTTPCouriers.Post(url, request);
+    except
+      ShowMessage('Проблемы с соединенем');
+    end;
+    UpdateData;
+  end;
 end;
 
 procedure TFormCouriers.N6Click(Sender: TObject);

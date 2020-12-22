@@ -48,7 +48,8 @@ object FormCouriers: TFormCouriers
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
     end
     object N5: TMenuItem
-      Caption = #1059#1076#1072#1080#1090#1100
+      Caption = #1059#1076#1072#1083#1080#1090#1100
+      OnClick = N5Click
     end
     object N6: TMenuItem
       Caption = #1053#1072#1079#1072#1076
