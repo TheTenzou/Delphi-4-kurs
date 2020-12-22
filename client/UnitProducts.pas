@@ -27,9 +27,18 @@ type
     procedure FormCreate(Sender: TObject);
     procedure N5Click(Sender: TObject);
     procedure N1Click(Sender: TObject);
+
   private
     { Private declarations }
   public
+    type
+    TRow = Record
+        id : string;
+        name : string;
+        price : string;
+      end;
+    var
+    records : array of TRow;
     { Public declarations }
   end;
 
@@ -71,7 +80,12 @@ end;
 
 procedure TFormProducts.N2Click(Sender: TObject);
 begin
-ShowMessage(IntToStr(StringGridProducts.Row));
+ FormProductsAddUpdate.mode := 'update';
+  FormProductsAddUpdate.id := records[StringGridProducts.Row-1].id;
+  FormProductsAddUpdate.EditName.Text := records[StringGridProducts.Row-1].name;
+  FormProductsAddUpdate.EditPrice.Text := records[StringGridProducts.Row-1].price;
+  FormProductsAddUpdate.ShowModal;
+//ShowMessage(IntToStr(StringGridProducts.Row));
 end;
 
 procedure TFormProducts.N4Click(Sender: TObject);
@@ -86,12 +100,7 @@ begin
 end;
 
 procedure TFormProducts.UpdateData();
-type
-  TRow = Record
-    id : string;
-    name : string;
-    price : string;
-  end;
+
 var
   url : string;
   request : TStringStream;
@@ -101,7 +110,6 @@ var
   jsonResponse : TJSONArray;
 
   i : integer;
-  records : array of TRow;
 begin
   HTTPProducts.Request.ContentType := 'application/json';
   HTTPProducts.Request.CharSet := 'utf-8';
