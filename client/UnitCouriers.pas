@@ -26,6 +26,7 @@ type
     procedure N1Click(Sender: TObject);
     procedure StringGridCouriersClick(Sender: TObject);
     procedure N5Click(Sender: TObject);
+    procedure N3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -48,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain;
+uses UnitLogin, UnitMain, UnitCouriersAddUpdate;
 
 procedure TFormCouriers.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -78,6 +79,11 @@ end;
 procedure TFormCouriers.N1Click(Sender: TObject);
 begin
   UpdateData;
+end;
+
+procedure TFormCouriers.N3Click(Sender: TObject);
+begin
+  FormCouriresAddUpdate.ShowModal;
 end;
 
 procedure TFormCouriers.N5Click(Sender: TObject);
