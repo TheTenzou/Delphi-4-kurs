@@ -8,6 +8,13 @@ uses
 
 type
   TFormCouriers = class(TForm)
+    MainMenu1: TMainMenu;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
+    N6: TMenuItem;
   private
     { Private declarations }
   public

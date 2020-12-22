@@ -26,10 +26,6 @@ object FormProducts: TFormProducts
     Align = alClient
     TabOrder = 0
     OnClick = StringGridProductsClick
-    ExplicitLeft = 24
-    ExplicitTop = 80
-    ExplicitWidth = 569
-    ExplicitHeight = 177
   end
   object MainMenu1: TMainMenu
     Left = 24
@@ -51,7 +47,7 @@ object FormProducts: TFormProducts
       OnClick = N3Click
     end
     object N4: TMenuItem
-      Caption = #1047#1072#1082#1088#1099#1090#1100
+      Caption = #1053#1072#1079#1072#1076
       OnClick = N4Click
     end
   end
