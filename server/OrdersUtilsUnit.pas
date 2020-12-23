@@ -295,14 +295,17 @@ begin
                                         + 'OperatorID, '
                                         + 'Created_time, '
                                         + 'Start_delivery_time, '
-                                        + 'Total_summ, Delivery_address) '
+                                        + 'Total_summ, '
+                                        + 'Delivery_address, '
+                                        + 'verified) '
                                         + 'VALUES( '
                                           + courierId + ', '
                                           + operatorId + ', '
                                           + createdTime + ', '
                                           + startDileryTime + ', '
                                           + '0 , '
-                                          + '''' + deliveryAddress + ''');';
+                                          + '''' + deliveryAddress + ''''
+                                          + '0);';
 
     query.Execute;
     connection.Commit;
@@ -338,6 +341,7 @@ var
   operatorId : string;
   startDileryTime : string;
   deliveryAddress : string;
+  verified : string;
 begin
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;
@@ -356,13 +360,8 @@ begin
        courierId := 'NULL';
     end;
     operatorId := jsonRequest.Values['operatorid'].Value;
-
-    if courierId <> 'NULL' then
-      startDileryTime := '''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ''''
-    else
-      startDileryTime := 'NULL';
-
     deliveryAddress := jsonRequest.Values['delivery_address'].Value;
+    verified := jsonRequest.Values['verified'].Value;
   except
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error','bad json');
@@ -378,8 +377,8 @@ begin
     query.SQL.Clear;
     query.SQL.Text:='update orders set courierId=' + courierId + ', '
                                     + 'operatorId=' + operatorId + ', '
-                                    + 'start_delivery_time=' + startDileryTime + ', '
-                                    + 'delivery_address=''' + deliveryAddress + ''' '
+                                    + 'delivery_address=''' + deliveryAddress + ''', '
+                                    + 'verified=''' + verified + ''' '
                                     + 'where id=' + id + ';';
 
     query.Execute;
