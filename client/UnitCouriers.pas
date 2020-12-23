@@ -42,6 +42,7 @@ type
       end;
     var
     records : array of TRowCourier;
+    choose : Integer;
     { Public declarations }
   end;
 
@@ -52,7 +53,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain, UnitCouriersAddUpdate;
+uses UnitLogin, UnitMain, UnitCouriersAddUpdate, UnitOrderAdd;
 
 procedure TFormCouriers.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -72,6 +73,7 @@ begin
   StringGridCouriers.ColCount := 4;
   n4.Enabled := False;
   n5.Enabled := False;
+  choose := 1;
 end;
 
 procedure TFormCouriers.FormShow(Sender: TObject);
@@ -137,15 +139,24 @@ end;
 
 procedure TFormCouriers.StringGridCouriersClick(Sender: TObject);
 begin
- if StringGridCouriers.Row > 0 then
+  if choose = 1 then
     begin
-      n4.Enabled := True;
-      n5.Enabled := True;
+      if StringGridCouriers.Row > 0 then
+        begin
+          n4.Enabled := True;
+          n5.Enabled := True;
+        end
+      else
+        begin
+          n4.Enabled := False;
+          n5.Enabled := False;
+        end;
     end
   else
     begin
-      n4.Enabled := False;
-      n5.Enabled := False;
+      FormAddOrder.EditCourier.Text := records[StringGridCouriers.Row-1].name;
+      FormAddOrder.courierId := records[StringGridCouriers.Row-1].id;
+      hide;
     end;
 end;
 

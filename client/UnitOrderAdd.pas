@@ -16,14 +16,17 @@ type
     HTTPAddOrder: TIdHTTP;
     LabelCourier: TLabel;
     EditCourier: TEdit;
+    ButtonCourier: TButton;
     procedure close_();
     procedure ButtonAddClick(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
     procedure EditAddressChange(Sender: TObject);
+    procedure ButtonCourierClick(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    courierId : string;
   end;
 
 var
@@ -33,11 +36,17 @@ implementation
 
 {$R *.dfm}
 
-uses UnitOrders, UnitLogin;
+uses UnitOrders, UnitLogin, UnitCouriers;
 
 procedure TFormAddOrder.ButtonCancelClick(Sender: TObject);
 begin
 close_;
+end;
+
+procedure TFormAddOrder.ButtonCourierClick(Sender: TObject);
+begin
+  FormCouriers.choose := 2;
+  FormCouriers.Show;
 end;
 
 procedure TFormAddOrder.close_();
@@ -74,6 +83,7 @@ begin
   jsonRequest := TJSONObject.Create;
   jsonRequest.AddPair('operatorid', FormLogin.operatorId);
   jsonRequest.AddPair('delivery_address', EditAddress.Text);
+  jsonRequest.AddPair('courierid', courierId);
 
   request := TStringStream.Create(UTF8Encode(jsonRequest.Format()));
 

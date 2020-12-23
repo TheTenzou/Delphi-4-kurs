@@ -61,6 +61,15 @@ object FormAddOrder: TFormAddOrder
     Height = 21
     TabOrder = 3
   end
+  object ButtonCourier: TButton
+    Left = 112
+    Top = 96
+    Width = 121
+    Height = 25
+    Caption = #1042#1099#1073#1088#1072#1090#1100' '#1050#1091#1088#1100#1077#1088#1072
+    TabOrder = 4
+    OnClick = ButtonCourierClick
+  end
   object HTTPAddOrder: TIdHTTP
     AllowCookies = True
     ProxyParams.BasicAuthentication = False
