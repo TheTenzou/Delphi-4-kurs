@@ -25,6 +25,7 @@ object FormOperators: TFormOperators
     Height = 299
     Align = alClient
     TabOrder = 0
+    OnClick = StringGridOperatorsClick
   end
   object MainMenu1: TMainMenu
     Left = 32
@@ -38,15 +39,18 @@ object FormOperators: TFormOperators
     end
     object N3: TMenuItem
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100
+      OnClick = N3Click
     end
     object N4: TMenuItem
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+      OnClick = N4Click
     end
     object N5: TMenuItem
       Caption = #1059#1076#1072#1083#1080#1090#1100
     end
     object N6: TMenuItem
       Caption = #1053#1072#1079#1072#1076
+      OnClick = N6Click
     end
   end
   object HTTPOperators: TIdHTTP

@@ -23,6 +23,10 @@ type
     procedure UpdateData();
     procedure N1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure N6Click(Sender: TObject);
+    procedure StringGridOperatorsClick(Sender: TObject);
+    procedure N3Click(Sender: TObject);
+    procedure N4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,7 +48,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin;
+uses UnitLogin, UnitMain, UnitOperatorsAddUpdate;
 
 procedure TFormOperators.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -72,6 +76,42 @@ end;
 procedure TFormOperators.N1Click(Sender: TObject);
 begin
    UpdateData;
+end;
+
+procedure TFormOperators.N3Click(Sender: TObject);
+begin
+  FormOperatorsAddUpdate.mode := 'add';
+  FormOperatorsAddUpdate.id := '0';
+  FormOperatorsAddUpdate.ShowModal;
+end;
+
+procedure TFormOperators.N4Click(Sender: TObject);
+begin
+  FormOperatorsAddUpdate.mode := 'update';
+  FormOperatorsAddUpdate.id := records[StringGridOperators.Row-1].id;
+  FormOperatorsAddUpdate.EditName.Text := records[StringGridOperators.Row-1].name;
+  FormOperatorsAddUpdate.EditLogin.Text := records[StringGridOperators.Row-1].login;
+  FormOperatorsAddUpdate.ShowModal;
+end;
+
+procedure TFormOperators.N6Click(Sender: TObject);
+begin
+  FormMain.show;
+  hide;
+end;
+
+procedure TFormOperators.StringGridOperatorsClick(Sender: TObject);
+begin
+if StringGridOperators.Row > 0 then
+    begin
+      n4.Enabled := True;
+      n5.Enabled := True;
+    end
+  else
+    begin
+      n4.Enabled := False;
+      n5.Enabled := False;
+    end;
 end;
 
 procedure TFormOperators.UpdateData();
