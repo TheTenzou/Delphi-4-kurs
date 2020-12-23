@@ -26,10 +26,6 @@ object FormCouriers: TFormCouriers
     Align = alClient
     TabOrder = 0
     OnClick = StringGridCouriersClick
-    ExplicitLeft = 256
-    ExplicitTop = 104
-    ExplicitWidth = 320
-    ExplicitHeight = 120
   end
   object MainMenu1: TMainMenu
     Left = 40
@@ -47,6 +43,7 @@ object FormCouriers: TFormCouriers
     end
     object N4: TMenuItem
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+      OnClick = N4Click
     end
     object N5: TMenuItem
       Caption = #1059#1076#1072#1083#1080#1090#1100

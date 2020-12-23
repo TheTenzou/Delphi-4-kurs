@@ -27,6 +27,7 @@ type
     procedure StringGridCouriersClick(Sender: TObject);
     procedure N5Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
+    procedure N4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -83,6 +84,17 @@ end;
 
 procedure TFormCouriers.N3Click(Sender: TObject);
 begin
+  FormCouriresAddUpdate.mode := 'add';
+  FormCouriresAddUpdate.id := '0';
+  FormCouriresAddUpdate.ShowModal;
+end;
+
+procedure TFormCouriers.N4Click(Sender: TObject);
+begin
+  FormCouriresAddUpdate.mode := 'update';
+  FormCouriresAddUpdate.id := records[StringGridCouriers.Row-1].id;
+  FormCouriresAddUpdate.EditName.Text := records[StringGridCouriers.Row-1].name;
+  FormCouriresAddUpdate.EditLogin.Text := records[StringGridCouriers.Row-1].login;
   FormCouriresAddUpdate.ShowModal;
 end;
 
