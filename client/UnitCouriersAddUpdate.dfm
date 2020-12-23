@@ -58,7 +58,7 @@ object FormCouriresAddUpdate: TFormCouriresAddUpdate
     Width = 217
     Height = 25
     Caption = #1042#1074#1086#1076
-    TabOrder = 2
+    TabOrder = 3
     OnClick = ButtonAddClick
   end
   object ButtonCancel: TButton
@@ -67,7 +67,7 @@ object FormCouriresAddUpdate: TFormCouriresAddUpdate
     Width = 217
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1072
-    TabOrder = 3
+    TabOrder = 4
     OnClick = ButtonCancelClick
   end
   object EditPass: TEdit
@@ -75,7 +75,7 @@ object FormCouriresAddUpdate: TFormCouriresAddUpdate
     Top = 101
     Width = 121
     Height = 21
-    TabOrder = 4
+    TabOrder = 2
     OnChange = EditChange
   end
   object HTTPCouriersAddUpdate: TIdHTTP
