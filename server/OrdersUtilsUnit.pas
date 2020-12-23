@@ -492,7 +492,8 @@ begin
     query.Active:=False;
     query.SQL.Clear;
     query.SQL.Text:='update orders set '
-      + 'end_delivery_time=''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ''' '
+      + 'end_delivery_time=''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ''' ,'
+      + 'verified=2 '
                                     + 'where id=' + id + ';';
 
     query.Execute;
