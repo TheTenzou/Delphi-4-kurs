@@ -227,7 +227,6 @@ begin
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
     id := jsonRequest.Values['id'].Value;
-    orderId := jsonRequest.Values['order_id'].Value;
     name := jsonRequest.Values['name'].Value;
     price := jsonRequest.Values['price'].Value;
     count := jsonRequest.Values['count_'].Value;
@@ -244,7 +243,7 @@ begin
   try
     query.Active:=False;
     query.SQL.Clear;
-    query.SQL.Text:='update order_info set order_id=' + orderId + ', '
+    query.SQL.Text:='update order_info set '
                                       + 'name=''' + name + ''', '
                                       + 'price=' + price + ', '
                                       + 'count_=' + count + ' '

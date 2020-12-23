@@ -26,6 +26,7 @@ object FormOrders: TFormOrders
     Height = 244
     Align = alBottom
     TabOrder = 0
+    OnClick = StringGridOrderInfoClick
     ExplicitTop = 200
     ExplicitWidth = 630
   end
@@ -70,6 +71,7 @@ object FormOrders: TFormOrders
       end
       object N8: TMenuItem
         Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+        OnClick = N8Click
       end
     end
   end

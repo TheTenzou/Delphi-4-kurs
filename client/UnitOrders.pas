@@ -35,6 +35,8 @@ type
     procedure N3Click(Sender: TObject);
     procedure N5Click(Sender: TObject);
     procedure N7Click(Sender: TObject);
+    procedure N8Click(Sender: TObject);
+    procedure StringGridOrderInfoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -132,6 +134,7 @@ begin
   StringGridOrderInfo.Height := ClientHeight div 2;
   N5.Enabled := false;
   n6.Enabled := false;
+  n8.Enabled := false;
   UpdateOrders;
 end;
 
@@ -169,6 +172,24 @@ begin
   FormOrderInfoAddUpdate.orderid_id := records[StringGridOrders.Row-1].id;
   FormOrderInfoAddUpdate.mode := 'add';
   FormOrderInfoAddUpdate.ShowModal;
+end;
+
+procedure TFormOrders.N8Click(Sender: TObject);
+begin
+  FormOrderInfoAddUpdate.id := recordsInfo[StringGridOrderInfo.Row-1].id;
+  FormOrderInfoAddUpdate.EditName.Text := recordsInfo[StringGridOrderInfo.Row-1].name;
+  FormOrderInfoAddUpdate.EditPrice.Text := recordsInfo[StringGridOrderInfo.Row-1].price;
+  FormOrderInfoAddUpdate.EditCount.Text := recordsInfo[StringGridOrderInfo.Row-1].count_;
+  FormOrderInfoAddUpdate.mode := 'update';
+  FormOrderInfoAddUpdate.ShowModal;
+end;
+
+procedure TFormOrders.StringGridOrderInfoClick(Sender: TObject);
+begin
+  if StringGridOrderInfo.Row > 0 then
+    n8.Enabled := true
+  else
+    n8.Enabled := false;
 end;
 
 procedure TFormOrders.StringGridOrdersClick(Sender: TObject);
