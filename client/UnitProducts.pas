@@ -41,6 +41,7 @@ type
       end;
     var
     records : array of TRow;
+    choos : Integer;
     { Public declarations }
   end;
 
@@ -51,7 +52,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain, UnitProductsAddUpdate;
+uses UnitLogin, UnitMain, UnitProductsAddUpdate, UnitOrderinfoAddUpdate;
 
 procedure TFormProducts.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -134,16 +135,26 @@ end;
 
 procedure TFormProducts.StringGridProductsClick(Sender: TObject);
 begin
-  if StringGridProducts.Row > 0 then
+  if choos = 1 then
     begin
-      n2.Enabled := True;
-      n3.Enabled := True;
+      if StringGridProducts.Row > 0 then
+        begin
+          n2.Enabled := True;
+          n3.Enabled := True;
+        end
+      else
+        begin
+          n2.Enabled := False;
+          n3.Enabled := False;
+        end;
     end
-  else
+  else if choos = 2 then
     begin
-      n2.Enabled := False;
-      n3.Enabled := False;
+      FormOrderInfoAddUpdate.EditName.Text := records[StringGridProducts.Row-1].name;
+      FormOrderInfoAddUpdate.EditPrice.Text := records[StringGridProducts.Row-1].price;
+      hide;
     end;
+
 end;
 
 procedure TFormProducts.UpdateData();

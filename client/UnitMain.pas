@@ -61,6 +61,7 @@ end;
 
 procedure TFormMain.N5Click(Sender: TObject);
 begin
+  FormProducts.choos:=1;
   FormProducts.show;
   Hide;
 end;

@@ -69,6 +69,7 @@ object FormOrderInfoAddUpdate: TFormOrderInfoAddUpdate
     Height = 25
     Caption = #1042#1099#1073#1088#1072#1090#1100
     TabOrder = 3
+    OnClick = ButtonProductClick
   end
   object ButtonInsert: TButton
     Left = 32

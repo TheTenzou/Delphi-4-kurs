@@ -25,6 +25,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure EditPriceKeyPress(Sender: TObject;var Key: Char);
     procedure ButtonInsertClick(Sender: TObject);
+    procedure ButtonProductClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,7 +42,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitOrders, UnitLogin;
+uses UnitOrders, UnitLogin, UnitProducts;
 
 procedure TFormOrderInfoAddUpdate.close_();
 begin
@@ -115,6 +116,12 @@ begin
     ShowMessage('Проблемы с соединенем');
   end;
   close_;
+end;
+
+procedure TFormOrderInfoAddUpdate.ButtonProductClick(Sender: TObject);
+begin
+  FormProducts.choos:=2;
+  FormProducts.show;
 end;
 
 end.
