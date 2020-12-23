@@ -235,6 +235,7 @@ begin
       end;
   except
     ShowMessage('Проблемы с соединенем');
+    FormLogin.Timer1.Enabled := false;
   end;
 end;
 

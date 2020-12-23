@@ -12,6 +12,7 @@ object FormLogin: TFormLogin
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object LabelLogin: TLabel
@@ -82,6 +83,13 @@ object FormLogin: TFormLogin
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
     Left = 176
+    Top = 112
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = Timer1Timer
+    Left = 48
     Top = 112
   end
 end

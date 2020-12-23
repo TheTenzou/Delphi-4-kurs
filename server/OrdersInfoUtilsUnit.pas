@@ -34,6 +34,7 @@ var
   fieldName : string;
   orderId : string;
 begin
+try
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;
 
@@ -82,6 +83,11 @@ begin
   connection.Close;
   connection.Free;
   query.Free;
+except
+on E : Exception do
+      ShowMessage(E.ClassName+' поднята ошибка, с сообщением : '+E.Message);
+
+end;
 
 end;
 

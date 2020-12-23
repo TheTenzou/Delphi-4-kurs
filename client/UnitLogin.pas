@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IdBaseComponent,
-  IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, System.JSON;
+  IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, System.JSON, Vcl.ExtCtrls;
 
 type
   TFormLogin = class(TForm)
@@ -17,7 +17,10 @@ type
     IdHTTPLogin: TIdHTTP;
     LabelIP: TLabel;
     EditIP: TEdit;
+    Timer1: TTimer;
     procedure ButtonLoginClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,7 +38,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitMain;
+uses UnitMain, UnitProducts, UnitCouriers, UnitOperators, UnitOrders;
 
 procedure TFormLogin.ButtonLoginClick(Sender: TObject);
 var
@@ -64,6 +67,7 @@ begin
         password := EditPassword.Text;
         operatorId := jsonResponse.Values['id'].Value;
         FormMain.show;
+        Timer1.Enabled := true;
         Hide;
       end
     else
@@ -72,6 +76,20 @@ begin
   except
     ShowMessage('Проблемы с соединенем');
   end;
+end;
+
+procedure TFormLogin.FormCreate(Sender: TObject);
+begin
+  Timer1.Enabled := false;
+end;
+
+procedure TFormLogin.Timer1Timer(Sender: TObject);
+begin
+  FormProducts.UpdateData;
+  FormCouriers.UpdateData;
+  FormOperators.UpdateData;
+  FormOrders.UpdateOrders;
+  FormOrders.UpdateOrderInfo;
 end;
 
 end.

@@ -22,6 +22,7 @@ type
     N7: TMenuItem;
     N8: TMenuItem;
     N9: TMenuItem;
+    HTTPOrderInfo: TIdHTTP;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N2Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -143,6 +144,7 @@ end;
 procedure TFormOrders.N1Click(Sender: TObject);
 begin
   UpdateOrders;
+  UpdateOrderInfo;
 end;
 
 procedure TFormOrders.N2Click(Sender: TObject);
@@ -339,7 +341,8 @@ begin
 
       end;
   except
-    ShowMessage('Ïðîáëåìû ñ ñîåäèíåíåì');
+    ShowMessage('Ïðîáëåìû ñ ñîåäèíåíåì 2');
+    FormLogin.Timer1.Enabled := false;
   end;
 end;
 
@@ -355,43 +358,48 @@ var
 
   i : integer;
 begin
-  HTTPOrders.Request.ContentType := 'application/json';
-  HTTPOrders.Request.CharSet := 'utf-8';
+  if infoId <> '' then
+    begin
+  
+      HTTPOrderInfo.Request.ContentType := 'application/json';
+      HTTPOrderInfo.Request.CharSet := 'utf-8';
 
-  url := 'http://' + FormLogin.IP + '/order-info/list/';
+      url := 'http://' + FormLogin.IP + '/order-info/list/';
 
-  request := TStringStream.Create(UTF8Encode('{"order_id":"'+infoId+'"}'));
+      request := TStringStream.Create(UTF8Encode('{"order_id":"'+infoId+'"}'));
 
-  try
-    response := HTTPOrders.Post(url, request);
-    jsonResponse := TJSONObject.ParseJSONValue(response, False, True) as TJSONArray;
+      try
+        response := HTTPOrderInfo.Post(url, request);
+        jsonResponse := TJSONObject.ParseJSONValue(response, False, True) as TJSONArray;
 
-    SetLength(recordsInfo, jsonResponse.Count);
+        SetLength(recordsInfo, jsonResponse.Count);
 
-    StringGridOrderInfo.RowCount := 1;
+        StringGridOrderInfo.RowCount := 1;
 
-    for i := 0 to jsonResponse.Count-1 do
-      begin
-        jsonObj := jsonResponse.items[i] as TJSONObject;
+        for i := 0 to jsonResponse.Count-1 do
+          begin
+            jsonObj := jsonResponse.items[i] as TJSONObject;
 
-        recordsInfo[i].id := jsonObj.Values['id'].Value;
-        recordsInfo[i].order_id := jsonObj.Values['order_id'].Value;
-        recordsInfo[i].name := jsonObj.Values['name'].Value;
-        recordsInfo[i].price := jsonObj.Values['price'].Value;
-        recordsInfo[i].count_ := jsonObj.Values['count_'].Value;
+            recordsInfo[i].id := jsonObj.Values['id'].Value;
+            recordsInfo[i].order_id := jsonObj.Values['order_id'].Value;
+            recordsInfo[i].name := jsonObj.Values['name'].Value;
+            recordsInfo[i].price := jsonObj.Values['price'].Value;
+            recordsInfo[i].count_ := jsonObj.Values['count_'].Value;
 
-        StringGridOrderInfo.RowCount := StringGridOrderInfo.RowCount + 1;
+            StringGridOrderInfo.RowCount := StringGridOrderInfo.RowCount + 1;
 
-        StringGridOrderInfo.Cells[0,i+1] := IntToStr(i+1);
-        StringGridOrderInfo.Cells[1,i+1] := recordsInfo[i].name;
-        StringGridOrderInfo.Cells[2,i+1] := recordsInfo[i].price;
-        StringGridOrderInfo.Cells[3,i+1] := recordsInfo[i].count_;
+            StringGridOrderInfo.Cells[0,i+1] := IntToStr(i+1);
+            StringGridOrderInfo.Cells[1,i+1] := recordsInfo[i].name;
+            StringGridOrderInfo.Cells[2,i+1] := recordsInfo[i].price;
+            StringGridOrderInfo.Cells[3,i+1] := recordsInfo[i].count_;
+          end;
+      except
+         on E : Exception do
+          ShowMessage(E.ClassName+' поднята ошибка, с сообщением : '+E.Message);
+        //ShowMessage('Ïðîáëåìû ñ ñîåäèíåíåì 3');
+        //FormLogin.Timer1.Enabled := false;
       end;
-  except
-  on E : Exception do
-      ShowMessage(E.ClassName+' поднята ошибка, с сообщением : '+E.Message);
-    //ShowMessage('Ïðîáëåìû ñ ñîåäèíåíåì');
-  end;
+    end;
 end;
 
 
