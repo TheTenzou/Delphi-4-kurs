@@ -21,6 +21,7 @@ type
     N6: TMenuItem;
     N7: TMenuItem;
     N8: TMenuItem;
+    N9: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N2Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -37,6 +38,7 @@ type
     procedure N7Click(Sender: TObject);
     procedure N8Click(Sender: TObject);
     procedure StringGridOrderInfoClick(Sender: TObject);
+    procedure N9Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -184,12 +186,47 @@ begin
   FormOrderInfoAddUpdate.ShowModal;
 end;
 
+procedure TFormOrders.N9Click(Sender: TObject);
+  var
+  url : string;
+  request : TStringStream;
+  response : string;
+
+  jsonObj : TJSONObject;
+  jsonResponse : TJSONArray;
+
+  i : integer;
+begin
+if (MessageDlg('Удалить товар ' + recordsInfo[StringGridOrderInfo.Row-1].name + ' ?', mtConfirmation, [mbYes, mbNo],0)=mrYes) then
+  begin
+    HTTPOrders.Request.ContentType := 'application/json';
+    HTTPOrders.Request.CharSet := 'utf-8';
+
+    url := 'http://' + FormLogin.IP + '/order-info/delete/';
+
+    request := TStringStream.Create(UTF8Encode('{"id":"'+recordsInfo[StringGridOrderInfo.Row-1].id+'"}'));
+
+    try
+      response := HTTPOrders.Post(url, request);
+    except
+      ShowMessage('Проблемы с соединенем');
+    end;
+    UpdateOrderInfo;
+  end;
+end;
+
 procedure TFormOrders.StringGridOrderInfoClick(Sender: TObject);
 begin
   if StringGridOrderInfo.Row > 0 then
-    n8.Enabled := true
+    begin
+      n8.Enabled := true;
+      n9.Enabled := true;
+    end
   else
-    n8.Enabled := false;
+    begin
+      n8.Enabled := false;
+      n9.Enabled := false;
+    end;
 end;
 
 procedure TFormOrders.StringGridOrdersClick(Sender: TObject);
