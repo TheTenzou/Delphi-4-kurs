@@ -26,6 +26,7 @@ object FormCouriers: TFormCouriers
     Align = alClient
     TabOrder = 0
     OnClick = StringGridCouriersClick
+    OnDrawCell = StringGridCouriersDrawCell
   end
   object MainMenu1: TMainMenu
     Left = 40

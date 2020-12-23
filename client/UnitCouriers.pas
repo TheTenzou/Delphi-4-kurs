@@ -28,6 +28,8 @@ type
     procedure N5Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
     procedure N4Click(Sender: TObject);
+    procedure StringGridCouriersDrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -144,6 +146,27 @@ begin
     begin
       n4.Enabled := False;
       n5.Enabled := False;
+    end;
+end;
+
+procedure TFormCouriers.StringGridCouriersDrawCell(Sender: TObject; ACol,
+  ARow: Integer; Rect: TRect; State: TGridDrawState);
+begin
+  if (ACol = 2) and (ARow <> 0) then
+    with TStringGrid(Sender) do
+    begin
+      if Cells[ACol, Arow] = 'Доступен' then
+      begin
+        Canvas.Brush.Color := RGB(50,200,50);
+        Canvas.FillRect(Rect);
+        Canvas.TextOut(Rect.Left+2,Rect.Top+2,Cells[ACol, ARow]);
+      end
+      else
+      begin
+        Canvas.Brush.Color := RGB(200,50,50);
+        Canvas.FillRect(Rect);
+        Canvas.TextOut(Rect.Left+2,Rect.Top+2,Cells[ACol, ARow]);
+      end;
     end;
 end;
 
