@@ -18,6 +18,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N5Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
+    procedure N4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,7 +32,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitProducts, UnitCouriers;
+uses UnitLogin, UnitProducts, UnitCouriers, UnitOperators;
 
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -41,6 +42,12 @@ end;
 procedure TFormMain.N3Click(Sender: TObject);
 begin
   FormCouriers.show;
+  Hide;
+end;
+
+procedure TFormMain.N4Click(Sender: TObject);
+begin
+  FormOperators.show;
   Hide;
 end;
 
