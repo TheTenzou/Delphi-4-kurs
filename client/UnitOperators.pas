@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, IdBaseComponent, IdComponent,
-  IdTCPConnection, IdTCPClient, IdHTTP, Vcl.Grids, Vcl.Menus;
+  IdTCPConnection, IdTCPClient, IdHTTP, Vcl.Grids, Vcl.Menus, system.json;
 
 type
   TFormOperators = class(TForm)
@@ -16,12 +16,24 @@ type
     N4: TMenuItem;
     N5: TMenuItem;
     N6: TMenuItem;
-    StringGrid1: TStringGrid;
-    IdHTTP1: TIdHTTP;
+    StringGridOperators: TStringGrid;
+    HTTPOperators: TIdHTTP;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure UpdateData();
+    procedure N1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
+    type
+      TRowCourier = Record
+        id : string;
+        name : string;
+        login : string;
+      end;
+    var
+    records : array of TRowCourier;
     { Public declarations }
   end;
 
@@ -37,6 +49,75 @@ uses UnitLogin;
 procedure TFormOperators.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FormLogin.close;
+end;
+
+procedure TFormOperators.FormCreate(Sender: TObject);
+begin
+  StringGridOperators.Cells[0,0] := '№';
+  StringGridOperators.Cells[1,0] := 'ФИО';
+  StringGridOperators.Cells[2,0] := 'Логин';
+  StringGridOperators.ColWidths[0] := 40;
+  StringGridOperators.ColWidths[1] := 150;
+  StringGridOperators.ColWidths[2] := 150;
+  StringGridOperators.ColCount := 3;
+  n4.Enabled := False;
+  n5.Enabled := False;
+end;
+
+procedure TFormOperators.FormShow(Sender: TObject);
+begin
+  UpdateData;
+end;
+
+procedure TFormOperators.N1Click(Sender: TObject);
+begin
+   UpdateData;
+end;
+
+procedure TFormOperators.UpdateData();
+
+var
+  url : string;
+  request : TStringStream;
+  response : string;
+
+  jsonObj : TJSONObject;
+  jsonResponse : TJSONArray;
+
+  i : integer;
+begin
+  HTTPOperators.Request.ContentType := 'application/json';
+  HTTPOperators.Request.CharSet := 'utf-8';
+
+  url := 'http://' + FormLogin.IP + '/operators/list/';
+
+  request := TStringStream.Create(UTF8Encode(''));
+
+  try
+    response := HTTPOperators.Post(url, request);
+    jsonResponse := TJSONObject.ParseJSONValue(response, False, True) as TJSONArray;
+
+    SetLength(records, jsonResponse.Count);
+
+    StringGridOperators.RowCount := 1;
+
+    for i := 0 to jsonResponse.Count-1 do
+      begin
+        jsonObj := jsonResponse.items[i] as TJSONObject;
+
+        records[i].id := jsonObj.Values['id'].Value;
+        records[i].name := jsonObj.Values['name'].Value;
+        records[i].login := jsonObj.Values['login'].Value;
+
+        StringGridOperators.RowCount := StringGridOperators.RowCount + 1;
+
+        StringGridOperators.Cells[0,i+1] := IntToStr(i+1);
+        StringGridOperators.Cells[1,i+1] := records[i].name;
+        StringGridOperators.Cells[2,i+1] := records[i].login;
+      end;
+  except
+    ShowMessage('Проблемы с соединенем');
+  end;
 end;
 
 end.

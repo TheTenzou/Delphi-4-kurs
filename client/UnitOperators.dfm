@@ -14,25 +14,24 @@ object FormOperators: TFormOperators
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object StringGrid1: TStringGrid
+  object StringGridOperators: TStringGrid
     Left = 0
     Top = 0
     Width = 635
     Height = 299
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 208
-    ExplicitTop = 80
-    ExplicitWidth = 320
-    ExplicitHeight = 120
   end
   object MainMenu1: TMainMenu
     Left = 32
     Top = 24
     object N1: TMenuItem
       Caption = #1054#1073#1085#1086#1074#1090#1100
+      OnClick = N1Click
     end
     object N2: TMenuItem
       Caption = '-'
@@ -50,7 +49,7 @@ object FormOperators: TFormOperators
       Caption = #1053#1072#1079#1072#1076
     end
   end
-  object IdHTTP1: TIdHTTP
+  object HTTPOperators: TIdHTTP
     AllowCookies = True
     ProxyParams.BasicAuthentication = False
     ProxyParams.ProxyPort = 0
