@@ -9,13 +9,13 @@ uses
 type
   TFormCouriresAddUpdate = class(TForm)
     LabelName: TLabel;
-    LabelAvailability: TLabel;
     LabelLogin: TLabel;
     EditName: TEdit;
     EditLogin: TEdit;
-    ComboBoxAvailability: TComboBox;
     ButtonAdd: TButton;
     ButtonCancel: TButton;
+    LabelPass: TLabel;
+    EditPass: TEdit;
     procedure ButtonCancelClick(Sender: TObject);
   private
     { Private declarations }
