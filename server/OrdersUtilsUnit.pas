@@ -304,17 +304,21 @@ begin
                                           + createdTime + ', '
                                           + startDileryTime + ', '
                                           + '0 , '
-                                          + '''' + deliveryAddress + ''''
+                                          + '''' + deliveryAddress + ''', '
                                           + '0);';
 
     query.Execute;
     connection.Commit;
   except
+    on E : Exception do
+    begin
     connection.Rollback;
     jsonResponse := TJSONObject.Create;
     jsonResponse.AddPair('error', 'bad foreing key');
     result := jsonResponse.Format();
+    ShowMessage(e.Message);
     exit;
+    end;
   end;
 
   jsonResponse := TJSONObject.Create;
