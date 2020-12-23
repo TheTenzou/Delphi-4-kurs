@@ -47,6 +47,7 @@ object FormOperators: TFormOperators
     end
     object N5: TMenuItem
       Caption = #1059#1076#1072#1083#1080#1090#1100
+      OnClick = N5Click
     end
     object N6: TMenuItem
       Caption = #1053#1072#1079#1072#1076

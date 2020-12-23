@@ -111,7 +111,7 @@ var
 
   i : integer;
 begin
-if (MessageDlg('Удалить товар ' + records[StringGridCouriers.Row-1].name + ' ?', mtConfirmation, [mbYes, mbNo],0)=mrYes) then
+if (MessageDlg('Удалить курьера ' + records[StringGridCouriers.Row-1].name + ' ?', mtConfirmation, [mbYes, mbNo],0)=mrYes) then
   begin
     HTTPCouriers.Request.ContentType := 'application/json';
     HTTPCouriers.Request.CharSet := 'utf-8';

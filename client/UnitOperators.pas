@@ -27,6 +27,7 @@ type
     procedure StringGridOperatorsClick(Sender: TObject);
     procedure N3Click(Sender: TObject);
     procedure N4Click(Sender: TObject);
+    procedure N5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -92,6 +93,35 @@ begin
   FormOperatorsAddUpdate.EditName.Text := records[StringGridOperators.Row-1].name;
   FormOperatorsAddUpdate.EditLogin.Text := records[StringGridOperators.Row-1].login;
   FormOperatorsAddUpdate.ShowModal;
+end;
+
+procedure TFormOperators.N5Click(Sender: TObject);
+var
+  url : string;
+  request : TStringStream;
+  response : string;
+
+  jsonObj : TJSONObject;
+  jsonResponse : TJSONArray;
+
+  i : integer;
+begin
+if (MessageDlg('Удалить курьера ' + records[StringGridOperators.Row-1].name + ' ?', mtConfirmation, [mbYes, mbNo],0)=mrYes) then
+  begin
+    HTTPOperators.Request.ContentType := 'application/json';
+    HTTPOperators.Request.CharSet := 'utf-8';
+
+    url := 'http://' + FormLogin.IP + '/operators/delete/';
+
+    request := TStringStream.Create(UTF8Encode('{"id":"'+records[StringGridOperators.Row-1].id+'"}'));
+
+    try
+      response := HTTPOperators.Post(url, request);
+    except
+      ShowMessage('Проблемы с соединенем');
+    end;
+    UpdateData;
+  end;
 end;
 
 procedure TFormOperators.N6Click(Sender: TObject);
