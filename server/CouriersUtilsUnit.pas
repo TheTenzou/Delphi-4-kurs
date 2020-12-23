@@ -135,7 +135,6 @@ var
   jsonRequest : TJSONObject;
   jsonResponse : TJSONObject;
   name : string;
-  availability : string;
   login : string;
   password : string;
   token : string;
@@ -149,7 +148,6 @@ begin
   try
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
     name := jsonRequest.Values['name'].Value;
-    availability := jsonRequest.Values['availability'].Value;
     login := jsonRequest.Values['login'].Value;
     password := jsonRequest.Values['password'].Value;
   except
@@ -172,7 +170,7 @@ begin
 
                                         + 'VALUES( '
                                           + '''' + name + ''', '
-                                          + availability + ', '
+                                          + '0' + ', '
                                           + '''' + login + ''', '
                                           + '''' + password + ''');';
 
@@ -207,7 +205,6 @@ var
   jsonResponse : TJSONObject;
   id : string;
   name : string;
-  availability : string;
   login : string;
   password : string;
   token : string;
@@ -222,7 +219,6 @@ begin
     jsonRequest := TJSONObject.ParseJSONValue(request, False, True) as TJSONObject;
     id := jsonRequest.Values['id'].Value;
     name := jsonRequest.Values['name'].Value;
-    availability := jsonRequest.Values['availability'].Value;
     login := jsonRequest.Values['login'].Value;
     password := jsonRequest.Values['password'].Value;
   except
@@ -239,7 +235,6 @@ begin
     query.Active:=False;
     query.SQL.Clear;
     query.SQL.Text:='update couriers set name=''' + name + ''', '
-                                        + 'availability=' + availability + ', '
                                         + 'login=''' + login + ''', '
                                         + 'password=''' + password + ''' '
                                         + 'where id=' + id + ';';
