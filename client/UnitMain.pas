@@ -49,6 +49,7 @@ end;
 procedure TFormMain.N3Click(Sender: TObject);
 begin
   FormCouriers.show;
+  FormCouriers.choose := 1;
   Hide;
 end;
 

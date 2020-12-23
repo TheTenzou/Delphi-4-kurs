@@ -43,7 +43,7 @@ object FormOrderUpdate: TFormOrderUpdate
     Top = 157
     Width = 201
     Height = 25
-    Caption = #1044#1086#1073#1072#1074#1090#1100
+    Caption = #1054#1073#1085#1086#1074#1090#1100
     TabOrder = 1
     OnClick = ButtonAddClick
   end

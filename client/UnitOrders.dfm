@@ -62,6 +62,16 @@ object FormOrders: TFormOrders
         OnClick = N5Click
       end
     end
+    object N6: TMenuItem
+      Caption = #1058#1086#1074#1072#1088#1099
+      object N7: TMenuItem
+        Caption = #1044#1086#1073#1072#1074#1090#1100
+        OnClick = N7Click
+      end
+      object N8: TMenuItem
+        Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+      end
+    end
   end
   object HTTPOrders: TIdHTTP
     AllowCookies = True

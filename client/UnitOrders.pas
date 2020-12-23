@@ -18,6 +18,9 @@ type
     N3: TMenuItem;
     N4: TMenuItem;
     N5: TMenuItem;
+    N6: TMenuItem;
+    N7: TMenuItem;
+    N8: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N2Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -31,6 +34,7 @@ type
       Rect: TRect; State: TGridDrawState);
     procedure N3Click(Sender: TObject);
     procedure N5Click(Sender: TObject);
+    procedure N7Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -70,7 +74,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain, UnitOrderAdd, UnitOrderUpdate;
+uses UnitLogin, UnitMain, UnitOrderAdd, UnitOrderUpdate, UnitOrderinfoAddUpdate;
 
 procedure TFormOrders.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -127,6 +131,7 @@ procedure TFormOrders.FormShow(Sender: TObject);
 begin
   StringGridOrderInfo.Height := ClientHeight div 2;
   N5.Enabled := false;
+  n6.Enabled := false;
   UpdateOrders;
 end;
 
@@ -159,16 +164,25 @@ begin
   FormOrderUpdate.ShowModal();
 end;
 
+procedure TFormOrders.N7Click(Sender: TObject);
+begin
+  FormOrderInfoAddUpdate.orderid_id := records[StringGridOrders.Row-1].id;
+  FormOrderInfoAddUpdate.mode := 'add';
+  FormOrderInfoAddUpdate.ShowModal;
+end;
+
 procedure TFormOrders.StringGridOrdersClick(Sender: TObject);
 begin
   if StringGridOrders.Row > 0 then
     begin
       n5.Enabled := true;
+      n6.Enabled := true;
       infoId := records[StringGridOrders.Row-1].id;
       UpdateOrderInfo;
     end
   else
     n5.Enabled := false;
+    n6.Enabled := true;
 end;
 
 procedure TFormOrders.StringGridOrdersDrawCell(Sender: TObject; ACol,
