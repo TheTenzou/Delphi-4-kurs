@@ -24,6 +24,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure N1Click(Sender: TObject);
     procedure StringGridOrdersClick(Sender: TObject);
+    procedure StringGridOrdersDrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -142,6 +144,39 @@ begin
     end;
 end;
 
+procedure TFormOrders.StringGridOrdersDrawCell(Sender: TObject; ACol,
+  ARow: Integer; Rect: TRect; State: TGridDrawState);
+begin
+if (ACol = 8) and (ARow <> 0) then
+    with TStringGrid(Sender) do
+    begin
+      if Cells[ACol, Arow] = 'заказ создан' then
+      begin
+        Canvas.Brush.Color := RGB(150,150,150);
+        Canvas.FillRect(Rect);
+        Canvas.TextOut(Rect.Left+2,Rect.Top+2,Cells[ACol, ARow]);
+      end
+      else if Cells[ACol, Arow] = 'назначен не доставлен' then
+      begin
+        Canvas.Brush.Color := RGB(200,50,50);
+        Canvas.FillRect(Rect);
+        Canvas.TextOut(Rect.Left+2,Rect.Top+2,Cells[ACol, ARow]);
+      end
+      else if Cells[ACol, Arow] = 'доставлен курьером' then
+      begin
+        Canvas.Brush.Color := RGB(50,50,200);
+        Canvas.FillRect(Rect);
+        Canvas.TextOut(Rect.Left+2,Rect.Top+2,Cells[ACol, ARow]);
+      end
+      else if Cells[ACol, Arow] = 'подтверждён курьером' then
+      begin
+        Canvas.Brush.Color := RGB(50,200,50);
+        Canvas.FillRect(Rect);
+        Canvas.TextOut(Rect.Left+2,Rect.Top+2,Cells[ACol, ARow]);
+      end;
+    end;
+end;
+
 procedure TFormOrders.UpdateOrders();
 
 var
@@ -195,7 +230,14 @@ begin
         StringGridOrders.Cells[5,i+1] := records[i].end_delivery_time;
         StringGridOrders.Cells[6,i+1] := records[i].total_summ;
         StringGridOrders.Cells[7,i+1] := records[i].delivery_address;
-        StringGridOrders.Cells[8,i+1] := records[i].verified;
+        //StringGridOrders.Cells[8,i+1] := records[i].verified;
+        case StrToInt(records[i].verified) of
+          0 : StringGridOrders.Cells[8,i+1] := 'заказ создан';
+          1 : StringGridOrders.Cells[8,i+1] := 'назначен не доставлен';
+          2 : StringGridOrders.Cells[8,i+1] := 'доставлен курьером';
+          3 : StringGridOrders.Cells[8,i+1] := 'подтверждён курьером';
+        end;
+
       end;
   except
     ShowMessage('Ïðîáëåìû ñ ñîåäèíåíåì');

@@ -10,7 +10,8 @@ uses
   UnitCouriersAddUpdate in 'UnitCouriersAddUpdate.pas' {FormCouriresAddUpdate},
   UnitOperators in 'UnitOperators.pas' {FormOperators},
   UnitOperatorsAddUpdate in 'UnitOperatorsAddUpdate.pas' {FormOperatorsAddUpdate},
-  UnitOrders in 'UnitOrders.pas' {FormOrders};
+  UnitOrders in 'UnitOrders.pas' {FormOrders},
+  UnitOrderAdd in 'UnitOrderAdd.pas' {FormAddOrder};
 
 {$R *.res}
 
@@ -26,5 +27,6 @@ begin
   Application.CreateForm(TFormOperators, FormOperators);
   Application.CreateForm(TFormOperatorsAddUpdate, FormOperatorsAddUpdate);
   Application.CreateForm(TFormOrders, FormOrders);
+  Application.CreateForm(TFormAddOrder, FormAddOrder);
   Application.Run;
 end.

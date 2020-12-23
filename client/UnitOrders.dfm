@@ -37,6 +37,7 @@ object FormOrders: TFormOrders
     Align = alClient
     TabOrder = 1
     OnClick = StringGridOrdersClick
+    OnDrawCell = StringGridOrdersDrawCell
     ExplicitTop = -6
   end
   object MainMenu1: TMainMenu
