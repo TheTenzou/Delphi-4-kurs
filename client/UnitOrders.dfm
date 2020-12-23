@@ -2,8 +2,8 @@ object FormOrders: TFormOrders
   Left = 0
   Top = 0
   Caption = #1047#1072#1082#1072#1079#1099
-  ClientHeight = 444
-  ClientWidth = 630
+  ClientHeight = 627
+  ClientWidth = 1250
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,29 +21,30 @@ object FormOrders: TFormOrders
   TextHeight = 13
   object StringGridOrderInfo: TStringGrid
     Left = 0
-    Top = 280
-    Width = 630
-    Height = 164
+    Top = 383
+    Width = 1250
+    Height = 244
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 200
+    ExplicitWidth = 630
   end
   object StringGridOrders: TStringGrid
     Left = 0
     Top = 0
-    Width = 630
-    Height = 280
+    Width = 1250
+    Height = 383
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 168
-    ExplicitTop = 144
-    ExplicitWidth = 320
-    ExplicitHeight = 120
+    OnClick = StringGridOrdersClick
+    ExplicitTop = -6
   end
   object MainMenu1: TMainMenu
     Left = 40
     Top = 24
     object N1: TMenuItem
       Caption = #1054#1073#1085#1086#1074#1080#1090#1100
+      OnClick = N1Click
     end
     object N2: TMenuItem
       Caption = #1053#1072#1079#1072#1076
@@ -64,7 +65,7 @@ object FormOrders: TFormOrders
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 312
-    Top = 184
+    Left = 504
+    Top = 56
   end
 end
