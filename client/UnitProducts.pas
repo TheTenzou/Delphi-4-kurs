@@ -63,7 +63,7 @@ begin
   StringGridProducts.Cells[0,0] := '№';
   StringGridProducts.Cells[1,0] := 'Наименование';
   StringGridProducts.Cells[2,0] := 'Цена';
-  StringGridProducts.ColWidths[0] := 20;
+  StringGridProducts.ColWidths[0] := 40;
   StringGridProducts.ColWidths[1] := 150;
   StringGridProducts.ColWidths[2] := 150;
   StringGridProducts.ColCount := 3;

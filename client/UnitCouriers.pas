@@ -65,7 +65,7 @@ begin
   StringGridCouriers.Cells[1,0] := 'ФИО';
   StringGridCouriers.Cells[2,0] := 'Состояние';
   StringGridCouriers.Cells[3,0] := 'Логин';
-  StringGridCouriers.ColWidths[0] := 20;
+  StringGridCouriers.ColWidths[0] := 40;
   StringGridCouriers.ColWidths[1] := 150;
   StringGridCouriers.ColWidths[2] := 150;
   StringGridCouriers.ColWidths[3] := 150;
