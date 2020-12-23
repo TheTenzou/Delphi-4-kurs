@@ -51,9 +51,16 @@ object FormOrders: TFormOrders
       Caption = #1053#1072#1079#1072#1076
       OnClick = N2Click
     end
-    object N3: TMenuItem
-      Caption = #1044#1086#1073#1072#1074#1090#1100
-      OnClick = N3Click
+    object N4: TMenuItem
+      Caption = #1047#1072#1082#1072#1079#1099
+      object N3: TMenuItem
+        Caption = #1044#1086#1073#1072#1074#1090#1100
+        OnClick = N3Click
+      end
+      object N5: TMenuItem
+        Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+        OnClick = N5Click
+      end
     end
   end
   object HTTPOrders: TIdHTTP

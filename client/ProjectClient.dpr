@@ -11,7 +11,8 @@ uses
   UnitOperators in 'UnitOperators.pas' {FormOperators},
   UnitOperatorsAddUpdate in 'UnitOperatorsAddUpdate.pas' {FormOperatorsAddUpdate},
   UnitOrders in 'UnitOrders.pas' {FormOrders},
-  UnitOrderAdd in 'UnitOrderAdd.pas' {FormAddOrder};
+  UnitOrderAdd in 'UnitOrderAdd.pas' {FormAddOrder},
+  UnitOrderUpdate in 'UnitOrderUpdate.pas' {FormOrderUpdate};
 
 {$R *.res}
 
@@ -28,5 +29,6 @@ begin
   Application.CreateForm(TFormOperatorsAddUpdate, FormOperatorsAddUpdate);
   Application.CreateForm(TFormOrders, FormOrders);
   Application.CreateForm(TFormAddOrder, FormAddOrder);
+  Application.CreateForm(TFormOrderUpdate, FormOrderUpdate);
   Application.Run;
 end.

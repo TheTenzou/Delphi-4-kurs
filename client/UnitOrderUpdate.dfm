@@ -1,9 +1,9 @@
-object FormAddOrder: TFormAddOrder
+object FormOrderUpdate: TFormOrderUpdate
   Left = 0
   Top = 0
-  Caption = #1044#1086#1073#1072#1074#1090#1100' '#1079#1072#1082#1072#1079
-  ClientHeight = 213
-  ClientWidth = 256
+  Caption = #1054#1073#1085#1086#1074#1090#1100' '#1079#1072#1082#1072#1079
+  ClientHeight = 238
+  ClientWidth = 247
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,7 +12,8 @@ object FormAddOrder: TFormAddOrder
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
-  OnShow = FormShow
+  OnCreate = FormCreate
+  OnShow = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object LabelAddres: TLabel
@@ -35,11 +36,11 @@ object FormAddOrder: TFormAddOrder
     Width = 121
     Height = 21
     TabOrder = 0
-    OnChange = EditAddressChange
+    OnClick = EditAddressChange
   end
   object ButtonAdd: TButton
     Left = 32
-    Top = 133
+    Top = 157
     Width = 201
     Height = 25
     Caption = #1044#1086#1073#1072#1074#1090#1100
@@ -48,7 +49,7 @@ object FormAddOrder: TFormAddOrder
   end
   object ButtonCancel: TButton
     Left = 32
-    Top = 172
+    Top = 196
     Width = 201
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1072
@@ -71,7 +72,16 @@ object FormAddOrder: TFormAddOrder
     TabOrder = 4
     OnClick = ButtonCourierClick
   end
-  object HTTPAddOrder: TIdHTTP
+  object CheckBoxVerified: TCheckBox
+    Left = 32
+    Top = 127
+    Width = 97
+    Height = 17
+    Alignment = taLeftJustify
+    Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100
+    TabOrder = 5
+  end
+  object HTTPUpdateOrder: TIdHTTP
     AllowCookies = True
     ProxyParams.BasicAuthentication = False
     ProxyParams.ProxyPort = 0
@@ -85,7 +95,7 @@ object FormAddOrder: TFormAddOrder
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 192
-    Top = 120
+    Left = 128
+    Top = 16
   end
 end

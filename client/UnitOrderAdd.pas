@@ -22,6 +22,7 @@ type
     procedure ButtonCancelClick(Sender: TObject);
     procedure EditAddressChange(Sender: TObject);
     procedure ButtonCourierClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,6 +64,11 @@ begin
     ButtonAdd.Enabled := True
   else
     ButtonAdd.Enabled := False;
+end;
+
+procedure TFormAddOrder.FormShow(Sender: TObject);
+begin
+  ButtonAdd.Enabled := false;
 end;
 
 procedure TFormAddOrder.ButtonAddClick(Sender: TObject);

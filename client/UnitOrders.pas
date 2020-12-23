@@ -16,6 +16,8 @@ type
     StringGridOrders: TStringGrid;
     HTTPOrders: TIdHTTP;
     N3: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N2Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -28,6 +30,7 @@ type
     procedure StringGridOrdersDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure N3Click(Sender: TObject);
+    procedure N5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -67,7 +70,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain, UnitOrderAdd;
+uses UnitLogin, UnitMain, UnitOrderAdd, UnitOrderUpdate;
 
 procedure TFormOrders.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -123,6 +126,7 @@ end;
 procedure TFormOrders.FormShow(Sender: TObject);
 begin
   StringGridOrderInfo.Height := ClientHeight div 2;
+  N5.Enabled := false;
   UpdateOrders;
 end;
 
@@ -143,13 +147,28 @@ begin
   UpdateOrders;
 end;
 
+procedure TFormOrders.N5Click(Sender: TObject);
+begin
+  FormOrderUpdate.id := records[StringGridOrders.Row-1].id;
+  FormOrderUpdate.EditAddress.Text := records[StringGridOrders.Row-1].delivery_address;
+  FormOrderUpdate.EditCourier.Text := records[StringGridOrders.Row-1].courier_name;
+  FormOrderUpdate.courierId := records[StringGridOrders.Row-1].courierid;
+  if records[StringGridOrders.Row-1].verified = '3' then
+    FormOrderUpdate.CheckBoxVerified.Checked := true;
+
+  FormOrderUpdate.ShowModal();
+end;
+
 procedure TFormOrders.StringGridOrdersClick(Sender: TObject);
 begin
   if StringGridOrders.Row > 0 then
     begin
+      n5.Enabled := true;
       infoId := records[StringGridOrders.Row-1].id;
       UpdateOrderInfo;
-    end;
+    end
+  else
+    n5.Enabled := false;
 end;
 
 procedure TFormOrders.StringGridOrdersDrawCell(Sender: TObject; ACol,

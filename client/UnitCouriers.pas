@@ -53,7 +53,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain, UnitCouriersAddUpdate, UnitOrderAdd;
+uses UnitLogin, UnitMain, UnitCouriersAddUpdate, UnitOrderAdd, UnitOrderUpdate;
 
 procedure TFormCouriers.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -152,10 +152,16 @@ begin
           n5.Enabled := False;
         end;
     end
-  else
+  else if choose = 2 then
     begin
       FormAddOrder.EditCourier.Text := records[StringGridCouriers.Row-1].name;
       FormAddOrder.courierId := records[StringGridCouriers.Row-1].id;
+      hide;
+    end
+  else if choose = 3 then
+    begin
+      FormOrderUpdate.EditCourier.Text := records[StringGridCouriers.Row-1].name;
+      FormOrderUpdate.courierId := records[StringGridCouriers.Row-1].id;
       hide;
     end;
 end;
