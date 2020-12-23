@@ -15,6 +15,7 @@ type
     StringGridOrderInfo: TStringGrid;
     StringGridOrders: TStringGrid;
     HTTPOrders: TIdHTTP;
+    N3: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N2Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -26,6 +27,7 @@ type
     procedure StringGridOrdersClick(Sender: TObject);
     procedure StringGridOrdersDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
+    procedure N3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -65,7 +67,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitMain;
+uses UnitLogin, UnitMain, UnitOrderAdd;
 
 procedure TFormOrders.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -133,6 +135,12 @@ procedure TFormOrders.N2Click(Sender: TObject);
 begin
   FormMain.show;
   hide;
+end;
+
+procedure TFormOrders.N3Click(Sender: TObject);
+begin
+  FormAddOrder.showModal();
+  UpdateOrders;
 end;
 
 procedure TFormOrders.StringGridOrdersClick(Sender: TObject);
