@@ -19,6 +19,7 @@ type
     procedure N5Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
     procedure N4Click(Sender: TObject);
+    procedure N2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,11 +33,17 @@ implementation
 
 {$R *.dfm}
 
-uses UnitLogin, UnitProducts, UnitCouriers, UnitOperators;
+uses UnitLogin, UnitProducts, UnitCouriers, UnitOperators, UnitOrders;
 
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FormLogin.close;
+end;
+
+procedure TFormMain.N2Click(Sender: TObject);
+begin
+  FormOrders.show;
+  hide;
 end;
 
 procedure TFormMain.N3Click(Sender: TObject);

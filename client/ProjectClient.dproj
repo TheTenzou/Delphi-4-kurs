@@ -130,6 +130,10 @@
             <Form>FormOperatorsAddUpdate</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="UnitOrders.pas">
+            <Form>FormOrders</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

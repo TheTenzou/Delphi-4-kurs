@@ -9,7 +9,8 @@ uses
   UnitCouriers in 'UnitCouriers.pas' {FormCouriers},
   UnitCouriersAddUpdate in 'UnitCouriersAddUpdate.pas' {FormCouriresAddUpdate},
   UnitOperators in 'UnitOperators.pas' {FormOperators},
-  UnitOperatorsAddUpdate in 'UnitOperatorsAddUpdate.pas' {FormOperatorsAddUpdate};
+  UnitOperatorsAddUpdate in 'UnitOperatorsAddUpdate.pas' {FormOperatorsAddUpdate},
+  UnitOrders in 'UnitOrders.pas' {FormOrders};
 
 {$R *.res}
 
@@ -24,5 +25,6 @@ begin
   Application.CreateForm(TFormCouriresAddUpdate, FormCouriresAddUpdate);
   Application.CreateForm(TFormOperators, FormOperators);
   Application.CreateForm(TFormOperatorsAddUpdate, FormOperatorsAddUpdate);
+  Application.CreateForm(TFormOrders, FormOrders);
   Application.Run;
 end.
