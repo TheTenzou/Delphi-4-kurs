@@ -49,6 +49,7 @@ begin
   EditName.Text := '';
   EditPrice.Text := '';
   FormOrders.UpdateOrderInfo;
+  FormOrders.UpdateOrders;
   close;
 end;
 

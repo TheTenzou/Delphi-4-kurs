@@ -250,11 +250,12 @@ var
   createdTime : string;
   startDileryTime : string;
   deliveryAddress : string;
+  ver :string;
 begin
   connection := TFDConnection.Create(nil);
   connection.ConnectionDefName := connectionName;
 
-
+  ver := '1';
   query := TFDQuery.Create(nil);
   query.Connection := connection;
   //================================
@@ -263,10 +264,14 @@ begin
     operatorId := jsonRequest.Values['operatorid'].Value;
     try
       courierId := jsonRequest.Values['courierid'].Value;
-      if courierId = '' then
+      if courierId = '' then begin
+
         courierId := 'NULL';
+        ver := '0';
+      end;
     except
        courierId := 'NULL';
+       ver := '0';
     end;
     createdTime := '''' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + '''';
     if courierId <> 'NULL' then
@@ -305,7 +310,7 @@ begin
                                           + startDileryTime + ', '
                                           + '0 , '
                                           + '''' + deliveryAddress + ''', '
-                                          + '0);';
+                                          + ''''+ver+''');';
 
     query.Execute;
     connection.Commit;

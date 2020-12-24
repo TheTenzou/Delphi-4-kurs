@@ -30,6 +30,9 @@ type
     { Public declarations }
     courierId : string;
     id : string;
+    start_delivery_time : string;
+    end_delivery_time : string;
+
   end;
 
 var
@@ -97,14 +100,14 @@ begin
     jsonRequest.AddPair('verified', '3')
   else
     begin
-      if ((FormOrders.records[FormOrders.StringGridOrders.Row-1].start_delivery_time = '')
-          and (FormOrders.records[FormOrders.StringGridOrders.Row-1].end_delivery_time = '')) then
+      if ((start_delivery_time = '')
+          and (end_delivery_time = '')) then
           jsonRequest.AddPair('verified', '0')
-      else if ((FormOrders.records[FormOrders.StringGridOrders.Row-1].start_delivery_time <> '')
-          and (FormOrders.records[FormOrders.StringGridOrders.Row-1].end_delivery_time = '')) then
+      else if ((start_delivery_time <> '')
+          and (end_delivery_time = '')) then
           jsonRequest.AddPair('verified', '1')
-      else if ((FormOrders.records[FormOrders.StringGridOrders.Row-1].start_delivery_time <> '')
-          and (FormOrders.records[FormOrders.StringGridOrders.Row-1].end_delivery_time <> '')) then
+      else if ((start_delivery_time <> '')
+          and (end_delivery_time <> '')) then
           jsonRequest.AddPair('verified', '2');
     end;
 

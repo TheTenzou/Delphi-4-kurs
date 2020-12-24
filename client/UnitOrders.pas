@@ -165,6 +165,8 @@ begin
   FormOrderUpdate.EditAddress.Text := records[StringGridOrders.Row-1].delivery_address;
   FormOrderUpdate.EditCourier.Text := records[StringGridOrders.Row-1].courier_name;
   FormOrderUpdate.courierId := records[StringGridOrders.Row-1].courierid;
+  FormOrderUpdate.start_delivery_time := records[StringGridOrders.Row-1].start_delivery_time;
+  FormOrderUpdate.end_delivery_time := records[StringGridOrders.Row-1].end_delivery_time;
   if records[StringGridOrders.Row-1].verified = '3' then
     FormOrderUpdate.CheckBoxVerified.Checked := true;
 
@@ -303,7 +305,7 @@ begin
 
     SetLength(records, jsonResponse.Count);
 
-    StringGridOrders.RowCount := 1;
+    StringGridOrders.RowCount := jsonResponse.Count+1;
 
     for i := 0 to jsonResponse.Count-1 do
       begin
@@ -320,8 +322,6 @@ begin
         records[i].total_summ := jsonObj.Values['total_summ'].Value;
         records[i].delivery_address := jsonObj.Values['delivery_address'].Value;
         records[i].verified := jsonObj.Values['verified'].Value;
-
-        StringGridOrders.RowCount := StringGridOrders.RowCount + 1;
 
         StringGridOrders.Cells[0,i+1] := IntToStr(i+1);
         StringGridOrders.Cells[1,i+1] := records[i].courier_name;
@@ -374,7 +374,7 @@ begin
 
         SetLength(recordsInfo, jsonResponse.Count);
 
-        StringGridOrderInfo.RowCount := 1;
+        StringGridOrderInfo.RowCount := jsonResponse.Count+1;
 
         for i := 0 to jsonResponse.Count-1 do
           begin
@@ -385,8 +385,6 @@ begin
             recordsInfo[i].name := jsonObj.Values['name'].Value;
             recordsInfo[i].price := jsonObj.Values['price'].Value;
             recordsInfo[i].count_ := jsonObj.Values['count_'].Value;
-
-            StringGridOrderInfo.RowCount := StringGridOrderInfo.RowCount + 1;
 
             StringGridOrderInfo.Cells[0,i+1] := IntToStr(i+1);
             StringGridOrderInfo.Cells[1,i+1] := recordsInfo[i].name;

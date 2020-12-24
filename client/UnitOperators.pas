@@ -169,7 +169,7 @@ begin
 
     SetLength(records, jsonResponse.Count);
 
-    StringGridOperators.RowCount := 1;
+    StringGridOperators.RowCount := jsonResponse.Count + 1;
 
     for i := 0 to jsonResponse.Count-1 do
       begin
@@ -179,7 +179,6 @@ begin
         records[i].name := jsonObj.Values['name'].Value;
         records[i].login := jsonObj.Values['login'].Value;
 
-        StringGridOperators.RowCount := StringGridOperators.RowCount + 1;
 
         StringGridOperators.Cells[0,i+1] := IntToStr(i+1);
         StringGridOperators.Cells[1,i+1] := records[i].name;

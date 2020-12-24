@@ -182,7 +182,7 @@ begin
 
     SetLength(records, jsonResponse.Count);
 
-    StringGridProducts.RowCount := 1;
+    StringGridProducts.RowCount := jsonResponse.Count + 1;
 
     for i := 0 to jsonResponse.Count-1 do
       begin
@@ -191,8 +191,6 @@ begin
         records[i].id := jsonObj.Values['id'].Value;
         records[i].name := jsonObj.Values['name'].Value;
         records[i].price := jsonObj.Values['price'].Value;
-
-        StringGridProducts.RowCount := StringGridProducts.RowCount + 1;
 
         StringGridProducts.Cells[0,i+1] := IntToStr(i+1);
         StringGridProducts.Cells[1,i+1] := records[i].name;

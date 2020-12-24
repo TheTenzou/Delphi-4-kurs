@@ -212,7 +212,7 @@ begin
 
     SetLength(records, jsonResponse.Count);
 
-    StringGridCouriers.RowCount := 1;
+    StringGridCouriers.RowCount := jsonResponse.Count+1;
 
     for i := 0 to jsonResponse.Count-1 do
       begin
@@ -222,8 +222,6 @@ begin
         records[i].name := jsonObj.Values['name'].Value;
         records[i].availability := jsonObj.Values['availability'].Value;
         records[i].login := jsonObj.Values['login'].Value;
-
-        StringGridCouriers.RowCount := StringGridCouriers.RowCount + 1;
 
         StringGridCouriers.Cells[0,i+1] := IntToStr(i+1);
         StringGridCouriers.Cells[1,i+1] := records[i].name;
