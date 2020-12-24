@@ -394,10 +394,10 @@ begin
             StringGridOrderInfo.Cells[3,i+1] := recordsInfo[i].count_;
           end;
       except
-         on E : Exception do
-          ShowMessage(E.ClassName+' поднята ошибка, с сообщением : '+E.Message);
-        //ShowMessage('Ïðîáëåìû ñ ñîåäèíåíåì 3');
-        //FormLogin.Timer1.Enabled := false;
+//         on E : Exception do
+//          ShowMessage(E.ClassName+' поднята ошибка, с сообщением : '+E.Message);
+        ShowMessage('Проблемы с соединенем');
+        FormLogin.Timer1.Enabled := false;
       end;
     end;
 end;

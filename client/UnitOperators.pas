@@ -186,7 +186,7 @@ begin
         StringGridOperators.Cells[2,i+1] := records[i].login;
       end;
   except
-    ShowMessage('Проблемы с соединенем 1');
+    ShowMessage('Проблемы с соединенем');
     FormLogin.Timer1.Enabled := false;
   end;
 end;

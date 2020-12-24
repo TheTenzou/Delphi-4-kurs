@@ -27,8 +27,6 @@ object FormOrders: TFormOrders
     Align = alBottom
     TabOrder = 0
     OnClick = StringGridOrderInfoClick
-    ExplicitTop = 200
-    ExplicitWidth = 630
   end
   object StringGridOrders: TStringGrid
     Left = 0
@@ -39,7 +37,6 @@ object FormOrders: TFormOrders
     TabOrder = 1
     OnClick = StringGridOrdersClick
     OnDrawCell = StringGridOrdersDrawCell
-    ExplicitTop = -6
   end
   object MainMenu1: TMainMenu
     Left = 40
